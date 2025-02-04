@@ -1,7 +1,15 @@
 package frc.robot;
 
+/**
+ * Constants class to contain strictly hardware IDs or channels needed for motor controllers, encoders, etc.
+ * CAN bus IDs, DIO channels, controller ports, etc. should all go here instead of
+ * their own separate classes to avoid collisions.
+ */
 public class HardwareIds {
-    public static class Can { //CAN Bus IDs
+    /**
+     * CAN bus IDs.
+     */
+    public static class Can {
         //TODO these are reasonable defaults, update to reflect the robot
         public static final int FRONT_LEFT_DRIVE_FALCON = 0;
         public static final int FRONT_LEFT_STEER_FALCON = 4;
