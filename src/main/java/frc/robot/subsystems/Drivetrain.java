@@ -20,6 +20,10 @@ import edu.wpi.first.units.measure.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.HardwareIds;
 
+/**
+ * The Drivetrain class is responsible for managing all the hardware components of the swerve drive.
+ * It leverages the swerve library from CTRE v6.
+ */
 public class Drivetrain extends SubsystemBase {
 
     //TODO find these on robot
@@ -77,6 +81,9 @@ public class Drivetrain extends SubsystemBase {
 
     private final SwerveDrivetrain<TalonFX, TalonFX, CANcoder> swerve;
 
+    /**
+     * Creates a new Drivetrain.
+     */
     public Drivetrain() {
         final SwerveDrivetrainConstants drivetrainConstants = new SwerveDrivetrainConstants();
         final SwerveModuleConstantsFactory<TalonFXConfiguration,
