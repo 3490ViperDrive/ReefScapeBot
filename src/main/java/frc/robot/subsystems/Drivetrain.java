@@ -17,6 +17,10 @@ import com.ctre.phoenix6.swerve.SwerveModuleConstants.DriveMotorArrangement;
 
 import static edu.wpi.first.units.Units.*;
 
+import edu.wpi.first.epilogue.Logged;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.units.measure.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.HardwareIds;
@@ -81,6 +85,8 @@ public class Drivetrain extends SubsystemBase {
                                                        .withKS(0).withKV(1.5).withKA(0);
 
     private final SwerveDrivetrain<TalonFX, TalonFX, CANcoder> swerve;
+    
+    private SwerveDrivetrain.SwerveDriveState currentState;
 
     /**
      * Creates a new Drivetrain.
@@ -149,7 +155,9 @@ public class Drivetrain extends SubsystemBase {
     }
 
     @Override
-    public void periodic() {}
+    public void periodic() {
+        currentState = swerve.getState();
+    }
 
     //Call this in the execute method of drive cmds
     public void applySwerveRequest(SwerveRequest request) {
@@ -160,5 +168,21 @@ public class Drivetrain extends SubsystemBase {
     //Auto routines should properly initialize the robot's position.
     public void zeroYaw() {
         swerve.seedFieldCentric();
+    }
+
+    public ChassisSpeeds getChassisSpeeds() {
+        return currentState.Speeds;
+    }
+
+    public SwerveModuleState[] getModuleStates() {
+        return currentState.ModuleStates;
+    }
+
+    public SwerveModuleState[] getModuleTargets() {
+        return currentState.ModuleTargets;
+    }
+
+    public Pose2d getPose() {
+        return currentState.Pose;
     }
 }
