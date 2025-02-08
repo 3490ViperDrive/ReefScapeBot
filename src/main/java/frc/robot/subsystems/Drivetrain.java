@@ -8,6 +8,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants.SteerFeedbackType;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants.SteerMotorArrangement;
 import com.ctre.phoenix6.swerve.SwerveModuleConstantsFactory;
+import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.ctre.phoenix6.swerve.SwerveDrivetrain;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
@@ -148,7 +149,16 @@ public class Drivetrain extends SubsystemBase {
     }
 
     @Override
-    public void periodic() {
+    public void periodic() {}
 
+    //Call this in the execute method of drive cmds
+    public void applySwerveRequest(SwerveRequest request) {
+        swerve.setControl(request);
+    }
+
+    //This should not be called during an actual match!
+    //Auto routines should properly initialize the robot's position.
+    public void zeroYaw() {
+        swerve.seedFieldCentric();
     }
 }
