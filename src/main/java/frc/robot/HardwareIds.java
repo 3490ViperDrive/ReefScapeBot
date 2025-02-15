@@ -29,5 +29,9 @@ public class HardwareIds {
 
         public static final int PIGEON = 0; //gyro
 
+        public static final int ALGAE_INTAKE_MOTOR1 = 1; //magic number in use
+        public static final int ALGAE_INTAKE_MOTOR2 = 2; //magic number in use
+        public static final int ALGAE_INTAKE_PIVOT = 3; //magic number in use
+        
     }
 }
