@@ -29,5 +29,10 @@ public class HardwareIds {
 
         public static final int PIGEON = 0; //gyro
 
+        //absolute encoder plugged directly into srx
+        public static final int CORAL_LEFT_NEO = 12; //sparkmax neo550
+        public static final int CORAL_RIGHT_NEO = 13;
+        public static final int CORAL_PIVOT_SRX = 14;
+        public static final int CORAL_COLOR_SENSOR = 15;
     }
 }
