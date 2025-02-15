@@ -12,10 +12,10 @@ import edu.wpi.first.units.AngularVelocityUnit;
 public class TalonUnits {
 
     /**
-     * Base Talon unit of angle. 1024 encoder ticks in a rotation.
+     * Base Talon unit of angle. 4096 encoder ticks in a rotation.
      */
     public static final AngleUnit EncoderTicks = Units.derive(Units.Rotations)
-                                                      .splitInto(1024) //Rev throughbore 10-bit resolution jumpscare
+                                                      .splitInto(4096) //Rev throughbore resolution is only 10 bit though
                                                       .named("SRX Encoder Ticks")
                                                       .symbol("tcs")
                                                       .make();
