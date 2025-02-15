@@ -170,18 +170,22 @@ public class Drivetrain extends SubsystemBase {
         swerve.seedFieldCentric();
     }
 
+    @Logged
     public ChassisSpeeds getChassisSpeeds() {
         return currentState.Speeds;
     }
 
+    @Logged
     public SwerveModuleState[] getModuleStates() {
         return currentState.ModuleStates;
     }
 
+    @Logged
     public SwerveModuleState[] getModuleTargets() {
         return currentState.ModuleTargets;
     }
 
+    @Logged
     public Pose2d getPose() {
         return currentState.Pose;
     }
