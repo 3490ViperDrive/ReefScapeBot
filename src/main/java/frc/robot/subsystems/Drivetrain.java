@@ -98,7 +98,7 @@ public class Drivetrain extends SubsystemBase {
                                            CANcoderConfiguration> commonModuleConstants =
                                                new SwerveModuleConstantsFactory<>();
         drivetrainConstants
-            .withPigeon2Id(HardwareIds.Can.PIGEON);
+            .withPigeon2Id(HardwareIds.Can.IMU);
             //add pigeon configuration here if necessary
             //withPigeon2Configs()
         commonModuleConstants
@@ -123,27 +123,27 @@ public class Drivetrain extends SubsystemBase {
                                     TalonFXConfiguration,
                                     CANcoderConfiguration> frontLeft, frontRight, backRight, backLeft;
         frontLeft = commonModuleConstants.createModuleConstants(
-                        HardwareIds.Can.FRONT_LEFT_STEER_FALCON,
-                        HardwareIds.Can.FRONT_LEFT_DRIVE_FALCON,
-                        HardwareIds.Can.FRONT_LEFT_CANCODER, FRONT_LEFT_CANCODER_OFFSET,
+                        HardwareIds.Can.FRONT_LEFT_STEER_MOTOR,
+                        HardwareIds.Can.FRONT_LEFT_DRIVE_MOTOR,
+                        HardwareIds.Can.FRONT_LEFT_ENCODER, FRONT_LEFT_CANCODER_OFFSET,
                         WHEELBASE.div(2), TRACK_WIDTH.div(2),
                         DRIVE_MOTOR_INVERTED, STEER_MOTOR_INVERTED, ENCODER_INVERTED);
         frontRight = commonModuleConstants.createModuleConstants(
-                        HardwareIds.Can.FRONT_RIGHT_STEER_FALCON,
-                        HardwareIds.Can.FRONT_RIGHT_DRIVE_FALCON,
-                        HardwareIds.Can.FRONT_RIGHT_CANCODER, FRONT_RIGHT_CANCODER_OFFSET,
+                        HardwareIds.Can.FRONT_RIGHT_STEER_MOTOR,
+                        HardwareIds.Can.FRONT_RIGHT_DRIVE_MOTOR,
+                        HardwareIds.Can.FRONT_RIGHT_ENCODER, FRONT_RIGHT_CANCODER_OFFSET,
                         WHEELBASE.div(2), TRACK_WIDTH.div(2).unaryMinus(),
                         DRIVE_MOTOR_INVERTED, STEER_MOTOR_INVERTED, ENCODER_INVERTED);
         backRight = commonModuleConstants.createModuleConstants(
-                        HardwareIds.Can.BACK_RIGHT_STEER_FALCON,
-                        HardwareIds.Can.BACK_RIGHT_DRIVE_FALCON,
-                        HardwareIds.Can.BACK_RIGHT_CANCODER, BACK_RIGHT_CANCODER_OFFSET,
+                        HardwareIds.Can.BACK_RIGHT_STEER_MOTOR,
+                        HardwareIds.Can.BACK_RIGHT_DRIVE_MOTOR,
+                        HardwareIds.Can.BACK_RIGHT_ENCODER, BACK_RIGHT_CANCODER_OFFSET,
                         WHEELBASE.div(2).unaryMinus(), TRACK_WIDTH.div(2).unaryMinus(),
                         DRIVE_MOTOR_INVERTED, STEER_MOTOR_INVERTED, ENCODER_INVERTED);
         backLeft = commonModuleConstants.createModuleConstants(
-                        HardwareIds.Can.BACK_LEFT_STEER_FALCON,
-                        HardwareIds.Can.BACK_LEFT_DRIVE_FALCON,
-                        HardwareIds.Can.BACK_LEFT_CANCODER, BACK_LEFT_CANCODER_OFFSET,
+                        HardwareIds.Can.BACK_LEFT_STEER_MOTOR,
+                        HardwareIds.Can.BACK_LEFT_DRIVE_MOTOR,
+                        HardwareIds.Can.BACK_LEFT_ENCODER, BACK_LEFT_CANCODER_OFFSET,
                         WHEELBASE.div(2).unaryMinus(), TRACK_WIDTH.div(2),
                         DRIVE_MOTOR_INVERTED, STEER_MOTOR_INVERTED, ENCODER_INVERTED);
 
