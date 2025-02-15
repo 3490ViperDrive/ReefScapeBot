@@ -38,6 +38,8 @@ public class Robot extends TimedRobot {
     Epilogue.configure(config -> {
       if (isSimulation()) {
         config.errorHandler = ErrorHandler.crashOnError();
+      } else {
+        config.errorHandler = ErrorHandler.printErrorMessages();
       }
       switch (logStrategy) {
         case NT_ALL:
