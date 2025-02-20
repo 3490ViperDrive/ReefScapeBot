@@ -1,6 +1,8 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.spark.SparkMax;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
 
 //import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -17,15 +19,16 @@ public class AlgaeMechanism extends SubsystemBase {
 
     SparkMax algaeMotorLeft;
     SparkMax algaeMotorRight;
-    SparkMax algaePivot;
+    TalonSRX algaePivotMotor;
     MotorType type;
 
      public AlgaeMechanism() {
         algaeMotorLeft = new SparkMax(HardwareIds.Can.ALGAE_INTAKE_MOTOR1, MotorType.kBrushless);
         algaeMotorRight = new SparkMax(HardwareIds.Can.ALGAE_INTAKE_MOTOR2, MotorType.kBrushless);
 
-        algaePivot = new SparkMax(HardwareIds.Can.ALGAE_PIVOT_MOTOR, MotorType.kBrushed);
+        algaePivotMotor = new TalonSRX(HardwareIds.Can.ALGAE_PIVOT_MOTOR);
      }
+
     
     @Override
     public void periodic() {};
