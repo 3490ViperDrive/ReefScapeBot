@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.HardwareIds;
 
 import static edu.wpi.first.units.Units.*;
+
+import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
@@ -19,7 +21,9 @@ import edu.wpi.first.wpilibj.Alert.AlertType;
 public class CoralMechanism extends SubsystemBase {
     
     private final TalonSRX pivotMotor;
+    @Logged
     private final SparkMax leftIntakeMotor;
+    @Logged
     private final SparkMax rightIntakeMotor;
 
     private final Alert motorConfigurationAlerts =
@@ -34,7 +38,7 @@ public class CoralMechanism extends SubsystemBase {
 
     public static final ResetMode INTAKE_CONFIG_RESET_MODE = ResetMode.kResetSafeParameters;
     public static final PersistMode INTAKE_CONFIG_PERSIST_MODE = PersistMode.kPersistParameters;
-    
+
     //todo srx config (config abs encoder)
 
     public CoralMechanism() {
@@ -79,6 +83,16 @@ public class CoralMechanism extends SubsystemBase {
                                              + leftConfigStatus.toString().substring(1));
             motorConfigurationAlerts.set(true);
         }
+    }
+
+    @Logged
+    public String getMotorConfigurationAlerts() {
+        if (motorConfigurationAlerts.get()) {
+            return motorConfigurationAlerts.getText();
+        } else {
+            return "No motor configuration errors reported";
+        }
+        
     }
 
     //todo add move to setpoint
