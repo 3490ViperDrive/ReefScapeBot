@@ -11,18 +11,21 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import frc.robot.HardwareIds;
 
+//import frc.robot.commands.*;
+
 public class AlgaeMechanism extends SubsystemBase {
 
-    SparkMax algaeMotors;
+    SparkMax algaeMotorLeft;
+    SparkMax algaeMotorRight;
     SparkMax algaePivot;
     MotorType type;
 
      public AlgaeMechanism() {
-        algaeMotors = new SparkMax(HardwareIds.Can.ALGAE_INTAKE_MOTOR1, MotorType.kBrushless);
-        algaeMotors = new SparkMax(HardwareIds.Can.ALGAE_INTAKE_MOTOR2, MotorType.kBrushless);
+        algaeMotorLeft = new SparkMax(HardwareIds.Can.ALGAE_INTAKE_MOTOR1, MotorType.kBrushless);
+        algaeMotorRight = new SparkMax(HardwareIds.Can.ALGAE_INTAKE_MOTOR2, MotorType.kBrushless);
 
-        algaePivot = new SparkMax(HardwareIds.Can.ALGAE_INTAKE_PIVOT, MotorType.kBrushed);
-     } 
+        algaePivot = new SparkMax(HardwareIds.Can.ALGAE_PIVOT_MOTOR, MotorType.kBrushed);
+     }
     
     @Override
     public void periodic() {};
