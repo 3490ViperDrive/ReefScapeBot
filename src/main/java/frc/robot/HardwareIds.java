@@ -32,7 +32,11 @@ public class HardwareIds {
         //absolute encoder plugged directly into srx
         public static final int CORAL_LEFT_INTAKE_MOTOR = 12; //sparkmax + neo550
         public static final int CORAL_RIGHT_INTAKE_MOTOR = 13;
-        public static final int CORAL_PIVOT_MOTOR = 14; //talon srx + snowblower aka windshield wiper motor
-        public static final int CORAL_COLOR_SENSOR = 15;
+        public static final int CORAL_PIVOT_MOTOR = 14; //talon srx + snowblower motor aka windshield wiper motor
+        
+    }
+
+    public static class I2C {
+        public static final int CORAL_COLOR_SENSOR = 0; //oh no
     }
 }

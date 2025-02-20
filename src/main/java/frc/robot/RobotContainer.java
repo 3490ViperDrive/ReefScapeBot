@@ -11,9 +11,11 @@ import frc.robot.subsystems.*;
 public class RobotContainer {
 
   private final Drivetrain drivetrain;
+  private final CoralMechanism coralMechanism;
 
   public RobotContainer() {
     drivetrain = new Drivetrain();
+    coralMechanism = new CoralMechanism();
     configureBindings();
   }
 
