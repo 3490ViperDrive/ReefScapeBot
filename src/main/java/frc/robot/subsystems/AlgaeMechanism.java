@@ -19,14 +19,14 @@ public class AlgaeMechanism extends SubsystemBase {
 
     SparkMax algaeMotorLeft;
     SparkMax algaeMotorRight;
-    TalonSRX algaePivotMotor;
+    SparkMax algaePivotMotor;
     MotorType type;
 
      public AlgaeMechanism() {
         algaeMotorLeft = new SparkMax(HardwareIds.Can.ALGAE_INTAKE_MOTOR1, MotorType.kBrushless);
         algaeMotorRight = new SparkMax(HardwareIds.Can.ALGAE_INTAKE_MOTOR2, MotorType.kBrushless);
 
-        algaePivotMotor = new TalonSRX(HardwareIds.Can.ALGAE_PIVOT_MOTOR);
+        algaePivotMotor = new SparkMax(HardwareIds.Can.ALGAE_PIVOT_MOTOR, MotorType.kBrushless);
      }
 
     
