@@ -48,6 +48,8 @@ public class CoralMechanism extends SubsystemBase {
 
     public static final IdleMode PIVOT_IDLE_MODE = IdleMode.kBrake;
 
+    //todo configure pivot sparkmax control loop
+
     public CoralMechanism() {
         //TODO make sure the chosen pivot motor (brushed/brushless) is accounted for here
         pivotMotor = new SparkMax(HardwareIds.Can.CORAL_PIVOT_MOTOR, MotorType.kBrushed);
@@ -79,6 +81,13 @@ public class CoralMechanism extends SubsystemBase {
         configureRevMotor(pivotMotor, pivotMotorConfiguration, "Pivot motor");
     }
 
+    /**
+     * Configures a SparkMAX with the given SparkMaxConfig. If the configuration fails,
+     * reports the error to the dashboard.
+     * @param motorController the SparkMAX to configure
+     * @param configuration the configuration to apply
+     * @param name the name of the motor/motor controller to report to the dashboard if an error occurs
+     */
     private void configureRevMotor(SparkMax motorController, SparkMaxConfig configuration, String name) {
         final REVLibError configStatus;
         configStatus = leftIntakeMotor.configure(configuration, CONFIG_RESET_MODE, CONFIG_PERSIST_MODE);
@@ -92,6 +101,12 @@ public class CoralMechanism extends SubsystemBase {
         }
     }
 
+    /**
+     * Configures a SparkMAX with the given SparkMaxConfig. If the configuration fails,
+     * reports the error to the dashboard. Uses a default name for the SparkMAX (SparkMAX with CAN ID x)
+     * @param motorController the SparkMAX to configure
+     * @param configuration the configuration to apply
+     */
     private void configureRevMotor(SparkMax motorController, SparkMaxConfig configuration) {
         configureRevMotor(motorController,
                           configuration,
@@ -105,9 +120,25 @@ public class CoralMechanism extends SubsystemBase {
         } else {
             return "No motor configuration errors reported";
         }
-        
     }
 
     //todo add move to setpoint
-    //todo add run intake
+
+    //todo add manual move
+
+    /**
+     * Runs the intake motors.
+     * @param volts the voltage to run the motors at. [-12, 12]
+     * Positive values suck the coral in and negative values spit the coral out.
+     */
+    public void runIntake(double volts) {
+        leftIntakeMotor.setVoltage(volts);
+    }
+
+    /**
+     * Stops the intake motors. Equivalent to runIntake(0);
+     */
+    public void stopIntake() {
+        leftIntakeMotor.stopMotor();
+    }
 }
