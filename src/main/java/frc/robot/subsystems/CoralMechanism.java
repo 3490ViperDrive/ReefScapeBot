@@ -2,9 +2,13 @@ package frc.robot.subsystems;
 
 import com.revrobotics.REVLibError;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.SparkClosedLoopController;
+import com.revrobotics.spark.config.ClosedLoopConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
@@ -21,17 +25,19 @@ import edu.wpi.first.wpilibj.Alert.AlertType;
 public class CoralMechanism extends SubsystemBase {
     
     @Logged
-    private final SparkMax pivotMotor;
-    @Logged
     private final SparkMax leftIntakeMotor;
     @Logged
     private final SparkMax rightIntakeMotor;
+    @Logged
+    private final SparkMax pivotMotor;
+    private final SparkClosedLoopController pivotClosedLoopController;
 
     private final Alert motorConfigurationAlerts =
         new Alert("Error while configuring coral mechanism motors:", AlertType.kError);
 
     public static final boolean INTAKE_INVERT_LEFT = false;
     public static final boolean INTAKE_INVERT_RIGHT = true;
+
     //these are guessed
     public static final Current INTAKE_CURRENT_LIMIT_FREE = Amps.of(40);
     public static final Current INTAKE_CURRENT_LIMIT_STALL = Amps.of(20);
@@ -43,12 +49,22 @@ public class CoralMechanism extends SubsystemBase {
 
     public static final boolean PIVOT_INVERT = false;
 
+    //these are also guessed
     public static final Current PIVOT_CURRENT_LIMIT_FREE = Amps.of(50);
     public static final Current PIVOT_CURRENT_LIMIT_STALL = Amps.of(30);
 
     public static final IdleMode PIVOT_IDLE_MODE = IdleMode.kBrake;
 
-    //todo configure pivot sparkmax control loop
+    //TODO tune
+    public static class PivotClosedLoopGains {
+        public static final double P = 0; //volts per rotation of error
+        public static final double D = 0; //volts per rotation of error per second
+        //gravity feedforward term kG may be necessary, but cannot be implemented
+        //via rev closed loop controller config
+    }
+
+    //TODO ensure the pivot motor is in phase with the pivot encoder; if not, add an EncoderConfig
+    public static final FeedbackSensor PIVOT_FEEDBACK_SENSOR = FeedbackSensor.kAbsoluteEncoder;
 
     public CoralMechanism() {
         //TODO make sure the chosen pivot motor (brushed/brushless) is accounted for here
@@ -59,6 +75,7 @@ public class CoralMechanism extends SubsystemBase {
         //make motor configurations
         final SparkMaxConfig leftIntakeMotorConfiguration = new SparkMaxConfig();
         final SparkMaxConfig rightIntakeMotorConfiguration = new SparkMaxConfig();
+        final ClosedLoopConfig pivotClosedLoopConfiguration = new ClosedLoopConfig();
         final SparkMaxConfig pivotMotorConfiguration = new SparkMaxConfig();
         leftIntakeMotorConfiguration
             .inverted(INTAKE_INVERT_LEFT)
@@ -70,7 +87,12 @@ public class CoralMechanism extends SubsystemBase {
             .inverted(INTAKE_INVERT_RIGHT)
             //add this boolean argument back if it spins the wrong way
             .follow(leftIntakeMotor/*, true*/); 
+        pivotClosedLoopConfiguration
+            .p(PivotClosedLoopGains.P)
+            .d(PivotClosedLoopGains.D)
+            .feedbackSensor(PIVOT_FEEDBACK_SENSOR);
         pivotMotorConfiguration
+            .apply(pivotClosedLoopConfiguration)
             .inverted(PIVOT_INVERT)
             .smartCurrentLimit((int) PIVOT_CURRENT_LIMIT_STALL.magnitude(),
                                (int) PIVOT_CURRENT_LIMIT_FREE.magnitude())
@@ -79,6 +101,8 @@ public class CoralMechanism extends SubsystemBase {
         configureRevMotor(leftIntakeMotor, leftIntakeMotorConfiguration, "Left intake motor");
         configureRevMotor(rightIntakeMotor, rightIntakeMotorConfiguration, "Right intake motor");
         configureRevMotor(pivotMotor, pivotMotorConfiguration, "Pivot motor");
+
+        pivotClosedLoopController = pivotMotor.getClosedLoopController();
     }
 
     /**
@@ -122,9 +146,25 @@ public class CoralMechanism extends SubsystemBase {
         }
     }
 
-    //todo add move to setpoint
+    /**
+     * Commands the pivot motor's closed-loop controller to move
+     * the pivot mechanism to the given position.
+     * @param rotations the angle to move the pivot mechanism to, in rotations. 
+     */
+    public void setPivotSetpoint(double rotations) {
+        pivotClosedLoopController.setReference(rotations, ControlType.kPosition);
+    }
 
-    //todo add manual move
+    //TODO confirm a positive value results in a rotation that brings the mechanism up
+    /**
+     * Runs the pivot motor and rotates the coral mechanism manually.
+     * Driver shouldn't have to do this in an actual match.
+     * @param volts the voltage to run the pivot motor at. [-12, 12]
+     * Positive values raise the coral mechanism and negative values lower it.
+     */
+    public void runPivotOpenLoop(double volts) {
+        pivotMotor.setVoltage(volts);
+    }
 
     /**
      * Runs the intake motors.
@@ -136,9 +176,17 @@ public class CoralMechanism extends SubsystemBase {
     }
 
     /**
-     * Stops the intake motors. Equivalent to runIntake(0);
+     * Stops the intake motors. Equivalent to {@code runIntake(0);}
      */
     public void stopIntake() {
         leftIntakeMotor.stopMotor();
+    }
+
+    /**
+     * Stops the pivot motor. Interrupts closed-loop control.
+     * Equivalent to {@code runPivotOpenLoop(0);}
+     */
+    public void stopPivot() {
+        pivotMotor.stopMotor();
     }
 }
