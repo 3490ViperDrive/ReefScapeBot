@@ -12,6 +12,16 @@ import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
+//import commands.algaeintake
+//import commands.algaepivot
+//import commands.elevatorcommand
+//import commands.drivecommand
+//import commands.coralintake
+//import commands.coralpivot
+//import commands.cagecommand
+//import commands.crawlmode
+//import commands.robotorientation
+
 @Logged
 public class RobotContainer {
 
@@ -22,9 +32,26 @@ public class RobotContainer {
   public RobotContainer() {
     drivetrain = new Drivetrain();
     configureBindings();
+
+    //algae mechanism = new algae mechanism
+    //coral mechanism = new coral mechanism
+    //elevator mechanism = new elevator mechanism 
   }
 
-  private void configureBindings() {}
+  private void configureBindings() {
+    //drive = left thumb stick
+    //turning = right thumb stick
+    //elevator = 4 back paddles
+    //coral intake = left trigger 
+    //coral outake = right trigger
+    //algae intake = b
+    //algae outake = a
+    //algae manual pivot = x 
+    //manual elevator = d pad (to bring it up and down)
+    //cage = y
+    //crawl mode = left bumper
+    //orientation = right bumper
+  }
 
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command configured");
