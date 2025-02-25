@@ -1,10 +1,7 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.REVLibError;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.ControlType;
-import com.revrobotics.spark.SparkBase.PersistMode;
-import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.config.ClosedLoopConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
@@ -14,13 +11,12 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.HardwareIds;
+import frc.robot.utils.SparkMaxConfigUtil;
 
 import static edu.wpi.first.units.Units.*;
 
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.units.measure.Current;
-import edu.wpi.first.wpilibj.Alert;
-import edu.wpi.first.wpilibj.Alert.AlertType;
 
 public class CoralMechanism extends SubsystemBase {
     
@@ -32,9 +28,6 @@ public class CoralMechanism extends SubsystemBase {
     private final SparkMax pivotMotor;
     private final SparkClosedLoopController pivotClosedLoopController;
 
-    private final Alert motorConfigurationAlerts =
-        new Alert("Error while configuring coral mechanism motors:", AlertType.kError);
-
     public static final boolean INTAKE_INVERT_LEFT = false;
     public static final boolean INTAKE_INVERT_RIGHT = true;
 
@@ -43,9 +36,6 @@ public class CoralMechanism extends SubsystemBase {
     public static final Current INTAKE_CURRENT_LIMIT_STALL = Amps.of(20);
 
     public static final IdleMode INTAKE_IDLE_MODE = IdleMode.kBrake;
-
-    public static final ResetMode CONFIG_RESET_MODE = ResetMode.kResetSafeParameters;
-    public static final PersistMode CONFIG_PERSIST_MODE = PersistMode.kPersistParameters;
 
     public static final boolean PIVOT_INVERT = false;
 
@@ -98,52 +88,11 @@ public class CoralMechanism extends SubsystemBase {
                                (int) PIVOT_CURRENT_LIMIT_FREE.magnitude())
             .idleMode(PIVOT_IDLE_MODE);
 
-        configureRevMotor(leftIntakeMotor, leftIntakeMotorConfiguration, "Left intake motor");
-        configureRevMotor(rightIntakeMotor, rightIntakeMotorConfiguration, "Right intake motor");
-        configureRevMotor(pivotMotor, pivotMotorConfiguration, "Pivot motor");
+        SparkMaxConfigUtil.configure(leftIntakeMotor, leftIntakeMotorConfiguration, "Coral left intake motor");
+        SparkMaxConfigUtil.configure(rightIntakeMotor, rightIntakeMotorConfiguration, "Coral right intake motor");
+        SparkMaxConfigUtil.configure(pivotMotor, pivotMotorConfiguration, "Coral pivot motor");
 
         pivotClosedLoopController = pivotMotor.getClosedLoopController();
-    }
-
-    /**
-     * Configures a SparkMAX with the given SparkMaxConfig. If the configuration fails,
-     * reports the error to the dashboard.
-     * @param motorController the SparkMAX to configure
-     * @param configuration the configuration to apply
-     * @param name the name of the motor/motor controller to report to the dashboard if an error occurs
-     */
-    private void configureRevMotor(SparkMax motorController, SparkMaxConfig configuration, String name) {
-        final REVLibError configStatus;
-        configStatus = leftIntakeMotor.configure(configuration, CONFIG_RESET_MODE, CONFIG_PERSIST_MODE);
-        if (configStatus != REVLibError.kOk) {
-            motorConfigurationAlerts.setText(
-                String.format("%s\n%s: %s",
-                              motorConfigurationAlerts.getText(),
-                              name,
-                              configStatus.toString().substring(1)));
-            motorConfigurationAlerts.set(true);
-        }
-    }
-
-    /**
-     * Configures a SparkMAX with the given SparkMaxConfig. If the configuration fails,
-     * reports the error to the dashboard. Uses a default name for the SparkMAX (SparkMAX with CAN ID x)
-     * @param motorController the SparkMAX to configure
-     * @param configuration the configuration to apply
-     */
-    private void configureRevMotor(SparkMax motorController, SparkMaxConfig configuration) {
-        configureRevMotor(motorController,
-                          configuration,
-                          String.format("SparkMAX with CAN ID %d", motorController.getDeviceId()));
-    }
-
-    @Logged
-    public String getMotorConfigurationAlerts() {
-        if (motorConfigurationAlerts.get()) {
-            return motorConfigurationAlerts.getText();
-        } else {
-            return "No motor configuration errors reported";
-        }
     }
 
     /**
