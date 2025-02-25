@@ -1,7 +1,7 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfigurator;
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.DeviceIdentifier;
 import com.ctre.phoenix6.hardware.TalonFX;
 
@@ -16,12 +16,11 @@ public class Elevator extends SubsystemBase{
     }
 
     public void setElevator(double position){
-        // TODO actually make code to set the elevator
+        motorController.setControl(new PositionVoltage(position));
     }
 
     public void configureMotor() {
         motorController = new TalonFX(0);
         TalonFXConfigurator configurator = new TalonFXConfigurator(new DeviceIdentifier(motorController.getDeviceID(), getSubsystem(), getName()));
-        
     }
 }
