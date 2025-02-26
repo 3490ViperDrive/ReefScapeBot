@@ -2,16 +2,17 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.ElevatorPosition;
 
 public class SetElevator extends Command {
-    double position;
-    Elevator elevatorSubsystem;
-    public SetElevator(int _position, Elevator _elevatorSubsystem){
+    ElevatorPosition position;
+    Elevator elevator;
+    public SetElevator(ElevatorPosition _position, Elevator _elevator){
         position = _position;
-        elevatorSubsystem = _elevatorSubsystem;
+        elevator = _elevator;
     }
     @Override
     public void execute(){
-        elevatorSubsystem.setElevator(position);
+        elevator.setElevator(elevator.getRawPosition(position));
     }
 }
