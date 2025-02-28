@@ -32,22 +32,4 @@ public class InputFilteringUtil {
         double diffPercent = 1.0 - (Math.abs(absX - absY) / Math.max(absX, absY));
         return Math.max(Math.hypot(x, y) - (0.12 * diffPercent), 0);
     }
-
-    /**
-     * Applies a deadband and squares a gamepad's axes.
-     * @param x the left X axis of the gamepad.
-     * @param y the left Y axis of the gamepad.
-     * @param z the right X axis of the gamepad.
-     * @param deadband if gamepad axes values are below this value, it'll be replaced with 0.
-     * @return double array of length 3 in WPILib NWU CC+ convention. Index 0, 1, and 2 correspond to x, y, and z.
-     */
-    public static double[] filterGamepadAxes(double x, double y, double z, double deadband) {
-        double[] filteredAxes = new double[3];
-        double leftStickMagnitude = squareInput(applyDeadbandSpecial(MathUtil.clamp(Math.hypot(x, y), 0, 1), deadband));
-        double leftStickAngle = Math.atan2(y, x);
-        filteredAxes[1] = -leftStickMagnitude * Math.cos(leftStickAngle);
-        filteredAxes[0] = leftStickMagnitude * Math.sin(leftStickAngle);
-        filteredAxes[2] = -squareInput(applyDeadbandSpecial(z, deadband));
-        return filteredAxes;
-    }
 }
