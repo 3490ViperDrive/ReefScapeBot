@@ -29,14 +29,10 @@ public class HardwareIds {
 
         public static final int IMU = 13; //gyro
 
-        //absolute encoder plugged directly into srx
+        //absolute encoder plugged directly into sparkmax
         public static final int CORAL_LEFT_INTAKE_MOTOR = 12; //sparkmax + neo550
         public static final int CORAL_RIGHT_INTAKE_MOTOR = 13;
         public static final int CORAL_PIVOT_MOTOR = 14; //sparkmax + snowblower motor aka windshield wiper motor
-        
-    }
-
-    public static class I2C {
-        public static final int CORAL_COLOR_SENSOR = 0; //oh no
+        public static final int CORAL_DISTANCE_SENSOR = 15; //canrange
     }
 }
