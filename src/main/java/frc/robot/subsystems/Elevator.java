@@ -1,7 +1,5 @@
 package frc.robot.subsystems;
 
-import java.util.HashMap;
-
 import com.ctre.phoenix6.configs.TalonFXConfigurator;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.DeviceIdentifier;
@@ -13,19 +11,30 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Elevator extends SubsystemBase{
 
     TalonFX motorController;
+    public enum Positions{
+        // TODO: set values 
+        DEFAULT(0.0),
+        ALGAE_L2(0.0),
+        ALGAE_L3(0.0),
+        CORAL_L1(0.0),
+        CORAL_L2(0.0),
+        CORAL_L3(0.0),
+        CORAL_L4(0.0);
 
-    public HashMap<String,Double> elevatorPositions = new HashMap<String,Double>();
+        double position;
+
+        Positions(double position){
+            this.position = position;
+        }
+
+        public double get(){
+            return this.position;
+        }
+    }
 
     public Elevator(){
         this.setDefaultCommand(null);
-        //TODO: replace these with actual values
-        elevatorPositions.put("Default", 0.0);
-        elevatorPositions.put("Algae_1", 0.0);
-        elevatorPositions.put("Algae_1", 0.0);
-        elevatorPositions.put("Coral_1", 0.0);
-        elevatorPositions.put("Coral_2", 0.0);
-        elevatorPositions.put("Coral_3", 0.0);
-        elevatorPositions.put("Coral_4", 0.0);
+
     }
 
     public void setElevator(double rawPosition){
