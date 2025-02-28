@@ -12,23 +12,28 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.DriveOpenLoop;
 import frc.robot.commands.ZeroYaw;
 import frc.robot.subsystems.*;
+import frc.robot.utils.GamepadFilter;
 
 @Logged
 public class RobotContainer {
 
   private final Drivetrain drivetrain;
   private final CommandXboxController gamepad;
+  private final GamepadFilter gamepadFilter;
 
   public RobotContainer() {
     drivetrain = new Drivetrain();
     //these controls are temporary, todo decide omnicontrol implementation if any
     gamepad = new CommandXboxController(0);
+    gamepadFilter = new GamepadFilter(gamepad, 0.1);
 
-    drivetrain.setDefaultCommand(new DriveOpenLoop(drivetrain,
-                                 () -> -gamepad.getLeftY(),
-                                 () -> -gamepad.getLeftX(), 
-                                 () -> -gamepad.getRightX(),
-                                 () -> gamepad.rightBumper().getAsBoolean()));
+      drivetrain.setDefaultCommand(
+        new DriveOpenLoop(
+          drivetrain,
+          gamepadFilter::getX,
+          gamepadFilter::getY,
+          gamepadFilter::getTheta,
+          () -> gamepad.rightBumper().getAsBoolean()));
 
     //puts the zero yaw command as a button on the dashboard
     SmartDashboard.putData(new ZeroYaw(drivetrain));
