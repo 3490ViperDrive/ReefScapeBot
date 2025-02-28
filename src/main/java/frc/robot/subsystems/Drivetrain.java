@@ -32,7 +32,6 @@ import frc.robot.HardwareIds;
  */
 public class Drivetrain extends SubsystemBase {
 
-    //TODO find these on robot
     public static final Angle FRONT_LEFT_CANCODER_OFFSET = Rotations.of(-0.443359);
     public static final Angle FRONT_RIGHT_CANCODER_OFFSET = Rotations.of(-0.159180);
     public static final Angle BACK_RIGHT_CANCODER_OFFSET = Rotations.of(-0.344971);
@@ -65,7 +64,7 @@ public class Drivetrain extends SubsystemBase {
     public static final SteerMotorArrangement STEER_MOTOR_TYPE =
                             SteerMotorArrangement.TalonFX_Integrated;
 
-    public static final boolean DRIVE_MOTOR_INVERTED = false; //double check these ones
+    public static final boolean DRIVE_MOTOR_INVERTED = false;
     public static final boolean STEER_MOTOR_INVERTED = false;
     public static final boolean ENCODER_INVERTED = false;
 
@@ -75,7 +74,7 @@ public class Drivetrain extends SubsystemBase {
     public static final MomentOfInertia DRIVE_INERTIA = KilogramSquareMeters.of(0.01);
     public static final MomentOfInertia STEER_INERTIA = KilogramSquareMeters.of(0.01);
 
-    //TODO tune gains
+    //TODO tune drive gains
     //these gains are pulled from a fresh tuner project (steer kP halved)
     private static final Slot0Configs driveGains = new Slot0Configs()
                                                        .withKP(0.1).withKI(0).withKD(0)

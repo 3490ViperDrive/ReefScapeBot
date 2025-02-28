@@ -10,7 +10,6 @@ public class HardwareIds {
      * CAN bus IDs.
      */
     public static class Can {
-        //TODO these are reasonable defaults, update to reflect the robot
         public static final int FRONT_LEFT_DRIVE_MOTOR = 1;
         public static final int FRONT_LEFT_STEER_MOTOR = 5;
         public static final int FRONT_LEFT_ENCODER = 9;

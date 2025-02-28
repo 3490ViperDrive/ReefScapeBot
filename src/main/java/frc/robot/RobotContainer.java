@@ -17,6 +17,9 @@ import frc.robot.utils.GamepadFilter;
 @Logged
 public class RobotContainer {
 
+  public static final int DRIVER_CONTROLLER_PORT = 0;
+  public static final double DRIVER_CONTROLLER_DEADBAND = 0.1;
+
   private final Drivetrain drivetrain;
   private final CommandXboxController gamepad;
   private final GamepadFilter gamepadFilter;
@@ -24,8 +27,8 @@ public class RobotContainer {
   public RobotContainer() {
     drivetrain = new Drivetrain();
     //these controls are temporary, todo decide omnicontrol implementation if any
-    gamepad = new CommandXboxController(0);
-    gamepadFilter = new GamepadFilter(gamepad, 0.1);
+    gamepad = new CommandXboxController(DRIVER_CONTROLLER_PORT);
+    gamepadFilter = new GamepadFilter(gamepad, DRIVER_CONTROLLER_DEADBAND);
 
       drivetrain.setDefaultCommand(
         new DriveOpenLoop(
