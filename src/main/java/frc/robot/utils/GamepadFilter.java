@@ -68,19 +68,19 @@ public class GamepadFilter {
     @Logged
     public double getX() {
         refreshAxes();
-        return xSup.getAsDouble();
+        return lastFilteredX;
     }
 
     @Logged
     public double getY() {
         refreshAxes();
-        return ySup.getAsDouble();
+        return lastFilteredY;
     }
 
     @Logged
     public double getTheta() {
         refreshAxes();
-        return thetaSup.getAsDouble();
+        return lastFilteredTheta;
     }
 
     @Logged
