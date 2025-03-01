@@ -1,8 +1,6 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.spark.SparkMax;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
 
 //import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -29,7 +27,7 @@ public class AlgaeMechanism extends SubsystemBase {
         algaePivotMotor = new SparkMax(HardwareIds.Can.ALGAE_PIVOT_MOTOR, MotorType.kBrushless);
      }
 
-    
-    @Override
-    public void periodic() {};
+    //TODO: Write method runIntake (run the motor) and use that in commands
+    //TODO: Write execute in commands to call the runIntake
+    //TODO: Have magic set points for algae pivot here and call in commands
 }
