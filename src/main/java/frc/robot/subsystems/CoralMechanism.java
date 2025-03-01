@@ -87,6 +87,8 @@ public class CoralMechanism extends SubsystemBase {
     public static final double DISTANCE_SENSOR_SIGNAL_STRENGTH_THRESHOLD = 2700;
     public static final double DISTANCE_SENSOR_PROXIMITY_THRESHOLD = 0.25;
 
+    public static final double PIVOT_AT_SETPOINT_TOLERANCE = 0.02; //1/50th of a rotation in either direction
+
     public CoralMechanism() {
         //TODO make sure the chosen pivot motor (brushed/brushless) is accounted for here
         pivotMotor = new SparkMax(HardwareIds.Can.CORAL_PIVOT_MOTOR, MotorType.kBrushed);
@@ -193,6 +195,7 @@ public class CoralMechanism extends SubsystemBase {
      */
     public void stopPivot() {
         pivotMotor.stopMotor();
+        pivotClosedLoopModeActive = false;
     }
 
     /**
@@ -209,6 +212,11 @@ public class CoralMechanism extends SubsystemBase {
     @Logged(importance = Importance.CRITICAL)
     public boolean getCoralDetected() {
         return distanceSensorIsDetectedSignal.refresh().getValue();
+    }
+
+    @Logged
+    public boolean getAtSetpoint() {
+        return Math.abs(currentPivotSetpoint - getPivotAngle()) <= PIVOT_AT_SETPOINT_TOLERANCE; 
     }
 
     /**
