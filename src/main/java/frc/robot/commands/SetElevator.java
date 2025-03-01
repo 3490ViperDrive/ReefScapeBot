@@ -11,6 +11,7 @@ public class SetElevator extends Command {
     public SetElevator(Positions _position, Elevator _elevator){
         position = _position;
         elevator = _elevator;
+        addRequirements(elevator);
     }
     @Override
     public void execute(){
