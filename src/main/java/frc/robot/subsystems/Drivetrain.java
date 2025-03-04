@@ -5,6 +5,7 @@ import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants.SteerFeedbackType;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants.SteerMotorArrangement;
 import com.ctre.phoenix6.swerve.SwerveModuleConstantsFactory;
@@ -31,11 +32,10 @@ import frc.robot.HardwareIds;
  */
 public class Drivetrain extends SubsystemBase {
 
-    //TODO find these on robot
-    public static final Angle FRONT_LEFT_CANCODER_OFFSET = Degrees.of(0);
-    public static final Angle FRONT_RIGHT_CANCODER_OFFSET = Degrees.of(0);
-    public static final Angle BACK_RIGHT_CANCODER_OFFSET = Degrees.of(0);
-    public static final Angle BACK_LEFT_CANCODER_OFFSET = Degrees.of(0);
+    public static final Angle FRONT_LEFT_CANCODER_OFFSET = Rotations.of(-0.443359);
+    public static final Angle FRONT_RIGHT_CANCODER_OFFSET = Rotations.of(-0.159180);
+    public static final Angle BACK_RIGHT_CANCODER_OFFSET = Rotations.of(-0.344971);
+    public static final Angle BACK_LEFT_CANCODER_OFFSET = Rotations.of(0.138428);
 
     //28"x32" frame, one of the shorter sides are the front
     //Measured from centers of the wheels
@@ -44,10 +44,10 @@ public class Drivetrain extends SubsystemBase {
     //this will change as the colsons wear down
     public static final Distance WHEEL_DIAMETER = Inches.of(4); 
     //L2 gear ratio
-    public static final double DRIVE_GEAR_RATIO = 6.75;
+    public static final double DRIVE_GEAR_RATIO = 6.746031746031747;
     public static final double STEER_GEAR_RATIO = 12.8;
     //1 turn of steer falcon shaft : coupling ratio turns of drive motor shaft
-    public static final double STEER_COUPLING_RATIO = 3.57;
+    public static final double STEER_COUPLING_RATIO = 3.5714285714285716;
 
     //Reasonable max speeds
     //These should be tested and verified
@@ -55,7 +55,7 @@ public class Drivetrain extends SubsystemBase {
     public static final AngularVelocity MAX_ROTATION_SPEED = RotationsPerSecond.of(1.90);
 
     public static final ClosedLoopOutputType DRIVE_CLOSED_LOOP_OUTPUT =
-                            ClosedLoopOutputType.TorqueCurrentFOC;
+                            ClosedLoopOutputType.Voltage;
     public static final ClosedLoopOutputType STEER_CLOSED_LOOP_OUTPUT =
                             ClosedLoopOutputType.Voltage;
 
@@ -64,8 +64,8 @@ public class Drivetrain extends SubsystemBase {
     public static final SteerMotorArrangement STEER_MOTOR_TYPE =
                             SteerMotorArrangement.TalonFX_Integrated;
 
-    public static final boolean DRIVE_MOTOR_INVERTED = false; //double check these ones
-    public static final boolean STEER_MOTOR_INVERTED = true;
+    public static final boolean DRIVE_MOTOR_INVERTED = false;
+    public static final boolean STEER_MOTOR_INVERTED = false;
     public static final boolean ENCODER_INVERTED = false;
 
     public static final SteerFeedbackType STEER_FEEDBACK_SOURCE = SteerFeedbackType.FusedCANcoder;
@@ -74,15 +74,16 @@ public class Drivetrain extends SubsystemBase {
     public static final MomentOfInertia DRIVE_INERTIA = KilogramSquareMeters.of(0.01);
     public static final MomentOfInertia STEER_INERTIA = KilogramSquareMeters.of(0.01);
 
-    //TODO tune gains
-    //these gains worked on the last robot (?) but they will need adjustment for this robot, probably
+    //TODO tune drive gains
+    //these gains are pulled from a fresh tuner project (steer kP halved)
     private static final Slot0Configs driveGains = new Slot0Configs()
-                                                       .withKP(3).withKI(0).withKD(0)
-                                                       .withKS(0).withKV(0).withKA(0);
+                                                       .withKP(0.1).withKI(0).withKD(0)
+													   .withKS(0).withKV(0.124);
     
     private static final Slot0Configs steerGains = new Slot0Configs()
-                                                       .withKP(50).withKI(0).withKD(0.2)
-                                                       .withKS(0).withKV(1.5).withKA(0);
+                                                       .withKP(50).withKI(0).withKD(0.5)
+													   .withKS(0.1).withKV(1.59).withKA(0)
+													   .withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
 
     private final SwerveDrivetrain<TalonFX, TalonFX, CANcoder> swerve;
     
@@ -98,7 +99,7 @@ public class Drivetrain extends SubsystemBase {
                                            CANcoderConfiguration> commonModuleConstants =
                                                new SwerveModuleConstantsFactory<>();
         drivetrainConstants
-            .withPigeon2Id(HardwareIds.Can.PIGEON);
+            .withPigeon2Id(HardwareIds.Can.IMU);
             //add pigeon configuration here if necessary
             //withPigeon2Configs()
         commonModuleConstants
@@ -123,27 +124,27 @@ public class Drivetrain extends SubsystemBase {
                                     TalonFXConfiguration,
                                     CANcoderConfiguration> frontLeft, frontRight, backRight, backLeft;
         frontLeft = commonModuleConstants.createModuleConstants(
-                        HardwareIds.Can.FRONT_LEFT_STEER_FALCON,
-                        HardwareIds.Can.FRONT_LEFT_DRIVE_FALCON,
-                        HardwareIds.Can.FRONT_LEFT_CANCODER, FRONT_LEFT_CANCODER_OFFSET,
+                        HardwareIds.Can.FRONT_LEFT_STEER_MOTOR,
+                        HardwareIds.Can.FRONT_LEFT_DRIVE_MOTOR,
+                        HardwareIds.Can.FRONT_LEFT_ENCODER, FRONT_LEFT_CANCODER_OFFSET,
                         WHEELBASE.div(2), TRACK_WIDTH.div(2),
                         DRIVE_MOTOR_INVERTED, STEER_MOTOR_INVERTED, ENCODER_INVERTED);
         frontRight = commonModuleConstants.createModuleConstants(
-                        HardwareIds.Can.FRONT_RIGHT_STEER_FALCON,
-                        HardwareIds.Can.FRONT_RIGHT_DRIVE_FALCON,
-                        HardwareIds.Can.FRONT_RIGHT_CANCODER, FRONT_RIGHT_CANCODER_OFFSET,
+                        HardwareIds.Can.FRONT_RIGHT_STEER_MOTOR,
+                        HardwareIds.Can.FRONT_RIGHT_DRIVE_MOTOR,
+                        HardwareIds.Can.FRONT_RIGHT_ENCODER, FRONT_RIGHT_CANCODER_OFFSET,
                         WHEELBASE.div(2), TRACK_WIDTH.div(2).unaryMinus(),
                         DRIVE_MOTOR_INVERTED, STEER_MOTOR_INVERTED, ENCODER_INVERTED);
         backRight = commonModuleConstants.createModuleConstants(
-                        HardwareIds.Can.BACK_RIGHT_STEER_FALCON,
-                        HardwareIds.Can.BACK_RIGHT_DRIVE_FALCON,
-                        HardwareIds.Can.BACK_RIGHT_CANCODER, BACK_RIGHT_CANCODER_OFFSET,
+                        HardwareIds.Can.BACK_RIGHT_STEER_MOTOR,
+                        HardwareIds.Can.BACK_RIGHT_DRIVE_MOTOR,
+                        HardwareIds.Can.BACK_RIGHT_ENCODER, BACK_RIGHT_CANCODER_OFFSET,
                         WHEELBASE.div(2).unaryMinus(), TRACK_WIDTH.div(2).unaryMinus(),
                         DRIVE_MOTOR_INVERTED, STEER_MOTOR_INVERTED, ENCODER_INVERTED);
         backLeft = commonModuleConstants.createModuleConstants(
-                        HardwareIds.Can.BACK_LEFT_STEER_FALCON,
-                        HardwareIds.Can.BACK_LEFT_DRIVE_FALCON,
-                        HardwareIds.Can.BACK_LEFT_CANCODER, BACK_LEFT_CANCODER_OFFSET,
+                        HardwareIds.Can.BACK_LEFT_STEER_MOTOR,
+                        HardwareIds.Can.BACK_LEFT_DRIVE_MOTOR,
+                        HardwareIds.Can.BACK_LEFT_ENCODER, BACK_LEFT_CANCODER_OFFSET,
                         WHEELBASE.div(2).unaryMinus(), TRACK_WIDTH.div(2),
                         DRIVE_MOTOR_INVERTED, STEER_MOTOR_INVERTED, ENCODER_INVERTED);
 
@@ -170,18 +171,22 @@ public class Drivetrain extends SubsystemBase {
         swerve.seedFieldCentric();
     }
 
+    @Logged
     public ChassisSpeeds getChassisSpeeds() {
         return currentState.Speeds;
     }
 
+    @Logged
     public SwerveModuleState[] getModuleStates() {
         return currentState.ModuleStates;
     }
 
+    @Logged
     public SwerveModuleState[] getModuleTargets() {
         return currentState.ModuleTargets;
     }
 
+    @Logged
     public Pose2d getPose() {
         return currentState.Pose;
     }

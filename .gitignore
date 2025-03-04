@@ -171,6 +171,8 @@ out/
 # Simulation GUI and other tools window save file
 networktables.json
 simgui.json
+# why is this not here by default
+simgui-ds.json
 *-window.json
 
 # Simulation data log directory

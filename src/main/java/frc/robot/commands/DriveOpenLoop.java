@@ -58,6 +58,7 @@ public class DriveOpenLoop extends Command {
         this.thetaSup = thetaSup;
         this.robotCentricSup = robotCentricSup;
         super.addRequirements(drivetrain);
+        super.setName("Drive Open Loop");
     }
 
     @Override

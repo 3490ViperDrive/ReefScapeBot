@@ -10,28 +10,33 @@ public class HardwareIds {
      * CAN bus IDs.
      */
     public static class Can {
-        //TODO these are reasonable defaults, update to reflect the robot
-        public static final int FRONT_LEFT_DRIVE_FALCON = 0;
-        public static final int FRONT_LEFT_STEER_FALCON = 4;
-        public static final int FRONT_LEFT_CANCODER = 8;
+        public static final int FRONT_LEFT_DRIVE_MOTOR = 1;
+        public static final int FRONT_LEFT_STEER_MOTOR = 5;
+        public static final int FRONT_LEFT_ENCODER = 9;
 
-        public static final int FRONT_RIGHT_DRIVE_FALCON = 1;
-        public static final int FRONT_RIGHT_STEER_FALCON = 5;
-        public static final int FRONT_RIGHT_CANCODER = 9;
+        public static final int FRONT_RIGHT_DRIVE_MOTOR = 2;
+        public static final int FRONT_RIGHT_STEER_MOTOR = 6;
+        public static final int FRONT_RIGHT_ENCODER = 10;
 
-        public static final int BACK_RIGHT_DRIVE_FALCON = 2;
-        public static final int BACK_RIGHT_STEER_FALCON = 6;
-        public static final int BACK_RIGHT_CANCODER = 10;
+        public static final int BACK_RIGHT_DRIVE_MOTOR = 3;
+        public static final int BACK_RIGHT_STEER_MOTOR = 7;
+        public static final int BACK_RIGHT_ENCODER = 11;
 
-        public static final int BACK_LEFT_DRIVE_FALCON = 3;
-        public static final int BACK_LEFT_STEER_FALCON = 7;
-        public static final int BACK_LEFT_CANCODER = 11;
+        public static final int BACK_LEFT_DRIVE_MOTOR = 4;
+        public static final int BACK_LEFT_STEER_MOTOR = 8;
+        public static final int BACK_LEFT_ENCODER = 12;
 
-        public static final int PIGEON = 0; //gyro
+        public static final int IMU = 13; //gyro
 
-        public static final int ALGAE_INTAKE_MOTOR_LEFT = 1; //magic number in use
-        public static final int ALGAE_INTAKE_MOTOR_RIGHT = 2; //magic number in use
-        public static final int ALGAE_PIVOT_MOTOR = 3; //magic number in use
+        public static final int ALGAE_INTAKE_MOTOR_LEFT = 88; //magic number in use
+        public static final int ALGAE_INTAKE_MOTOR_RIGHT = 77; //magic number in use
+        public static final int ALGAE_PIVOT_MOTOR = 99; //magic number in use
         
+        //absolute encoder plugged directly into sparkmax
+        public static final int CORAL_LEFT_INTAKE_MOTOR = 14; //sparkmax + neo550
+        public static final int CORAL_RIGHT_INTAKE_MOTOR = 15;
+        public static final int CORAL_PIVOT_MOTOR = 16; //sparkmax + snowblower motor aka windshield wiper motor
+        public static final int CORAL_DISTANCE_SENSOR = 17; //canrange
+
     }
 }
