@@ -35,4 +35,10 @@ public class IntakeAlgae extends Command {
         algaeMechanism.stopAlgaeIntake();
     }
 
+    //When algae detected = true, cancel intake and put into break mode
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
+
 }

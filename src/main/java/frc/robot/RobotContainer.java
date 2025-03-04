@@ -9,8 +9,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.CoralIntakeSequence;
+import frc.robot.commands.CoralScoreSequence;
 import frc.robot.commands.DriveOpenLoop;
 import frc.robot.commands.ZeroYaw;
+import frc.robot.commands.MoveCoralMechanism.CoralMechanismPosition;
 import frc.robot.subsystems.*;
 import frc.robot.utils.GamepadFilter;
 
@@ -24,6 +27,7 @@ public class RobotContainer {
   //subsystems
   private final Drivetrain drivetrain;
   private final CoralMechanism coralMechanism;
+  private final AlgaeMechanism algaeMechanism;
   
   //TODO move these!
   private final CommandXboxController gamepad;
@@ -32,6 +36,7 @@ public class RobotContainer {
   public RobotContainer() {
     drivetrain = new Drivetrain();
     coralMechanism = new CoralMechanism();
+    algaeMechanism = new AlgaeMechanism();
     //these controls are temporary, todo decide omnicontrol implementation if any
     gamepad = new CommandXboxController(DRIVER_CONTROLLER_PORT);
     gamepadFilter = new GamepadFilter(gamepad, DRIVER_CONTROLLER_DEADBAND);
@@ -47,28 +52,14 @@ public class RobotContainer {
           () -> gamepad.rightBumper().getAsBoolean()));
 
     //puts the zero yaw command as a button on the dashboard
-    SmartDashboard.putData(new ZeroYaw(drivetrain));
+    // SmartDashboard.putData(new ZeroYaw(drivetrain));
 
     configureBindings();
-
-    //algae mechanism = new algae mechanism
-    //coral mechanism = new coral mechanism
-    //elevator mechanism = new elevator mechanism 
   }
 
   private void configureBindings() {
-    //drive = left thumb stick
-    //turning = right thumb stick
-    //elevator = 4 back paddles
-    //coral intake = left trigger 
-    //coral outake = right trigger
-    //algae intake = b
-    //algae outake = a
-    //algae manual pivot = x 
-    //manual elevator = d pad (to bring it up and down)
-    //cage = y
-    //crawl mode = left bumper
-    //orientation = right bumper
+    gamepad.leftTrigger().whileTrue(new CoralIntakeSequence(coralMechanism));
+    gamepad.rightTrigger().whileTrue(new CoralScoreSequence(coralMechanism, CoralMechanismPosition.SCORE_L2));
   }
 
   public Command getAutonomousCommand() {

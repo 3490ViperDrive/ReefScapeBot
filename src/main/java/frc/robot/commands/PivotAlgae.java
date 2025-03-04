@@ -37,7 +37,7 @@ public class PivotAlgae extends Command {
         this.algaeSetpoint = algaeSetpoint;
         this.algaeCancelBehavior = algaeCancelBehavior;
         super.addRequirements(algaeMechanism);
-        super.setName(String.format("Move Algae Mechanism to %5f", algaeSetpoint));
+        super.setName(String.format("Move Algae Mechanism to %.3f", algaeSetpoint));
     }
 
     public PivotAlgae(AlgaeMechanism algaeMechanism, AlgaeMechanismPosition algaeSetpoint,
