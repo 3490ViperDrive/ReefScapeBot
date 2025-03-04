@@ -9,6 +9,7 @@ import com.ctre.phoenix6.hardware.CANrange;
 import com.ctre.phoenix6.signals.UpdateModeValue;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.AbsoluteEncoder;
+import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.config.AbsoluteEncoderConfig;
 import com.revrobotics.spark.config.ClosedLoopConfig;
@@ -17,17 +18,25 @@ import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.HardwareIds;
+import frc.robot.Robot;
 import frc.robot.utils.SparkMaxConfigUtil;
 
 import static edu.wpi.first.units.Units.*;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.epilogue.Logged.Importance;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Distance;
+import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class CoralMechanism extends SubsystemBase {
     
@@ -69,10 +78,11 @@ public class CoralMechanism extends SubsystemBase {
 
     //TODO tune
     public static class PivotClosedLoopGains {
-        public static final double P = 0; //volts per rotation of error
+        public static final double P = 40; //volts per rotation of error
         public static final double D = 0; //volts per rotation of error per second
-        //gravity feedforward term kG (and static ff term kS) may be necessary, but cannot be implemented
-        //via rev closed loop controller config
+        public static final double G = 2;
+        public static final double S = 1.5;
+        public static final double V = -0.5; //this one might be unnecessary
     }
 
     
@@ -84,7 +94,7 @@ public class CoralMechanism extends SubsystemBase {
 
     public static final UpdateModeValue DISTANCE_SENSOR_UPDATE_MODE = UpdateModeValue.ShortRange100Hz;
     public static final double DISTANCE_SENSOR_SIGNAL_STRENGTH_THRESHOLD = 2700;
-    public static final double DISTANCE_SENSOR_PROXIMITY_THRESHOLD = 0.25;
+    public static final double DISTANCE_SENSOR_PROXIMITY_THRESHOLD = 0.1;
 
     public static final double PIVOT_AT_SETPOINT_TOLERANCE = 0.02; //1/50th of a rotation in either direction
 
@@ -143,7 +153,54 @@ public class CoralMechanism extends SubsystemBase {
         pivotEncoder = pivotMotor.getAbsoluteEncoder();
         distanceSensorDistanceSignal = distanceSensor.getDistance();
         distanceSensorIsDetectedSignal = distanceSensor.getIsDetected();
+
+        //Preferences.initDouble("coral tuning kG", PivotClosedLoopGains.G);
+        //Preferences.initDouble("coral tuning kS", PivotClosedLoopGains.P);
+        //Preferences.initDouble("coral tuning setpoint", 0);
     }
+
+    @Override
+    public void periodic() {
+        SmartDashboard.putNumber("pivot angle", getPivotAngle());
+
+        //closed loop controls
+        double error = currentPivotSetpoint - getPivotAngle();
+        double appliedP = error * PivotClosedLoopGains.P;
+        double fV = pivotEncoder.getVelocity() * PivotClosedLoopGains.V; 
+        double fS = Math.signum(error) * PivotClosedLoopGains.S;
+        double fG = Math.cos(Units.rotationsToRadians(getPivotAngle())) * PivotClosedLoopGains.G;
+        //TODO (re)move
+        SmartDashboard.putNumber("error", error);
+        SmartDashboard.putNumber("appliedP", appliedP);
+        SmartDashboard.putNumber("applied fS", fS);
+        SmartDashboard.putNumber("applied fG", fG);
+        SmartDashboard.putNumber("applied fV", fV);
+        if (pivotClosedLoopModeActive) {
+            pivotMotor.setVoltage(MathUtil.clamp(MathUtil.clamp(appliedP, -4, 4) + fS + fG + MathUtil.clamp(fV, -1, 1), -12, 12));
+        }
+    }
+
+    // public Command bruhCmd(DoubleSupplier sigma) {
+    //     return run(() -> {
+    //         double input = sigma.getAsDouble() * 4;
+    //         SmartDashboard.putNumber("input voltage", input);
+    //         double fS = Math.signum(input) * Preferences.getDouble("coral tuning kS", 0);
+    //         SmartDashboard.putNumber("applied fS", fS);
+    //         double fG = Math.cos(Units.rotationsToRadians(getPivotAngle())) * Preferences.getDouble("coral tuning kG", 0);
+    //         SmartDashboard.putNumber("applied fG", fG);
+    //         pivotMotor.setVoltage(input + fS + fG);
+    //     });
+    //     return run(() -> {
+    //         double setpoint = Preferences.getDouble("coral tuning setpoint", 0);
+    //         double error = setpoint - getPivotAngle();
+    //         SmartDashboard.putNumber("error", error);
+    //         double fS = Math.signum(error) * Preferences.getDouble("coral tuning kS", 0);
+    //         SmartDashboard.putNumber("applied fS", fS);
+    //         double fG = Math.cos(Units.rotationsToRadians(getPivotAngle())) * Preferences.getDouble("coral tuning kG", 0);
+    //         SmartDashboard.putNumber("applied fG", fG);
+    //         pivotClosedLoopController.setReference(setpoint, ControlType.kPosition, ClosedLoopSlot.kSlot0, fS + fG);
+    //     }).finallyDo(() -> pivotMotor.stopMotor());
+    // }
 
     /**
      * Commands the pivot motor's closed-loop controller to move
@@ -151,7 +208,7 @@ public class CoralMechanism extends SubsystemBase {
      * @param rotations the angle to move the pivot mechanism to, in rotations. 
      */
     public void setPivotSetpoint(double rotations) {
-        pivotClosedLoopController.setReference(rotations, ControlType.kPosition);
+        //pivotClosedLoopController.setReference(rotations, ControlType.kPosition);
         //no way to get the setpoint from SparkClosedLoopController.
         //fine, i'll do it myself!
         currentPivotSetpoint = rotations;
@@ -207,7 +264,11 @@ public class CoralMechanism extends SubsystemBase {
      */
     @Logged(importance = Importance.CRITICAL)
     public boolean getCoralDetected() {
-        return distanceSensorIsDetectedSignal.refresh().getValue();
+        if (Robot.isReal()) {
+            return distanceSensorIsDetectedSignal.refresh().getValue();
+        } else {
+            return false;
+        }
     }
 
     @Logged

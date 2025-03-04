@@ -4,11 +4,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CoralMechanism;
 
 /**
- * Runs the coral intake.
- * If CoralIntakeDirection == IN, cancels once coral is detected in the intake.
+ * Runs the coral intake at a set speed.
  */
 public class RunCoralIntake extends Command {
-    public static final double INTAKE_SPEED = 12; //volts
+    public static final double INTAKE_SPEED = 10; //volts
 
     private final CoralMechanism coralMechanism;
     private final CoralIntakeDirection direction;
@@ -41,10 +40,11 @@ public class RunCoralIntake extends Command {
 
     @Override
     public boolean isFinished() {
-        if (direction == CoralIntakeDirection.OUT) {
+        /*if (direction == CoralIntakeDirection.OUT) {
             return false;
         } else {
             return coralMechanism.getCoralDetected();
-        }
+        }*/
+        return false;
     }
 }
