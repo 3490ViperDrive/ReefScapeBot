@@ -31,6 +31,7 @@ public class RobotContainer {
 
   public RobotContainer() {
     drivetrain = new Drivetrain();
+    coralMechanism = new CoralMechanism();
     //these controls are temporary, todo decide omnicontrol implementation if any
     gamepad = new CommandXboxController(DRIVER_CONTROLLER_PORT);
     gamepadFilter = new GamepadFilter(gamepad, DRIVER_CONTROLLER_DEADBAND);

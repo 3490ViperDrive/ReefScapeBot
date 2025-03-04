@@ -19,7 +19,7 @@ public class MoveCoralMechanism extends Command {
     //todo find actual numbers for these
     public enum CoralMechanismPosition {
         STOWED(0.16),
-        INTAKE(0.1),
+        INTAKE(0.152),
         SCORE_L2(-0.05),
         SCORE_L3(-0.05),
         SCORE_L4(-0.138);
@@ -42,7 +42,7 @@ public class MoveCoralMechanism extends Command {
         this.setpoint = setpoint;
         this.cancelBehavior = cancelBehavior;
         super.addRequirements(coralMechanism);
-        super.setName(String.format("Move Coral Mech to %5f", setpoint));
+        super.setName(String.format("Move Coral Mech to %.3f", setpoint));
     }
 
     public MoveCoralMechanism(CoralMechanism coralMechanism,
