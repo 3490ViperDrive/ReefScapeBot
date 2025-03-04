@@ -12,7 +12,7 @@ public class Lift extends Command{
     public Lift(Climber thisSolenoid, int whatdirection){
         theSolenoid = thisSolenoid;
         whichDirection = whatdirection;
-        
+        addRequirements(theSolenoid);
     }
     
     public void execute(){
