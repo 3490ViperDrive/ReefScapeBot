@@ -49,8 +49,9 @@ public class CoralMechanism extends SubsystemBase {
     @Logged
     private boolean pivotClosedLoopModeActive;
 
-    public static final boolean INTAKE_INVERT_LEFT = false;
-    public static final boolean INTAKE_INVERT_RIGHT = true;
+    public static final boolean INTAKE_INVERT_LEFT = true;
+    public static final boolean INTAKE_INVERT_RIGHT = false;
+    public static final boolean INTAKE_INVERT_FOLLOWER = true; //right
 
     //these are guessed
     public static final Current INTAKE_CURRENT_LIMIT_FREE = Amps.of(40);
@@ -58,7 +59,7 @@ public class CoralMechanism extends SubsystemBase {
 
     public static final IdleMode INTAKE_IDLE_MODE = IdleMode.kBrake;
 
-    public static final boolean PIVOT_INVERT = false;
+    public static final boolean PIVOT_INVERT = true;
 
     //these are also guessed
     public static final Current PIVOT_CURRENT_LIMIT_FREE = Amps.of(50);
@@ -70,17 +71,15 @@ public class CoralMechanism extends SubsystemBase {
     public static class PivotClosedLoopGains {
         public static final double P = 0; //volts per rotation of error
         public static final double D = 0; //volts per rotation of error per second
-        //gravity feedforward term kG may be necessary, but cannot be implemented
+        //gravity feedforward term kG (and static ff term kS) may be necessary, but cannot be implemented
         //via rev closed loop controller config
     }
 
     
     public static final FeedbackSensor PIVOT_FEEDBACK_SENSOR = FeedbackSensor.kAbsoluteEncoder;
 
-    //TODO set zero offset such that zero angle aligns with horizontal
-    public static final Angle PIVOT_ENCODER_ZERO_OFFSET = Rotations.of(0);
+    public static final Angle PIVOT_ENCODER_ZERO_OFFSET = Rotations.of(0.4642594);
     public static final boolean PIVOT_ENCODER_ZERO_CENTERED = true;
-    //TODO ensure the pivot motor is in phase with the pivot encoder
     public static final boolean PIVOT_ENCODER_INVERT = false;
 
     public static final UpdateModeValue DISTANCE_SENSOR_UPDATE_MODE = UpdateModeValue.ShortRange100Hz;
@@ -90,7 +89,6 @@ public class CoralMechanism extends SubsystemBase {
     public static final double PIVOT_AT_SETPOINT_TOLERANCE = 0.02; //1/50th of a rotation in either direction
 
     public CoralMechanism() {
-        //TODO make sure the chosen pivot motor (brushed/brushless) is accounted for here
         pivotMotor = new SparkMax(HardwareIds.Can.CORAL_PIVOT_MOTOR, MotorType.kBrushed);
         leftIntakeMotor = new SparkMax(HardwareIds.Can.CORAL_LEFT_INTAKE_MOTOR, MotorType.kBrushless);
         rightIntakeMotor = new SparkMax(HardwareIds.Can.CORAL_RIGHT_INTAKE_MOTOR, MotorType.kBrushless);
@@ -113,8 +111,7 @@ public class CoralMechanism extends SubsystemBase {
         rightIntakeMotorConfiguration
             .apply(leftIntakeMotorConfiguration)
             .inverted(INTAKE_INVERT_RIGHT)
-            //add this boolean argument back if it spins the wrong way
-            .follow(leftIntakeMotor/*, true*/); 
+            .follow(leftIntakeMotor, INTAKE_INVERT_FOLLOWER); 
         pivotClosedLoopConfiguration
             .p(PivotClosedLoopGains.P)
             .d(PivotClosedLoopGains.D)
@@ -161,7 +158,6 @@ public class CoralMechanism extends SubsystemBase {
         pivotClosedLoopModeActive = true;
     }
 
-    //TODO confirm a positive value results in a rotation that brings the mechanism up
     /**
      * Runs the pivot motor and rotates the coral mechanism manually.
      * Driver shouldn't have to do this in an actual match.

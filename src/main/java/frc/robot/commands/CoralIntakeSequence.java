@@ -21,8 +21,7 @@ public class CoralIntakeSequence extends WrapperCommand {
                 new MoveCoralMechanism(coralMechanism,
                                        CoralMechanismPosition.INTAKE,
                                        MoveCoralCancelBehavior.CANCEL_SETPOINT_REACHED),
-                new RunCoralIntake(coralMechanism, CoralIntakeDirection.IN)
-                    .until(coralMechanism::getCoralDetected)));
+                new RunCoralIntake(coralMechanism, CoralIntakeDirection.IN)));
         this.coralMechanism = coralMechanism;
         super.setName("Coral Intake Sequence");
     }
