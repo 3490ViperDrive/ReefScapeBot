@@ -50,9 +50,26 @@ public class RobotContainer {
     SmartDashboard.putData(new ZeroYaw(drivetrain));
 
     configureBindings();
+
+    //algae mechanism = new algae mechanism
+    //coral mechanism = new coral mechanism
+    //elevator mechanism = new elevator mechanism 
   }
 
-  private void configureBindings() {}
+  private void configureBindings() {
+    //drive = left thumb stick
+    //turning = right thumb stick
+    //elevator = 4 back paddles
+    //coral intake = left trigger 
+    //coral outake = right trigger
+    //algae intake = b
+    //algae outake = a
+    //algae manual pivot = x 
+    //manual elevator = d pad (to bring it up and down)
+    //cage = y
+    //crawl mode = left bumper
+    //orientation = right bumper
+  }
 
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command configured");

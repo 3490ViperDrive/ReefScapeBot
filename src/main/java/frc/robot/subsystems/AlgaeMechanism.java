@@ -1,0 +1,147 @@
+package frc.robot.subsystems;
+
+import static edu.wpi.first.units.Units.*;
+
+import com.revrobotics.AbsoluteEncoder;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkClosedLoopController;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.AbsoluteEncoderConfig;
+import com.revrobotics.spark.config.ClosedLoopConfig;
+import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.config.SparkMaxConfig;
+
+import edu.wpi.first.units.measure.*;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import frc.robot.HardwareIds;
+
+public class AlgaeMechanism extends SubsystemBase {
+
+    SparkMax algaeMotorLeft;
+    SparkMax algaeMotorRight;
+    SparkMax algaePivotMotor;
+
+    SparkClosedLoopController algaeClosedLoopController;
+
+    AbsoluteEncoder algaePivotEncoder;
+
+    double currentAlgaePivotSetpoint;
+
+    boolean algaePivotClosedLoopModeActive;
+
+    boolean ALGAE_INVERT_LEFT = false;
+    boolean ALGAE_INVERT_RIGHT = true;
+
+    // magic numbers
+    Current ALGAE_CURRENT_LIMIT_FREE = Amps.of(40);
+    Current ALGAE_CURRENT_LIMIT_STALL = Amps.of(20);
+
+    IdleMode ALGAE_IDLE_MODE = IdleMode.kBrake;
+
+    boolean ALGAE_PIVOT_INVERT = false;
+
+    // magic numbers
+    Current ALGAE_PIVOT_CURRENT_LIMIT_FREE = Amps.of(50);
+    Current ALGAE_PIVOT_CURRENt_LIMIT_STALL = Amps.of(30);
+
+    IdleMode ALGAE_PIVOT_IDLE_MODE = IdleMode.kBrake;
+
+    // TODO tUNe
+    public static class AlgaeClosedLoopGains {
+        public static final double P = 0; // volts per rotation of error
+        public static final double D = 0; // volts per rotation of error per second
+    }
+
+    FeedbackSensor ALGAE_FEEDBACK_SENSOR = FeedbackSensor.kAbsoluteEncoder;
+
+    //TODO set zero offset such that zero angle aligns with horizontal
+    Angle ALGAE_ENCODER_ZERO_OFFSET = Rotations.of(0);
+    boolean ALGAE_ENCODER_ZERO_CENTERED = true;
+    //TODO ensure the algae motor is in phase with the pivot encoder
+    boolean ALGAE_ENCODER_INVERT = false;
+
+    double ALGAE_AT_SETPOINT_TOLERANCE = 0.02; //1/50th of a rotation in either direction
+
+     public AlgaeMechanism() {
+        algaeMotorLeft = new SparkMax(HardwareIds.Can.ALGAE_INTAKE_MOTOR_LEFT, MotorType.kBrushless);
+        algaeMotorRight = new SparkMax(HardwareIds.Can.ALGAE_INTAKE_MOTOR_RIGHT, MotorType.kBrushless);
+        algaePivotMotor = new SparkMax(HardwareIds.Can.ALGAE_PIVOT_MOTOR, MotorType.kBrushless);
+        algaePivotClosedLoopModeActive = false;
+
+        SparkMaxConfig algaeMotorLeftConfiguration = new SparkMaxConfig();
+        SparkMaxConfig alageMotorRightConfiguration = new SparkMaxConfig();
+        ClosedLoopConfig algaePivotClosedLoopConfiguration = new ClosedLoopConfig();
+        SparkMaxConfig algaePivotMotorConfiguration = new SparkMaxConfig();
+        AbsoluteEncoderConfig alagePivotEncoderConfiguration = new AbsoluteEncoderConfig();
+
+        algaeMotorLeftConfiguration.inverted(ALGAE_INVERT_LEFT)
+        .smartCurrentLimit((int) ALGAE_CURRENT_LIMIT_STALL.magnitude(),
+        (int) ALGAE_CURRENT_LIMIT_FREE.magnitude())
+        .idleMode(ALGAE_IDLE_MODE);
+
+        alageMotorRightConfiguration.apply(algaeMotorLeftConfiguration)
+        .inverted(ALGAE_INVERT_RIGHT)
+        //add this boolean argument back if it spins the wrong way
+        .follow(algaeMotorLeft/*, true */);
+
+        algaePivotClosedLoopConfiguration
+        .p(AlgaeClosedLoopGains.P)
+        .d(AlgaeClosedLoopGains.D)
+        .feedbackSensor(ALGAE_FEEDBACK_SENSOR);
+
+        alagePivotEncoderConfiguration.inverted(ALGAE_ENCODER_INVERT)
+        .zeroOffset(ALGAE_ENCODER_ZERO_OFFSET.in(Rotations))
+        .zeroCentered(ALGAE_ENCODER_ZERO_CENTERED);
+
+        algaePivotMotorConfiguration.apply(algaePivotClosedLoopConfiguration)
+        .apply(alagePivotEncoderConfiguration)
+        .inverted(ALGAE_PIVOT_INVERT)
+        .smartCurrentLimit((int) ALGAE_CURRENT_LIMIT_STALL.magnitude(),
+        (int) ALGAE_CURRENT_LIMIT_FREE.magnitude())
+        .idleMode(ALGAE_IDLE_MODE);
+
+        // SparkMaxConfigUtil throwing error "SparkMaxConfigUtil cannot be resolved Java(570425394)"
+
+        /* SparkMaxConfigUtil.configure(algaeMotorLeft, algaeMotorLeftConfiguration, "Left algae intake motor");
+        SparkMaxConfigUtil.configure(algaeMotorRight, alageMotorRightConfiguration, "Right algae intake motor");
+        SparkMaxConfigUtil.configure(algaePivotMotor, algaePivotMotorConfiguration, "Algae pivot motor"); */
+
+        algaeClosedLoopController = algaePivotMotor.getClosedLoopController();
+        algaePivotEncoder = algaePivotMotor.getAbsoluteEncoder();
+     }
+
+     public void setAlgaePivotSetpoint(double rotations) {
+
+     }
+
+     public void runAlgaePivot(double volts) {
+        algaePivotMotor.setVoltage(volts);
+        algaePivotClosedLoopModeActive = false;
+     }
+
+     public void runAlgaeIntake(double volts) {
+        algaeMotorLeft.setVoltage(volts);
+     }
+
+     public void stopAlgaeIntake() {
+        algaeMotorLeft.stopMotor();
+     }
+
+     public void stopAlgaePivot() {
+        algaePivotMotor.stopMotor();
+        algaePivotClosedLoopModeActive = false;
+     }
+
+     double getAlgaePivotAngle() {
+        return algaePivotEncoder.getPosition();
+     }
+
+     public boolean getAtAlgaeSetpoint(){
+      return Math.abs(currentAlgaePivotSetpoint - getAlgaePivotAngle()) <= ALGAE_AT_SETPOINT_TOLERANCE;
+     }
+    
+   //TODO: stop algaeMechanism using currentSpike detection
+   //TODO: Actually find the algaePivotSetpoints
+}   
