@@ -88,7 +88,7 @@ public class CoralMechanism extends SubsystemBase {
     
     public static final FeedbackSensor PIVOT_FEEDBACK_SENSOR = FeedbackSensor.kAbsoluteEncoder;
 
-    public static final Angle PIVOT_ENCODER_ZERO_OFFSET = Rotations.of(0.4642594);
+    public static final Angle PIVOT_ENCODER_ZERO_OFFSET = Rotations.of(0.40);
     public static final boolean PIVOT_ENCODER_ZERO_CENTERED = true;
     public static final boolean PIVOT_ENCODER_INVERT = false;
 

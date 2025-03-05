@@ -10,7 +10,7 @@ public class IntakeAlgae extends Command {
     AlgaeMechanism algaeMechanism;
     AlgaeIntakeDirection algaeDirection;
 
-    enum AlgaeIntakeDirection {
+    public enum AlgaeIntakeDirection {
         ALGAE_IN, ALGAE_OUT
     }
 
@@ -22,7 +22,7 @@ public class IntakeAlgae extends Command {
     }
 
     @Override
-    public void execute() {
+    public void initialize() {
         if (algaeDirection == AlgaeIntakeDirection.ALGAE_IN) {
             algaeMechanism.runAlgaeIntake(ALGAE_INTAKE_SPEED);
         } else {
@@ -30,15 +30,17 @@ public class IntakeAlgae extends Command {
         }
     }
 
+    //When algae detected = true, cancel intake and put into break mode
     @Override
-    public void end(boolean cancelled) {
+    public void end(boolean interrupted) {
         algaeMechanism.stopAlgaeIntake();
     }
 
-    //When algae detected = true, cancel intake and put into break mode
     @Override
     public boolean isFinished() {
         return false;
     }
+
+    //command to run the motor manually
 
 }

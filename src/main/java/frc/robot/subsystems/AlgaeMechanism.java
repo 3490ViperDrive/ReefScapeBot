@@ -40,16 +40,16 @@ public class AlgaeMechanism extends SubsystemBase {
     boolean ALGAE_INVERT_FOLLOWER = true;
 
     // TODO put real numbers
-    Current ALGAE_CURRENT_LIMIT_FREE = Amps.of(40);
-    Current ALGAE_CURRENT_LIMIT_STALL = Amps.of(20);
+    Current ALGAE_CURRENT_LIMIT_FREE = Amps.of(0);
+    Current ALGAE_CURRENT_LIMIT_STALL = Amps.of(0);
 
     IdleMode ALGAE_IDLE_MODE = IdleMode.kBrake;
 
     boolean ALGAE_PIVOT_INVERT = false;
 
     // TODO put real numbers
-    Current ALGAE_PIVOT_CURRENT_LIMIT_FREE = Amps.of(50);
-    Current ALGAE_PIVOT_CURRENt_LIMIT_STALL = Amps.of(30);
+    Current ALGAE_PIVOT_CURRENT_LIMIT_FREE = Amps.of(0);
+    Current ALGAE_PIVOT_CURRENt_LIMIT_STALL = Amps.of(0);
 
     IdleMode ALGAE_PIVOT_IDLE_MODE = IdleMode.kBrake;
 
@@ -61,6 +61,10 @@ public class AlgaeMechanism extends SubsystemBase {
         public static final double S = 0;
         public static final double V = 0; //could be unnecessary
     }
+
+      // TODO Put the real threshod value
+      double ALGAE_INTAKE_SPEED = 12;
+      public static final double thresholdValue = 0;
 
     FeedbackSensor ALGAE_FEEDBACK_SENSOR = FeedbackSensor.kAbsoluteEncoder;
 
@@ -121,6 +125,8 @@ public class AlgaeMechanism extends SubsystemBase {
 
      @Override
      public void periodic() {
+      checkIntakeCurrent(); 
+      
       SmartDashboard.putNumber("algae angle", getAlgaePivotAngle());
 
       double error = currentAlgaePivotSetpoint - getAlgaePivotAngle();
@@ -165,7 +171,17 @@ public class AlgaeMechanism extends SubsystemBase {
      public boolean getAtAlgaeSetpoint(){
       return Math.abs(currentAlgaePivotSetpoint - getAlgaePivotAngle()) <= ALGAE_AT_SETPOINT_TOLERANCE;
      }
-    
-   //TODO: stop algaeMechanism using currentSpike detection
+
+     public boolean checkIntakeCurrent() {
+     double currentDraw = algaeMotorLeft.getOutputCurrent();
+
+      if (currentDraw > thresholdValue) {
+         return true;
+         //stopAlgaeIntake();
+         //System.out.println("Algae detected, stopping intake");
+      } else {
+         return false;
+      }
+     }
    //TODO: Actually find the numbers
 }   

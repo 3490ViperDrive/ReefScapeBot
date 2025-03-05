@@ -48,7 +48,7 @@ public class PivotAlgae extends Command {
 
     @Override
     public void execute() {
-        algaeMechanism.setAlgaePivotSetpoint(algaeSetpoint);
+      algaeMechanism.setAlgaePivotSetpoint(algaeSetpoint);
     }
 
     @Override
@@ -58,5 +58,10 @@ public class PivotAlgae extends Command {
         } else {
             return true;
         }
+    }
+
+    @Override
+    public void end(boolean cancelled) {
+        algaeMechanism.stopAlgaePivot();
     }
 }
