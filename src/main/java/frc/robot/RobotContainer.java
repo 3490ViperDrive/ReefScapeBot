@@ -4,7 +4,9 @@
 
 package frc.robot;
 
+
 import edu.wpi.first.epilogue.Logged;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -13,31 +15,47 @@ import frc.robot.commands.DriveOpenLoop;
 import frc.robot.commands.ZeroYaw;
 import frc.robot.subsystems.*;
 import frc.robot.utils.GamepadFilter;
+import frc.robot.utils.controlProfile;
 
 @Logged
 public class RobotContainer {
 
-  //TODO move these! (buttonmapper.java)
+  SendableChooser<controlProfile> profileSelection;
   public static final int DRIVER_CONTROLLER_PORT = 0;
   public static final double DRIVER_CONTROLLER_DEADBAND = 0.1;
   
   //subsystems
   private final Drivetrain drivetrain;
   private final CoralMechanism coralMechanism;
+  private final AlgaeMechanism algaeMechanism;
+  private final Elevator elevator;
+  private final Climber climber;
+
   
   //TODO move these!
   private final CommandXboxController gamepad;
   private final GamepadFilter gamepadFilter;
 
   public RobotContainer() {
+    //Subsystems
     drivetrain = new Drivetrain();
     coralMechanism = new CoralMechanism();
-    //these controls are temporary, todo decide omnicontrol implementation if any
+    algaeMechanism = new AlgaeMechanism();
+    elevator = new Elevator();
+    climber = new Climber();
+
+    //Controllers
     gamepad = new CommandXboxController(DRIVER_CONTROLLER_PORT);
     gamepadFilter = new GamepadFilter(gamepad, DRIVER_CONTROLLER_DEADBAND);
 
-    //TODO modify drive command args such that final arg is a member var/can be modified elsewhere
-    //TODO to meet driver preference for hold/toggle
+    //Control layouts
+    profileSelection = new SendableChooser<controlProfile>();
+    for(controlProfile profile : controlProfile.values()){
+        profileSelection.addOption(profile.toString(), profile);
+    }
+    SmartDashboard.putData(profileSelection);
+
+    //Default Commands
       drivetrain.setDefaultCommand(
         new DriveOpenLoop(
           drivetrain,
@@ -46,29 +64,21 @@ public class RobotContainer {
           gamepadFilter::getTheta,
           () -> gamepad.rightBumper().getAsBoolean()));
 
-    //puts the zero yaw command as a button on the dashboard
+    //Dashboard Commands
     SmartDashboard.putData(new ZeroYaw(drivetrain));
-
+    
     configureBindings();
-
-    //algae mechanism = new algae mechanism
-    //coral mechanism = new coral mechanism
-    //elevator mechanism = new elevator mechanism 
   }
 
   private void configureBindings() {
-    //drive = left thumb stick
-    //turning = right thumb stick
-    //elevator = 4 back paddles
-    //coral intake = left trigger 
-    //coral outake = right trigger
-    //algae intake = b
-    //algae outake = a
-    //algae manual pivot = x 
-    //manual elevator = d pad (to bring it up and down)
-    //cage = y
-    //crawl mode = left bumper
-    //orientation = right bumper
+    controlProfile whomst = profileSelection.getSelected();
+    switch(whomst){
+        case STANDARD:
+            //TODO 
+            break;
+        default:
+            break;
+    }
   }
 
   public Command getAutonomousCommand() {
