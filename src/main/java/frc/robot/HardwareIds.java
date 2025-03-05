@@ -39,6 +39,7 @@ public class HardwareIds {
         public static final int CORAL_DISTANCE_SENSOR = 17; //canrange
 
         public static final int ELEVATOR_MOTOR = 21;
+        public static final int PNEUMATIC_HUB = 22;
 
     }
 }
