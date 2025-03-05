@@ -10,9 +10,9 @@ public class IntakeAlgaeSequence extends SequentialCommandGroup{
     AlgaeMechanism algaeMechanism;
     Elevator elevator;
 
-    public IntakeAlgaeSequence(Elevator elevator, AlgaeMechanism algaeMechanism) {
+    public IntakeAlgaeSequence(Elevator elevator, AlgaeMechanism algaeMechanism, Elevator.Positions positions) {
         addCommands(
-        new SetElevator(Elevator.Positions.ALGAE_L2, elevator),
+        new SetElevator(positions, elevator),
         new PivotAlgae(algaeMechanism, PivotAlgae.AlgaeMechanismPosition.GROUND, PivotAlgae.PivotAlgaeCancelBehavior.CANCEL_SETPOINT_COMPLETED),
         new IntakeAlgae(algaeMechanism, AlgaeIntakeDirection.ALGAE_IN).withTimeout(0.5)
         .until(algaeMechanism::checkIntakeCurrent),
