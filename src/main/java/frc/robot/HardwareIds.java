@@ -28,9 +28,9 @@ public class HardwareIds {
 
         public static final int IMU = 13; //gyro
 
-        public static final int ALGAE_INTAKE_MOTOR_LEFT = 88; //magic number in use
-        public static final int ALGAE_INTAKE_MOTOR_RIGHT = 77; //magic number in use
-        public static final int ALGAE_PIVOT_MOTOR = 99; //magic number in use
+        public static final int ALGAE_INTAKE_MOTOR_LEFT = 18; //magic number in use
+        public static final int ALGAE_INTAKE_MOTOR_RIGHT = 19; //magic number in use
+        public static final int ALGAE_PIVOT_MOTOR = 20; //magic number in use
         
         //absolute encoder plugged directly into sparkmax
         public static final int CORAL_LEFT_INTAKE_MOTOR = 14; //sparkmax + neo550
