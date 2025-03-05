@@ -30,9 +30,9 @@ public class IntakeAlgae extends Command {
         }
     }
 
-    //When algae detected = true, cancel intake and put into break mode
+    //When algae detected = true, cancel intake
     @Override
-    public void end(boolean interrupted) {
+    public void end(boolean cancelled) {
         algaeMechanism.stopAlgaeIntake();
     }
 
@@ -41,6 +41,6 @@ public class IntakeAlgae extends Command {
         return false;
     }
 
-    //command to run the motor manually
+    
 
 }
