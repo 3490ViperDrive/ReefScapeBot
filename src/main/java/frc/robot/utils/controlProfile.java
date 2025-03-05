@@ -1,5 +1,5 @@
 package frc.robot.utils;
 
 public enum controlProfile{
-    STANDARD
+    STANDARD, TEKKEN
 }

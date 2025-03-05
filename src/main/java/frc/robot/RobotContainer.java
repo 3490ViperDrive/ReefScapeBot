@@ -10,10 +10,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.commands.DriveOpenLoop;
-import frc.robot.commands.ZeroYaw;
+import frc.robot.commands.MoveCoralMechanism.CoralMechanismPosition;
 import frc.robot.subsystems.*;
+import frc.robot.commands.*;
 import frc.robot.utils.GamepadFilter;
 import frc.robot.utils.controlProfile;
 
@@ -53,7 +54,9 @@ public class RobotContainer {
     for(controlProfile profile : controlProfile.values()){
         profileSelection.addOption(profile.toString(), profile);
     }
+    profileSelection.setDefaultOption("Bruh", controlProfile.STANDARD);
     SmartDashboard.putData(profileSelection);
+    
 
     //Default Commands
       drivetrain.setDefaultCommand(
@@ -76,6 +79,17 @@ public class RobotContainer {
         case STANDARD:
             //TODO 
             break;
+        case TEKKEN:
+        //TODO make Triggers for l&r triggerAxes and use them for algae score commands
+        gamepad.x().onTrue(new CoralScoreSequence(coralMechanism, CoralMechanismPosition.SCORE_L1));
+        gamepad.y().onTrue(new CoralScoreSequence(coralMechanism, CoralMechanismPosition.SCORE_L2));
+        gamepad.a().onTrue(new CoralScoreSequence(coralMechanism, CoralMechanismPosition.SCORE_L3));
+        gamepad.b().onTrue(new CoralScoreSequence(coralMechanism, CoralMechanismPosition.SCORE_L4));
+        gamepad.leftBumper().onTrue(new CoralIntakeSequence(coralMechanism));
+        //gamepad.rightBumper().onTrue() NO ALGAE INTAKE SEQUENCE
+        
+        gamepad.start().onTrue(new Lift(climber, 1));
+          break;
         default:
             break;
     }
