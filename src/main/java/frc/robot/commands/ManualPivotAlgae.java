@@ -7,22 +7,23 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.AlgaeMechanism;
 
-public class ManualIntakeAlgae extends Command{
+public class ManualPivotAlgae extends Command{
     AlgaeMechanism algaeMechanism;
+    double voltage;
 
-    public ManualIntakeAlgae(AlgaeMechanism algaeMechanism) {
+    public ManualPivotAlgae(AlgaeMechanism algaeMechanism, double voltage) {
         this.algaeMechanism = algaeMechanism;
+        this.voltage = voltage;
         addRequirements(algaeMechanism);
     }
 
     @Override
-    public void initialize(){
-        algaeMechanism.runAlgaeIntake(12);
+    public void initialize() {
+        algaeMechanism.runAlgaePivot(voltage);
     }
 
     @Override
     public void end(boolean interrupted) {
-        algaeMechanism.stopAlgaeIntake();
+        algaeMechanism.stopAlgaePivot();
     }
-    
 }

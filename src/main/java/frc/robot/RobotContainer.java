@@ -20,6 +20,9 @@ import frc.robot.commands.CoralIntakeSequence;
 import frc.robot.commands.CoralScoreSequence;
 import frc.robot.commands.DriveOpenLoop;
 import frc.robot.commands.IntakeAlgaeSequence;
+import frc.robot.commands.ManualIntakeAlgae;
+import frc.robot.commands.ManualOuttakeAlgae;
+import frc.robot.commands.ManualPivotAlgae;
 import frc.robot.commands.ZeroYaw;
 import frc.robot.commands.MoveCoralMechanism.CoralMechanismPosition;
 import frc.robot.commands.SetElevator.SetElevatorCancelBehavior;
@@ -43,8 +46,8 @@ public class RobotContainer {
   private final Drivetrain drivetrain;
   @Logged
   private final CoralMechanism coralMechanism;
-  //@Logged
-  //private final AlgaeMechanism algaeMechanism;
+  @Logged
+  private final AlgaeMechanism algaeMechanism;
   @Logged
   private final Elevator elevator;
   @Logged
@@ -58,7 +61,7 @@ public class RobotContainer {
     //Subsystems
     drivetrain = new Drivetrain();
     coralMechanism = new CoralMechanism();
-    //algaeMechanism = new AlgaeMechanism();
+    algaeMechanism = new AlgaeMechanism();
     elevator = new Elevator();
     climber = new Climber();
 
@@ -110,6 +113,12 @@ public class RobotContainer {
     gamepad.start().onTrue(sillyElevatorCmd(LogicalElevatorPosition.L3, ElevatorPosition.CORAL_L3));
     gamepad.leftStick().onTrue(sillyElevatorCmd(LogicalElevatorPosition.L1, ElevatorPosition.CORAL_L1));
     gamepad.rightStick().onTrue(sillyElevatorCmd(LogicalElevatorPosition.L2, ElevatorPosition.CORAL_L2));
+
+    // Not permanent stuff for algae mech testing
+    gamepad.a().whileTrue(new ManualIntakeAlgae(algaeMechanism));
+    gamepad.b().whileTrue(new ManualOuttakeAlgae(algaeMechanism));
+    gamepad.povLeft().whileTrue(new ManualPivotAlgae(algaeMechanism, -5));
+    gamepad.povLeft().whileTrue(new ManualPivotAlgae(algaeMechanism, 5));
   }
 
   private Command sillyElevatorCmd(LogicalElevatorPosition logicalPosition, ElevatorPosition realPosition) {
