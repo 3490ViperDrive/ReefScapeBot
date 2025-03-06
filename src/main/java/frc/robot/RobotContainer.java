@@ -76,9 +76,9 @@ public class RobotContainer {
       drivetrain.setDefaultCommand(
         new DriveOpenLoop(
           drivetrain,
-          gamepadFilter::getX,
-          gamepadFilter::getY,
-          gamepadFilter::getTheta,
+          () -> gamepadFilter.getX() * ((gamepad.leftBumper().getAsBoolean()) ? 0.4 : 1), //TODO WET!!!!
+          () -> gamepadFilter.getY() * ((gamepad.leftBumper().getAsBoolean()) ? 0.4 : 1),
+          () -> gamepadFilter.getTheta() * ((gamepad.leftBumper().getAsBoolean()) ? 0.4 : 1),
           () -> gamepad.rightBumper().getAsBoolean()));
 
     //Dashboard Commands

@@ -33,7 +33,7 @@ public class SetElevator extends Command {
     @Override
     public void initialize(){
         //TODO add back once elevator is tuned
-        //elevator.setPosition(position.get().getPosition());
+        elevator.setPosition(position.get().getPosition());
     }
 
     @Override

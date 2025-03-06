@@ -20,8 +20,8 @@ public class MoveCoralMechanism extends Command {
 
     //todo find actual numbers for these
     public enum CoralMechanismPosition {
-        STOWED(0.16),
-        INTAKE(0.125),
+        STOWED(0.05),
+        INTAKE(0.08),
         SCORE_L1(-0.1),
         SCORE_L2(-0.05),
         SCORE_L3(-0.05),

@@ -26,7 +26,7 @@ public class Elevator extends SubsystemBase {
     public static final double GEAR_RATIO = 25; //25:1
 
     //sensor to mechanism ratio; rotor rotations -> inches
-    public static final double CONVERSION_FACTOR = (Math.PI * SPOOL_DIAMETER) / GEAR_RATIO;
+    public static final double CONVERSION_FACTOR = 1 / ((Math.PI * SPOOL_DIAMETER) / GEAR_RATIO);
 
     public static final InvertedValue INVERT = InvertedValue.Clockwise_Positive; //TODO double-check
     public static final NeutralModeValue IDLE_MODE = NeutralModeValue.Brake;
@@ -43,21 +43,21 @@ public class Elevator extends SubsystemBase {
 
     public static class ClosedLoopGains {
         //feedback
-        public static final double P = 0;
+        public static final double P = 6;
         //gravity feedforward (static)
-        public static final double G = 0;
+        public static final double G = 0.16;
     }
 
     public enum ElevatorPosition {
-        // TODO: set values 
+        // TODO: find better values
         DEFAULT(0.0),
-        CORAL_INTAKE(0.0),
-        ALGAE_L2(0.0),
-        ALGAE_L3(0.0),
+        CORAL_INTAKE(0),
+        ALGAE_L2(6),
+        ALGAE_L3(21),
         CORAL_L1(0.0),
-        CORAL_L2(0.0),
-        CORAL_L3(0.0),
-        CORAL_L4(0.0);
+        CORAL_L2(0),
+        CORAL_L3(18),
+        CORAL_L4(44);
 
         double position;
 
