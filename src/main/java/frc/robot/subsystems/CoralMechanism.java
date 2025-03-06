@@ -78,10 +78,10 @@ public class CoralMechanism extends SubsystemBase {
 
     //TODO tune
     public static class PivotClosedLoopGains {
-        public static final double P = 64; //volts per rotation of error
+        public static final double P = 55; //volts per rotation of error
         public static final double D = 0; //volts per rotation of error per second
-        public static final double G = 2;
-        public static final double S = 1;
+        public static final double G = 1.5;
+        public static final double S = 0.5;
     }
 
     
