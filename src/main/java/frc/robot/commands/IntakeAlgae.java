@@ -10,7 +10,7 @@ public class IntakeAlgae extends Command {
     AlgaeMechanism algaeMechanism;
     AlgaeIntakeDirection algaeDirection;
 
-    enum AlgaeIntakeDirection {
+    public enum AlgaeIntakeDirection {
         ALGAE_IN, ALGAE_OUT
     }
 

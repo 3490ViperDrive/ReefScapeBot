@@ -12,9 +12,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.MoveCoralMechanism.CoralMechanismPosition;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
+import frc.robot.commands.IntakeAlgae.AlgaeIntakeDirection;
 import frc.robot.utils.GamepadFilter;
 import frc.robot.utils.controlProfile;
 
@@ -30,7 +32,7 @@ public class RobotContainer {
   private final CoralMechanism coralMechanism;
   private final AlgaeMechanism algaeMechanism;
   private final Elevator elevator;
-  private final Climber climber;
+  private final Climba climber;
 
   
   //TODO move these!
@@ -43,7 +45,7 @@ public class RobotContainer {
     coralMechanism = new CoralMechanism();
     algaeMechanism = new AlgaeMechanism();
     elevator = new Elevator();
-    climber = new Climber();
+    climber = new Climba();
 
     //Controllers
     gamepad = new CommandXboxController(DRIVER_CONTROLLER_PORT);
@@ -80,7 +82,8 @@ public class RobotContainer {
             //TODO 
             break;
         case TEKKEN:
-        //TODO make Triggers for l&r triggerAxes and use them for algae score commands
+        new Trigger(()-> gamepad.getLeftTriggerAxis() >= 0.5).onTrue(new IntakeAlgae(algaeMechanism, AlgaeIntakeDirection.ALGAE_IN));
+        
         gamepad.x().onTrue(new CoralScoreSequence(coralMechanism, CoralMechanismPosition.SCORE_L1));
         gamepad.y().onTrue(new CoralScoreSequence(coralMechanism, CoralMechanismPosition.SCORE_L2));
         gamepad.a().onTrue(new CoralScoreSequence(coralMechanism, CoralMechanismPosition.SCORE_L3));

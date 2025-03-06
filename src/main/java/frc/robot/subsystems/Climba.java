@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Climber extends SubsystemBase {
+public class Climba extends SubsystemBase {
 
     DoubleSolenoid theSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 0, 0);
 
