@@ -78,11 +78,10 @@ public class CoralMechanism extends SubsystemBase {
 
     //TODO tune
     public static class PivotClosedLoopGains {
-        public static final double P = 40; //volts per rotation of error
+        public static final double P = 55; //volts per rotation of error
         public static final double D = 0; //volts per rotation of error per second
-        public static final double G = 2;
-        public static final double S = 1.5;
-        public static final double V = -0.5; //this one might be unnecessary
+        public static final double G = 1.5;
+        public static final double S = 0.5;
     }
 
     
@@ -165,8 +164,7 @@ public class CoralMechanism extends SubsystemBase {
 
         //closed loop controls
         double error = currentPivotSetpoint - getPivotAngle();
-        double appliedP = error * PivotClosedLoopGains.P;
-        double fV = pivotEncoder.getVelocity() * PivotClosedLoopGains.V; 
+        double appliedP = error * PivotClosedLoopGains.P; 
         double fS = Math.signum(error) * PivotClosedLoopGains.S;
         double fG = Math.cos(Units.rotationsToRadians(getPivotAngle())) * PivotClosedLoopGains.G;
         //TODO (re)move
@@ -174,9 +172,8 @@ public class CoralMechanism extends SubsystemBase {
         SmartDashboard.putNumber("appliedP", appliedP);
         SmartDashboard.putNumber("applied fS", fS);
         SmartDashboard.putNumber("applied fG", fG);
-        SmartDashboard.putNumber("applied fV", fV);
         if (pivotClosedLoopModeActive) {
-            pivotMotor.setVoltage(MathUtil.clamp(MathUtil.clamp(appliedP, -4, 4) + fS + fG + MathUtil.clamp(fV, -1, 1), -12, 12));
+            pivotMotor.setVoltage(MathUtil.clamp(MathUtil.clamp(appliedP, -4, 4) + fS + fG, -12, 12));
         }
     }
 
