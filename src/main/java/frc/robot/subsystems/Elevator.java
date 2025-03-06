@@ -55,7 +55,7 @@ public class Elevator extends SubsystemBase {
         ALGAE_L2(6),
         ALGAE_L3(21),
         CORAL_L1(0.0),
-        CORAL_L2(0),
+        CORAL_L2(3),
         CORAL_L3(18),
         CORAL_L4(44);
 

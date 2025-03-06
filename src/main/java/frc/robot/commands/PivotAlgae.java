@@ -13,10 +13,12 @@ public class PivotAlgae extends Command {
         CANCEL, CANCEL_SETPOINT_COMPLETED
     }
 
-    // use real numbers if interested
     enum AlgaeMechanismPosition {
+        // Stowed
         INITIAL(0.245),
-        GROUND(0),
+        // Ground intake
+        GROUND(1),
+        // Pick up from reef and score processor (should be the same angle)
         HOLD_SCORE(0);
 
         double algaeAngle;

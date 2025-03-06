@@ -41,6 +41,4 @@ public class IntakeAlgae extends Command {
         return false;
     }
 
-    
-
 }

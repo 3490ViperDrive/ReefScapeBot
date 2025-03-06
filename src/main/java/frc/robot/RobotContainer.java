@@ -106,10 +106,10 @@ public class RobotContainer {
     gamepad.povDown().onTrue(new InstantCommand(() -> climber.triggerSolenoid(1)));
     // gamepad.povLeft().onTrue(new InstantCommand(() -> climber.triggerSolenoid(2))); //default
 
-    gamepad.back().onTrue(sillyElevatorCmd(LogicalElevatorPosition.L1, ElevatorPosition.CORAL_L1));
-    gamepad.start().onTrue(sillyElevatorCmd(LogicalElevatorPosition.L4, ElevatorPosition.CORAL_L4));
-    gamepad.leftStick().onTrue(sillyElevatorCmd(LogicalElevatorPosition.L2, ElevatorPosition.CORAL_L2));
-    gamepad.rightStick().onTrue(sillyElevatorCmd(LogicalElevatorPosition.L3, ElevatorPosition.CORAL_L3));
+    gamepad.back().onTrue(sillyElevatorCmd(LogicalElevatorPosition.L4, ElevatorPosition.CORAL_L4));
+    gamepad.start().onTrue(sillyElevatorCmd(LogicalElevatorPosition.L3, ElevatorPosition.CORAL_L3));
+    gamepad.leftStick().onTrue(sillyElevatorCmd(LogicalElevatorPosition.L1, ElevatorPosition.CORAL_L1));
+    gamepad.rightStick().onTrue(sillyElevatorCmd(LogicalElevatorPosition.L2, ElevatorPosition.CORAL_L2));
   }
 
   private Command sillyElevatorCmd(LogicalElevatorPosition logicalPosition, ElevatorPosition realPosition) {
