@@ -38,5 +38,8 @@ public class HardwareIds {
         public static final int CORAL_PIVOT_MOTOR = 16; //sparkmax + snowblower motor aka windshield wiper motor
         public static final int CORAL_DISTANCE_SENSOR = 17; //canrange
 
+        public static final int ELEVATOR_MOTOR = 21;
+        public static final int PNEUMATIC_HUB = 22;
+
     }
 }

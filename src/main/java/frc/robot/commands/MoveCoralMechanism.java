@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CoralMechanism;
 
@@ -8,7 +10,7 @@ import frc.robot.subsystems.CoralMechanism;
  */
 public class MoveCoralMechanism extends Command {
     private final CoralMechanism coralMechanism;
-    private final double setpoint;
+    private final Supplier<CoralMechanismPosition> setpointSup;
     private final MoveCoralCancelBehavior cancelBehavior;
 
     public enum MoveCoralCancelBehavior {
@@ -18,8 +20,9 @@ public class MoveCoralMechanism extends Command {
 
     //todo find actual numbers for these
     public enum CoralMechanismPosition {
-        STOWED(0.16),
-        INTAKE(0.152),
+        STOWED(0.05),
+        INTAKE(0.08),
+        SCORE_L1(-0.1),
         SCORE_L2(-0.05),
         SCORE_L3(-0.05),
         SCORE_L4(-0.138);
@@ -36,25 +39,25 @@ public class MoveCoralMechanism extends Command {
     }
 
     public MoveCoralMechanism(CoralMechanism coralMechanism,
-                              double setpoint,
+                              Supplier<CoralMechanismPosition> setpointSup,
                               MoveCoralCancelBehavior cancelBehavior) {
         this.coralMechanism = coralMechanism;
-        this.setpoint = setpoint;
+        this.setpointSup = setpointSup;
         this.cancelBehavior = cancelBehavior;
         super.addRequirements(coralMechanism);
-        super.setName(String.format("Move Coral Mech to %.3f", setpoint));
+        super.setName(String.format("Move Coral Mech to somewhere idk"));
     }
 
     public MoveCoralMechanism(CoralMechanism coralMechanism,
                               CoralMechanismPosition setpoint,
                               MoveCoralCancelBehavior cancelBehavior) {
-        this(coralMechanism, setpoint.getAngle(), cancelBehavior);
+        this(coralMechanism, () -> setpoint, cancelBehavior);
         super.setName("Move Coral Mech to " + setpoint);
     }
 
     @Override
     public void initialize() {
-        coralMechanism.setPivotSetpoint(setpoint);
+        coralMechanism.setPivotSetpoint(setpointSup.get().getAngle());
     }
 
     @Override

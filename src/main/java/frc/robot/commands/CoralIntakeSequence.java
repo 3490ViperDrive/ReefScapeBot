@@ -1,12 +1,19 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WrapperCommand;
 import frc.robot.commands.MoveCoralMechanism.CoralMechanismPosition;
 import frc.robot.commands.MoveCoralMechanism.MoveCoralCancelBehavior;
 import frc.robot.commands.RunCoralIntake.CoralIntakeDirection;
+import frc.robot.commands.SetElevator.SetElevatorCancelBehavior;
 import frc.robot.subsystems.CoralMechanism;
+import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Elevator.ElevatorPosition;
+import frc.robot.subsystems.Elevator.LogicalElevatorPosition;
 
 /**
  * Moves the coral mechanism to the intake position, and runs the intake to suck coral in.
@@ -19,12 +26,17 @@ public class CoralIntakeSequence extends WrapperCommand {
 
     private final CoralMechanism coralMechanism;
 
-    public CoralIntakeSequence(CoralMechanism coralMechanism) {
+    public CoralIntakeSequence(CoralMechanism coralMechanism, Elevator elevator) {
         super(
             new SequentialCommandGroup(
-                new MoveCoralMechanism(coralMechanism,
-                                       CoralMechanismPosition.INTAKE,
-                                       MoveCoralCancelBehavior.CANCEL_SETPOINT_REACHED),
+                new ParallelCommandGroup(
+                    new ConditionalCommand(
+                        new SetElevator(elevator, ElevatorPosition.CORAL_INTAKE, SetElevatorCancelBehavior.CANCEL_SETPOINT_REACHED),
+                        new InstantCommand(),
+                        () -> elevator.getLogicalElevatorPosition() == LogicalElevatorPosition.L1),
+                    new MoveCoralMechanism(coralMechanism,
+                                           CoralMechanismPosition.INTAKE,
+                                           MoveCoralCancelBehavior.CANCEL_SETPOINT_REACHED)),
                 new RunCoralIntake(coralMechanism, CoralIntakeDirection.IN)
                     .raceWith(new SequentialCommandGroup(Commands.waitUntil(() -> coralMechanism.getCoralDetected()),
                                                          Commands.waitSeconds(CORAL_DETECTED_DELAY)))));

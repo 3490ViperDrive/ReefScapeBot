@@ -7,7 +7,7 @@ import frc.robot.subsystems.Elevator;
 
 public class IntakeAlgaeSequence extends SequentialCommandGroup{
 
-     AlgaeMechanism algaeMechanism;
+     /* AlgaeMechanism algaeMechanism;
     Elevator elevator;
 
     public IntakeAlgaeSequence(Elevator elevator, AlgaeMechanism algaeMechanism) {
@@ -21,6 +21,6 @@ public class IntakeAlgaeSequence extends SequentialCommandGroup{
         
         this.algaeMechanism = algaeMechanism;
         this.elevator = elevator;
-    } 
+    } */ 
     
 }
