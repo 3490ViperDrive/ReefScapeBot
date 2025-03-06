@@ -32,11 +32,6 @@ public class Elevator extends SubsystemBase{
         }
     }
 
-    public Elevator(){
-        this.setDefaultCommand(null);
-
-    }
-
     public void setElevator(double rawPosition){
         // TODO: do something to the position
         motorController.setControl(new PositionVoltage(rawPosition));

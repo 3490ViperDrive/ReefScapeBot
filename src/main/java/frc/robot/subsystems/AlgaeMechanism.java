@@ -12,6 +12,7 @@ import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.*;
@@ -23,16 +24,21 @@ import frc.robot.utils.SparkMaxConfigUtil;
 
 public class AlgaeMechanism extends SubsystemBase {
 
+   @Logged
     SparkMax algaeMotorLeft;
+    @Logged
     SparkMax algaeMotorRight;
+    @Logged
     SparkMax algaePivotMotor;
 
     SparkClosedLoopController algaeClosedLoopController;
 
     AbsoluteEncoder algaePivotEncoder;
 
+    @Logged
     double currentAlgaePivotSetpoint;
 
+    @Logged
     boolean algaePivotClosedLoopModeActive;
 
     boolean ALGAE_INVERT_LEFT = false;
@@ -43,7 +49,7 @@ public class AlgaeMechanism extends SubsystemBase {
     Current ALGAE_CURRENT_LIMIT_FREE = Amps.of(0);
     Current ALGAE_CURRENT_LIMIT_STALL = Amps.of(0);
 
-    IdleMode ALGAE_IDLE_MODE = IdleMode.kBrake;
+    IdleMode ALGAE_IDLE_MODE = IdleMode.kCoast;
 
     boolean ALGAE_PIVOT_INVERT = false;
 
@@ -55,11 +61,10 @@ public class AlgaeMechanism extends SubsystemBase {
 
     // TODO put real numbers
     public static class AlgaeClosedLoopGains {
-        public static final double P = 0; // volts per rotation of error
+        public static final double P = 64; // volts per rotation of error
         public static final double D = 0; // volts per rotation of error per second
-        public static final double G = 0;
+        public static final double G = 0.175;
         public static final double S = 0;
-        public static final double V = 0; //could be unnecessary
     }
 
       // TODO Put the real threshod value
@@ -69,7 +74,7 @@ public class AlgaeMechanism extends SubsystemBase {
     FeedbackSensor ALGAE_FEEDBACK_SENSOR = FeedbackSensor.kAbsoluteEncoder;
 
     //TODO set zero offset such that zero angle aligns with horizontal
-    Angle ALGAE_ENCODER_ZERO_OFFSET = Rotations.of(0);
+    Angle ALGAE_ENCODER_ZERO_OFFSET = Rotations.of(0.577);
     boolean ALGAE_ENCODER_ZERO_CENTERED = true;
     //TODO ensure the algae motor is in phase with the pivot encoder
     boolean ALGAE_ENCODER_INVERT = false;
@@ -81,7 +86,7 @@ public class AlgaeMechanism extends SubsystemBase {
         algaeMotorRight = new SparkMax(HardwareIds.Can.ALGAE_INTAKE_MOTOR_RIGHT, MotorType.kBrushless);
         algaePivotMotor = new SparkMax(HardwareIds.Can.ALGAE_PIVOT_MOTOR, MotorType.kBrushless);
         currentAlgaePivotSetpoint = 0;
-        algaePivotClosedLoopModeActive = false;
+        algaePivotClosedLoopModeActive = true;
 
         SparkMaxConfig algaeMotorLeftConfiguration = new SparkMaxConfig();
         SparkMaxConfig alageMotorRightConfiguration = new SparkMaxConfig();
@@ -131,14 +136,18 @@ public class AlgaeMechanism extends SubsystemBase {
 
       double error = currentAlgaePivotSetpoint - getAlgaePivotAngle();
       double appliedP = error * AlgaeClosedLoopGains.P;
-      double fV = algaePivotEncoder.getVelocity()*AlgaeClosedLoopGains.V;
       double fS = Math.signum(error) * AlgaeClosedLoopGains.S;
       double fG = Math.cos(Units.rotationsToRadians(getAlgaePivotAngle())) * AlgaeClosedLoopGains.G;
 
+        SmartDashboard.putNumber("error", error);
+        SmartDashboard.putNumber("appliedP", appliedP);
+        SmartDashboard.putNumber("applied fS", fS);
+        SmartDashboard.putNumber("applied fG", fG);
+
       // TODO put real numbers
-      if (algaePivotClosedLoopModeActive) {
-         algaePivotMotor.setVoltage(MathUtil.clamp(MathUtil.clamp(appliedP, 0, 0) + fS + fG + MathUtil.clamp(fV, 0, 0), 0, 0));
-      }
+      // if (algaePivotClosedLoopModeActive) {
+         algaePivotMotor.setVoltage(MathUtil.clamp(MathUtil.clamp(appliedP, -12, 12) + fS + fG , -12, 12));
+      // }
      }
 
      public void setAlgaePivotSetpoint(double rotations) {
@@ -168,6 +177,7 @@ public class AlgaeMechanism extends SubsystemBase {
         return algaePivotEncoder.getPosition();
      }
 
+     @Logged
      public boolean getAtAlgaeSetpoint(){
       return Math.abs(currentAlgaePivotSetpoint - getAlgaePivotAngle()) <= ALGAE_AT_SETPOINT_TOLERANCE;
      }

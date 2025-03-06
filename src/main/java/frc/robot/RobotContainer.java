@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.CoralIntakeSequence;
 import frc.robot.commands.CoralScoreSequence;
 import frc.robot.commands.DriveOpenLoop;
+import frc.robot.commands.IntakeAlgaeSequence;
 import frc.robot.commands.ZeroYaw;
 import frc.robot.commands.MoveCoralMechanism.CoralMechanismPosition;
 import frc.robot.subsystems.*;
@@ -28,6 +29,7 @@ public class RobotContainer {
   private final Drivetrain drivetrain;
   private final CoralMechanism coralMechanism;
   private final AlgaeMechanism algaeMechanism;
+  private final Elevator elevator;
   
   //TODO move these!
   private final CommandXboxController gamepad;
@@ -37,6 +39,7 @@ public class RobotContainer {
     drivetrain = new Drivetrain();
     coralMechanism = new CoralMechanism();
     algaeMechanism = new AlgaeMechanism();
+    elevator = new Elevator();
     //these controls are temporary, todo decide omnicontrol implementation if any
     gamepad = new CommandXboxController(DRIVER_CONTROLLER_PORT);
     gamepadFilter = new GamepadFilter(gamepad, DRIVER_CONTROLLER_DEADBAND);
@@ -60,6 +63,8 @@ public class RobotContainer {
   private void configureBindings() {
     gamepad.leftTrigger().whileTrue(new CoralIntakeSequence(coralMechanism));
     gamepad.rightTrigger().whileTrue(new CoralScoreSequence(coralMechanism, CoralMechanismPosition.SCORE_L2));
+
+    //gamepad.a().onTrue(new IntakeAlgaeSequence(elevator, algaeMechanism));
   }
 
   public Command getAutonomousCommand() {

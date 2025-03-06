@@ -7,12 +7,12 @@ import frc.robot.subsystems.Elevator;
 
 public class IntakeAlgaeSequence extends SequentialCommandGroup{
 
-    AlgaeMechanism algaeMechanism;
+     AlgaeMechanism algaeMechanism;
     Elevator elevator;
 
-    public IntakeAlgaeSequence(Elevator elevator, AlgaeMechanism algaeMechanism, Elevator.Positions positions) {
+    public IntakeAlgaeSequence(Elevator elevator, AlgaeMechanism algaeMechanism) {
         addCommands(
-        new SetElevator(positions, elevator),
+        new SetElevator(Elevator.Positions.ALGAE_L2, elevator),
         new PivotAlgae(algaeMechanism, PivotAlgae.AlgaeMechanismPosition.GROUND, PivotAlgae.PivotAlgaeCancelBehavior.CANCEL_SETPOINT_COMPLETED),
         new IntakeAlgae(algaeMechanism, AlgaeIntakeDirection.ALGAE_IN).withTimeout(0.5)
         .until(algaeMechanism::checkIntakeCurrent),
@@ -21,6 +21,6 @@ public class IntakeAlgaeSequence extends SequentialCommandGroup{
         
         this.algaeMechanism = algaeMechanism;
         this.elevator = elevator;
-    }
+    } 
     
 }

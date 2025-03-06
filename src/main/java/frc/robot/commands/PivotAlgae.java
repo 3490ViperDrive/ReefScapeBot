@@ -15,7 +15,7 @@ public class PivotAlgae extends Command {
 
     // use real numbers if interested
     enum AlgaeMechanismPosition {
-        INITIAL(0),
+        INITIAL(0.245),
         GROUND(0),
         HOLD_SCORE(0);
 
