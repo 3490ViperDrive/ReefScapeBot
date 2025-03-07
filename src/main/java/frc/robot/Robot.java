@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.epilogue.Epilogue;
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.epilogue.logging.FileBackend;
@@ -63,6 +64,10 @@ public class Robot extends TimedRobot {
     DriverStation.startDataLog(DataLogManager.getLog());
     //logging fr
     SmartDashboard.putData(CommandScheduler.getInstance());
+
+    //one of these should work
+    CameraServer.startAutomaticCapture(0);
+    //CameraServer.startAutomaticCapture(1);
   }
 
   @Override

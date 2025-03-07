@@ -66,7 +66,7 @@ public class CoralMechanism extends SubsystemBase {
     public static final Current INTAKE_CURRENT_LIMIT_FREE = Amps.of(40);
     public static final Current INTAKE_CURRENT_LIMIT_STALL = Amps.of(20);
 
-    public static final IdleMode INTAKE_IDLE_MODE = IdleMode.kCoast;
+    public static final IdleMode INTAKE_IDLE_MODE = IdleMode.kBrake;
 
     public static final boolean PIVOT_INVERT = true;
 
@@ -74,7 +74,7 @@ public class CoralMechanism extends SubsystemBase {
     public static final Current PIVOT_CURRENT_LIMIT_FREE = Amps.of(50);
     public static final Current PIVOT_CURRENT_LIMIT_STALL = Amps.of(30);
 
-    public static final IdleMode PIVOT_IDLE_MODE = IdleMode.kCoast;
+    public static final IdleMode PIVOT_IDLE_MODE = IdleMode.kBrake;
 
     //TODO tune
     public static class PivotClosedLoopGains {
@@ -87,7 +87,7 @@ public class CoralMechanism extends SubsystemBase {
     
     public static final FeedbackSensor PIVOT_FEEDBACK_SENSOR = FeedbackSensor.kAbsoluteEncoder;
 
-    public static final Angle PIVOT_ENCODER_ZERO_OFFSET = Rotations.of(0.40);
+    public static final Angle PIVOT_ENCODER_ZERO_OFFSET = Rotations.of(0.27);
     public static final boolean PIVOT_ENCODER_ZERO_CENTERED = true;
     public static final boolean PIVOT_ENCODER_INVERT = false;
 
