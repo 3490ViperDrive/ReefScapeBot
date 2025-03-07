@@ -10,6 +10,7 @@ import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.epilogue.logging.FileBackend;
 import edu.wpi.first.epilogue.logging.NTEpilogueBackend;
 import edu.wpi.first.epilogue.logging.errors.ErrorHandler;
+import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -84,14 +85,14 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledExit() {}
 
-  @Override
-  public void autonomousInit() {
-    autonomousCommand = robotContainer.getAutonomousCommand();
+  // @Override
+  // public void autonomousInit() {
+  //   autonomousCommand = robotContainer.getAutonomousCommand();
 
-    if (autonomousCommand != null) {
-      autonomousCommand.schedule();
-    }
-  }
+  //   if (autonomousCommand != null) {
+  //     autonomousCommand.schedule();
+  //   }
+  // }
 
   @Override
   public void autonomousPeriodic() {}

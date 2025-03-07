@@ -28,7 +28,6 @@ import frc.robot.commands.ManualOuttakeAlgae;
 import frc.robot.commands.MoveCoralMechanism;
 import frc.robot.commands.RunCoralIntake;
 import frc.robot.commands.ZeroYaw;
-import frc.robot.commands.bruh;
 import frc.robot.commands.MoveCoralMechanism.CoralMechanismPosition;
 import frc.robot.commands.MoveCoralMechanism.MoveCoralCancelBehavior;
 import frc.robot.commands.RunCoralIntake.CoralIntakeDirection;
@@ -165,9 +164,5 @@ public class RobotContainer {
       ),
       new PrintCommand("Elevator set to " + logicalPosition)
     );
-  }
-
-  public Command getAutonomousCommand() {
-    return new bruh(drivetrain);
   }
 }
