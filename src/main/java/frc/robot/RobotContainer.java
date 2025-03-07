@@ -56,8 +56,8 @@ public class RobotContainer {
   private final Drivetrain drivetrain;
   @Logged
   private final CoralMechanism coralMechanism;
-  @Logged
-  private final AlgaeMechanism algaeMechanism;
+  // @Logged
+  // private final AlgaeMechanism algaeMechanism;
   @Logged
   private final Elevator elevator;
   @Logged
@@ -72,7 +72,7 @@ public class RobotContainer {
     //Subsystems
     drivetrain = new Drivetrain();
     coralMechanism = new CoralMechanism();
-    algaeMechanism = new AlgaeMechanism();
+    //algaeMechanism = new AlgaeMechanism();
     elevator = new Elevator();
     climber = new Climber();
 
@@ -97,12 +97,12 @@ public class RobotContainer {
           () -> gamepadFilter.getTheta() * ((driverGamepad.leftBumper().getAsBoolean()) ? 0.4 : 1),
           () -> driverGamepad.rightBumper().getAsBoolean()));
 
-      algaeMechanism.setDefaultCommand(
-        new RunCommand(() -> {
-          //ugly!
-          algaeMechanism.runAlgaePivot(-InputFilteringUtil.squareInput(InputFilteringUtil.applyDeadbandSpecial(operatorGamepad.getLeftY(), CONTROLLER_DEADBAND)) * 12);
-        }, algaeMechanism) //requiring AlgaeMechanism intentionally omitted
-      );
+      // algaeMechanism.setDefaultCommand(
+      //   new RunCommand(() -> {
+      //     //ugly!
+      //     algaeMechanism.runAlgaePivot(-InputFilteringUtil.squareInput(InputFilteringUtil.applyDeadbandSpecial(operatorGamepad.getLeftY(), CONTROLLER_DEADBAND)) * 12);
+      //   }, algaeMechanism) //requiring AlgaeMechanism intentionally omitted
+      // );
 
     //Dashboard Commands
     SmartDashboard.putData(new ZeroYaw(drivetrain));
@@ -146,8 +146,8 @@ public class RobotContainer {
     //operatorGamepad.rightTrigger().whileTrue(new ManualOuttakeAlgae(algaeMechanism));
 
     //sidestepping potentially non-functional commands
-    operatorGamepad.leftTrigger().whileTrue(new StartEndCommand(() -> algaeMechanism.runAlgaeIntake(12), () -> algaeMechanism.stopAlgaeIntake()));
-    operatorGamepad.rightTrigger().whileTrue(new StartEndCommand(() -> algaeMechanism.runAlgaeIntake(-12), () -> algaeMechanism.stopAlgaeIntake()));
+    // operatorGamepad.leftTrigger().whileTrue(new StartEndCommand(() -> algaeMechanism.runAlgaeIntake(12), () -> algaeMechanism.stopAlgaeIntake()));
+    // operatorGamepad.rightTrigger().whileTrue(new StartEndCommand(() -> algaeMechanism.runAlgaeIntake(-12), () -> algaeMechanism.stopAlgaeIntake()));
   
   }
 
