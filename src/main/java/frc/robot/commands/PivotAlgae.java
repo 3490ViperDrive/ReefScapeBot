@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.AlgaeMechanism;
+import frc.robot.Enums.AlgaeMechanismPosition;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -14,21 +15,7 @@ public class PivotAlgae extends Command {
     }
 
     // use real numbers if interested
-    enum AlgaeMechanismPosition {
-        INITIAL(0),
-        GROUND(0),
-        HOLD_SCORE(0);
 
-        double algaeAngle;
-
-        AlgaeMechanismPosition(double algaeAngle) {
-            this.algaeAngle = algaeAngle;
-        }
-
-        double getAlgaeAngle() {
-            return algaeAngle;
-        }
-    }
 
     public PivotAlgae(AlgaeMechanism algaeMechanism, double algaeSetpoint,
     PivotAlgaeCancelBehavior algaeCancelBehavior) {

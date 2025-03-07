@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CoralMechanism;
+import frc.robot.Enums.CoralIntakeDirection;
 
 /**
  * Runs the coral intake at a set speed.
@@ -12,10 +13,7 @@ public class RunCoralIntake extends Command {
     private final CoralMechanism coralMechanism;
     private final CoralIntakeDirection direction;
 
-    public enum CoralIntakeDirection {
-        IN,
-        OUT
-    }
+
 
     public RunCoralIntake(CoralMechanism coralMechanism, CoralIntakeDirection direction) {
         this.coralMechanism = coralMechanism;

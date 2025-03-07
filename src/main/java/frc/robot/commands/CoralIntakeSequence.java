@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WrapperCommand;
 import frc.robot.commands.MoveCoralMechanism.CoralMechanismPosition;
 import frc.robot.commands.MoveCoralMechanism.MoveCoralCancelBehavior;
-import frc.robot.commands.RunCoralIntake.CoralIntakeDirection;
+import frc.robot.Enums.CoralIntakeDirection;
 import frc.robot.subsystems.CoralMechanism;
 
 /**

@@ -15,10 +15,11 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.MoveCoralMechanism.CoralMechanismPosition;
 import frc.robot.subsystems.*;
+import frc.robot.Enums.*;
 import frc.robot.commands.*;
 import frc.robot.commands.IntakeAlgae.AlgaeIntakeDirection;
 import frc.robot.utils.GamepadFilter;
-import frc.robot.utils.controlProfile;
+
 
 @Logged
 public class RobotContainer {
@@ -32,7 +33,7 @@ public class RobotContainer {
   private final CoralMechanism coralMechanism;
   private final AlgaeMechanism algaeMechanism;
   private final Elevator elevator;
-  private final Climba climber;
+  private final Climber climber;
 
   
   //TODO move these!
@@ -45,7 +46,7 @@ public class RobotContainer {
     coralMechanism = new CoralMechanism();
     algaeMechanism = new AlgaeMechanism();
     elevator = new Elevator();
-    climber = new Climba();
+    climber = new Climber();
 
     //Controllers
     gamepad = new CommandXboxController(DRIVER_CONTROLLER_PORT);
@@ -81,17 +82,17 @@ public class RobotContainer {
         case STANDARD:
             //TODO 
             break;
-        case TEKKEN:
-        new Trigger(()-> gamepad.getLeftTriggerAxis() >= 0.5).onTrue(new IntakeAlgae(algaeMechanism, AlgaeIntakeDirection.ALGAE_IN));
-        
-        gamepad.x().onTrue(new CoralScoreSequence(coralMechanism, CoralMechanismPosition.SCORE_L1));
-        gamepad.y().onTrue(new CoralScoreSequence(coralMechanism, CoralMechanismPosition.SCORE_L2));
-        gamepad.a().onTrue(new CoralScoreSequence(coralMechanism, CoralMechanismPosition.SCORE_L3));
-        gamepad.b().onTrue(new CoralScoreSequence(coralMechanism, CoralMechanismPosition.SCORE_L4));
-        gamepad.leftBumper().onTrue(new CoralIntakeSequence(coralMechanism));
-        //gamepad.rightBumper().onTrue() NO ALGAE INTAKE SEQUENCE
-        
-        gamepad.start().onTrue(new Lift(climber, 1));
+
+        case FACEBUTTON_CORAL:
+            new Trigger(()-> gamepad.getLeftTriggerAxis() >= 0.5).onTrue(new GrabAlgae(algaeMechanism, AlgaeLevel.LOW));
+            new Trigger(()-> gamepad.getRightTriggerAxis()>= 0.5).onTrue(new GrabAlgae(algaeMechanism, AlgaeLevel.HIGH));
+            gamepad.x().onTrue(new CoralScoreSequence(coralMechanism, CoralMechanismPosition.SCORE_L1));
+            gamepad.y().onTrue(new CoralScoreSequence(coralMechanism, CoralMechanismPosition.SCORE_L2));
+            gamepad.a().onTrue(new CoralScoreSequence(coralMechanism, CoralMechanismPosition.SCORE_L3));
+            gamepad.b().onTrue(new CoralScoreSequence(coralMechanism, CoralMechanismPosition.SCORE_L4));
+            gamepad.leftBumper().onTrue(new CoralIntakeSequence(coralMechanism));
+            gamepad.rightBumper().onTrue(new ScoreAlgae(algaeMechanism));
+            gamepad.start().onTrue(new Lift(climber, 1));
           break;
         default:
             break;
