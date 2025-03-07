@@ -66,7 +66,7 @@ public class CoralMechanism extends SubsystemBase {
     public static final Current INTAKE_CURRENT_LIMIT_FREE = Amps.of(40);
     public static final Current INTAKE_CURRENT_LIMIT_STALL = Amps.of(20);
 
-    public static final IdleMode INTAKE_IDLE_MODE = IdleMode.kBrake;
+    public static final IdleMode INTAKE_IDLE_MODE = IdleMode.kCoast;
 
     public static final boolean PIVOT_INVERT = true;
 
@@ -74,7 +74,7 @@ public class CoralMechanism extends SubsystemBase {
     public static final Current PIVOT_CURRENT_LIMIT_FREE = Amps.of(50);
     public static final Current PIVOT_CURRENT_LIMIT_STALL = Amps.of(30);
 
-    public static final IdleMode PIVOT_IDLE_MODE = IdleMode.kBrake;
+    public static final IdleMode PIVOT_IDLE_MODE = IdleMode.kCoast;
 
     //TODO tune
     public static class PivotClosedLoopGains {
@@ -96,6 +96,9 @@ public class CoralMechanism extends SubsystemBase {
     public static final double DISTANCE_SENSOR_PROXIMITY_THRESHOLD = 0.1;
 
     public static final double PIVOT_AT_SETPOINT_TOLERANCE = 0.02; //1/50th of a rotation in either direction
+
+    //TODO TUNE HIGHLY IMPORTANT
+    public static final double STRAIGHT_ANGLE = 0.0;
 
     public CoralMechanism() {
         pivotMotor = new SparkMax(HardwareIds.Can.CORAL_PIVOT_MOTOR, MotorType.kBrushed);
@@ -246,6 +249,11 @@ public class CoralMechanism extends SubsystemBase {
     public void stopPivot() {
         pivotMotor.stopMotor();
         pivotClosedLoopModeActive = false;
+    }
+
+    //Adamya
+    public void resetToStraight() {
+        setPivotSetpoint(STRAIGHT_ANGLE);
     }
 
     /**

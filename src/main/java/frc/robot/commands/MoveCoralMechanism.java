@@ -20,6 +20,7 @@ public class MoveCoralMechanism extends Command {
 
     //todo find actual numbers for these
     public enum CoralMechanismPosition {
+        //TODO Call the STOWED thingy initialy and keep it until driver uses a command
         STOWED(0.05),
         INTAKE(0.12),
         SCORE_L1(-0.05),

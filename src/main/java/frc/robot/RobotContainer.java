@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.epilogue.NotLogged;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -15,16 +14,18 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.CoralIntakeSequence;
 import frc.robot.commands.CoralScoreSequence;
 import frc.robot.commands.DriveOpenLoop;
-import frc.robot.commands.IntakeAlgaeSequence;
-import frc.robot.commands.ManualIntakeAlgae;
-import frc.robot.commands.ManualOuttakeAlgae;
-import frc.robot.commands.ManualPivotAlgae;
+//import frc.robot.commands.ManualPivot;
+import frc.robot.commands.MoveCoralMechanism;
+import frc.robot.commands.RunCoralIntake;
 import frc.robot.commands.ZeroYaw;
 import frc.robot.commands.MoveCoralMechanism.CoralMechanismPosition;
+import frc.robot.commands.MoveCoralMechanism.MoveCoralCancelBehavior;
+import frc.robot.commands.RunCoralIntake.CoralIntakeDirection;
 import frc.robot.commands.SetElevator.SetElevatorCancelBehavior;
 import frc.robot.commands.SetElevator;
 import frc.robot.subsystems.*;
@@ -46,7 +47,7 @@ public class RobotContainer {
   private final Drivetrain drivetrain;
   @Logged
   private final CoralMechanism coralMechanism;
-  @Logged
+  //@Logged
   private final AlgaeMechanism algaeMechanism;
   @Logged
   private final Elevator elevator;
@@ -112,19 +113,24 @@ public class RobotContainer {
     gamepad.back().onTrue(sillyElevatorCmd(LogicalElevatorPosition.L4, ElevatorPosition.CORAL_L4));
     gamepad.start().onTrue(sillyElevatorCmd(LogicalElevatorPosition.L3, ElevatorPosition.CORAL_L3));
     gamepad.leftStick().onTrue(sillyElevatorCmd(LogicalElevatorPosition.L1, ElevatorPosition.CORAL_L1));
-    gamepad.rightStick().onTrue(sillyElevatorCmd(LogicalElevatorPosition.L2, ElevatorPosition.CORAL_L2));
-
-    // Not permanent stuff for algae mech testing
-    gamepad.a().whileTrue(new ManualIntakeAlgae(algaeMechanism));
-    gamepad.b().whileTrue(new ManualOuttakeAlgae(algaeMechanism));
-    gamepad.povLeft().whileTrue(new ManualPivotAlgae(algaeMechanism, -5));
-    gamepad.povLeft().whileTrue(new ManualPivotAlgae(algaeMechanism, 5));
+    gamepad.rightStick().onTrue(sillyElevatorCmd(LogicalElevatorPosition.L2, ElevatorPosition.CORAL_L2)); 
+    gamepad.leftBumper().whileTrue(new RunCoralIntake(coralMechanism, CoralIntakeDirection.IN));
+    gamepad.rightBumper().whileTrue(new RunCoralIntake(coralMechanism, CoralIntakeDirection.OUT));
+  
   }
 
+    
+
+    //gamepad.povLeft().whileTrue(new ManualPivot(algaeMechanism, ));
+    
+
   private Command sillyElevatorCmd(LogicalElevatorPosition logicalPosition, ElevatorPosition realPosition) {
-    return new ParallelCommandGroup(
-      new InstantCommand(() -> elevator.setLogicalElevatorPosition(logicalPosition)),
-      new SetElevator(elevator, realPosition, SetElevatorCancelBehavior.CANCEL_IMMEDIATELY),
+    return new SequentialCommandGroup(
+      new ParallelCommandGroup(
+        new InstantCommand(() -> elevator.setLogicalElevatorPosition(logicalPosition)),
+        new SetElevator(elevator, realPosition, SetElevatorCancelBehavior.CANCEL_SETPOINT_REACHED),
+        new MoveCoralMechanism(coralMechanism, () -> CoralScoreSequence.mapLogicalToCoral(logicalPosition), MoveCoralCancelBehavior.CANCEL_SETPOINT_REACHED) 
+      ),
       new PrintCommand("Elevator set to " + logicalPosition)
     );
   }

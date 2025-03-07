@@ -14,7 +14,7 @@ public class PivotAlgae extends Command {
     }
 
     enum AlgaeMechanismPosition {
-        // Stowed
+        // Stowed. TODO CALL IT SOMEWHERE, PLEASE
         INITIAL(0.245),
         // Ground intake
         GROUND(1),
@@ -49,7 +49,7 @@ public class PivotAlgae extends Command {
     }
 
     @Override
-    public void execute() {
+    public void initialize() {
       algaeMechanism.setAlgaePivotSetpoint(algaeSetpoint);
     }
 

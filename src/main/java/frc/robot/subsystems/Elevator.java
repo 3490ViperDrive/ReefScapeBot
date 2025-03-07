@@ -52,12 +52,14 @@ public class Elevator extends SubsystemBase {
         // TODO: find better values
         DEFAULT(0.0),
         CORAL_INTAKE(0),
+        //TODO tune
+        PROCESSOR(0),
         ALGAE_L2(6),
-        ALGAE_L3(21),
+        ALGAE_L3(18),
         CORAL_L1(0.0),
         CORAL_L2(3),
-        CORAL_L3(18),
-        CORAL_L4(44);
+        CORAL_L3(22),
+        CORAL_L4(48);
 
         double position;
 
