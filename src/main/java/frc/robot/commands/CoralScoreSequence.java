@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WrapperCommand;
@@ -19,7 +20,7 @@ import frc.robot.subsystems.Elevator.LogicalElevatorPosition;
  * If using this command in autonomous, you'll want to add a timeout or other condition to cancel it;
  * this command will not cancel itself.
  */
-public class CoralScoreSequence extends WrapperCommand {
+public class CoralScoreSequence extends WrapperCommand{
     private final CoralMechanism coralMechanism;
 
     public CoralScoreSequence(CoralMechanism coralMechanism, Elevator elevator) {
@@ -37,7 +38,15 @@ public class CoralScoreSequence extends WrapperCommand {
         );
         this.coralMechanism = coralMechanism;
         super.setName("Coral Score Sequence");
-    }
+    } 
+
+    //adamya
+    // public CoralScoreSequence(CoralMechanism coralMechanism, Elevator elevator, ElevatorPosition scoringLevel, CoralMechanismPosition coralPosition){
+    //     addCommands(
+    //         new SetElevator(elevator, () -> scoringLevel, SetElevator.SetElevatorCancelBehavior.CANCEL_SETPOINT_REACHED),
+    //         new MoveCoralMechanism(coralMechanism, coralPosition, MoveCoralCancelBehavior.CANCEL_SETPOINT_REACHED)
+    //     );
+    // }
 
     //Coral intake must return to stow position whether the command group ends or is interrupted.
     //Could also be done with command.finallyDo(), but then this wrapper command
@@ -45,10 +54,11 @@ public class CoralScoreSequence extends WrapperCommand {
     @Override
     public void end(boolean interrupted) {
         coralMechanism.stopIntake();
-        coralMechanism.setPivotSetpoint(CoralMechanismPosition.STOWED.getAngle());
+        coralMechanism.resetToStraight();
+        //coralMechanism.setPivotSetpoint(CoralMechanismPosition.STOWED.getAngle());
     }
 
-    private static ElevatorPosition mapLogicalToElevator(LogicalElevatorPosition logicalPosition) {
+    public static ElevatorPosition mapLogicalToElevator(LogicalElevatorPosition logicalPosition) {
         switch (logicalPosition) {
             case L1:
                 return ElevatorPosition.CORAL_L1;
@@ -62,7 +72,7 @@ public class CoralScoreSequence extends WrapperCommand {
         }
     }
 
-    private static CoralMechanismPosition mapLogicalToCoral(LogicalElevatorPosition logicalPosition) {
+    public static CoralMechanismPosition mapLogicalToCoral(LogicalElevatorPosition logicalPosition) {
         switch (logicalPosition) {
             case L1:
                 return CoralMechanismPosition.SCORE_L1;

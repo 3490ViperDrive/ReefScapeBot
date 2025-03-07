@@ -52,6 +52,7 @@ public class CoralIntakeSequence extends WrapperCommand {
         //this might be redundant, but when it wasn't there it didn't worky
         //and when it there it worky, so it stays
         coralMechanism.stopIntake();
-        coralMechanism.setPivotSetpoint(CoralMechanismPosition.STOWED.getAngle());
+        coralMechanism.resetToStraight();
+        //coralMechanism.setPivotSetpoint(CoralMechanismPosition.STOWED.getAngle());
     }
 }

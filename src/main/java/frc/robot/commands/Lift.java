@@ -7,8 +7,6 @@ public class Lift extends Command{
     Climber theSolenoid;
     int whichDirection;
 
-    
-
     public Lift(Climber thisSolenoid, int whatdirection){
         theSolenoid = thisSolenoid;
         whichDirection = whatdirection;

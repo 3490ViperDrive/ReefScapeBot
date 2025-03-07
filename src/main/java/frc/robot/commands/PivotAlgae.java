@@ -13,10 +13,12 @@ public class PivotAlgae extends Command {
         CANCEL, CANCEL_SETPOINT_COMPLETED
     }
 
-    // use real numbers if interested
     enum AlgaeMechanismPosition {
-        INITIAL(0),
-        GROUND(0),
+        // Stowed. TODO CALL IT SOMEWHERE, PLEASE
+        INITIAL(0.245),
+        // Ground intake
+        GROUND(1),
+        // Pick up from reef and score processor (should be the same angle)
         HOLD_SCORE(0);
 
         double algaeAngle;
@@ -37,7 +39,7 @@ public class PivotAlgae extends Command {
         this.algaeSetpoint = algaeSetpoint;
         this.algaeCancelBehavior = algaeCancelBehavior;
         super.addRequirements(algaeMechanism);
-        super.setName(String.format("Move Algae Mechanism to %5f", algaeSetpoint));
+        super.setName(String.format("Move Algae Mechanism to %.3f", algaeSetpoint));
     }
 
     public PivotAlgae(AlgaeMechanism algaeMechanism, AlgaeMechanismPosition algaeSetpoint,
@@ -47,8 +49,8 @@ public class PivotAlgae extends Command {
     }
 
     @Override
-    public void execute() {
-        algaeMechanism.setAlgaePivotSetpoint(algaeSetpoint);
+    public void initialize() {
+      algaeMechanism.setAlgaePivotSetpoint(algaeSetpoint);
     }
 
     @Override
@@ -58,5 +60,10 @@ public class PivotAlgae extends Command {
         } else {
             return true;
         }
+    }
+
+    @Override
+    public void end(boolean cancelled) {
+        algaeMechanism.stopAlgaePivot();
     }
 }

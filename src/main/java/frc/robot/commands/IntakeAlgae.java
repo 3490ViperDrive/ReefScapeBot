@@ -10,7 +10,7 @@ public class IntakeAlgae extends Command {
     AlgaeMechanism algaeMechanism;
     AlgaeIntakeDirection algaeDirection;
 
-    enum AlgaeIntakeDirection {
+    public enum AlgaeIntakeDirection {
         ALGAE_IN, ALGAE_OUT
     }
 
@@ -22,7 +22,7 @@ public class IntakeAlgae extends Command {
     }
 
     @Override
-    public void execute() {
+    public void initialize() {
         if (algaeDirection == AlgaeIntakeDirection.ALGAE_IN) {
             algaeMechanism.runAlgaeIntake(ALGAE_INTAKE_SPEED);
         } else {
@@ -30,9 +30,15 @@ public class IntakeAlgae extends Command {
         }
     }
 
+    //When algae detected = true, cancel intake
     @Override
     public void end(boolean cancelled) {
         algaeMechanism.stopAlgaeIntake();
+    }
+
+    @Override
+    public boolean isFinished() {
+        return false;
     }
 
 }
