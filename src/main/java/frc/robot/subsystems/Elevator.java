@@ -51,7 +51,7 @@ public class Elevator extends SubsystemBase {
     public enum ElevatorPosition {
         // TODO: find better values
         DEFAULT(0.0),
-        CORAL_INTAKE(0),
+        CORAL_INTAKE(2),
         //TODO tune
         PROCESSOR(0),
         ALGAE_L2(6),
