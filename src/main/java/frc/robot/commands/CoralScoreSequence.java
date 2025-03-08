@@ -54,7 +54,7 @@ public class CoralScoreSequence extends WrapperCommand{
     @Override
     public void end(boolean interrupted) {
         coralMechanism.stopIntake();
-        coralMechanism.resetToStraight();
+        //coralMechanism.resetToStraight();
         //coralMechanism.setPivotSetpoint(CoralMechanismPosition.STOWED.getAngle());
     }
 
