@@ -68,7 +68,7 @@ public class Robot extends TimedRobot {
 
     //one of these should work
     CameraServer.startAutomaticCapture(0);
-    //CameraServer.startAutomaticCapture(1);
+    CameraServer.startAutomaticCapture(1);
   }
 
   @Override
@@ -85,14 +85,14 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledExit() {}
 
-  // @Override
-  // public void autonomousInit() {
-  //   autonomousCommand = robotContainer.getAutonomousCommand();
+  @Override
+  public void autonomousInit() {
+    autonomousCommand = robotContainer.getAutonomousCommand();
 
-  //   if (autonomousCommand != null) {
-  //     autonomousCommand.schedule();
-  //   }
-  // }
+    if (autonomousCommand != null) {
+      autonomousCommand.schedule();
+    }
+  }
 
   @Override
   public void autonomousPeriodic() {}

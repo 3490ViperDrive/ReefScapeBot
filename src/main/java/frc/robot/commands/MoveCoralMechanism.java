@@ -27,7 +27,7 @@ public class MoveCoralMechanism extends Command {
         SCORE_L1(-0.05),
         SCORE_L2(-0.05),
         SCORE_L3(-0.05),
-        SCORE_L4(-0.138);
+        SCORE_L4(-0.150);
 
         private final double angle;
 
