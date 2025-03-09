@@ -24,6 +24,7 @@ import frc.robot.utils.GamepadFilter;
 @Logged
 public class RobotContainer {
 
+  //DASHBOARD VARIABLES
   SendableChooser<controlProfile> profileSelection;
   public static final int DRIVER_CONTROLLER_PORT = 0;
   public static final double DRIVER_CONTROLLER_DEADBAND = 0.1;
@@ -57,8 +58,11 @@ public class RobotContainer {
     for(controlProfile profile : controlProfile.values()){
         profileSelection.addOption(profile.toString(), profile);
     }
-    profileSelection.setDefaultOption("Bruh", controlProfile.STANDARD);
+
+    //Dashboard 
+    profileSelection.setDefaultOption("Bruh", controlProfile.HARTSVILLE);
     SmartDashboard.putData(profileSelection);
+    SmartDashboard.putData(new ZeroYaw(drivetrain));
     
 
     //Default Commands
@@ -70,17 +74,14 @@ public class RobotContainer {
           gamepadFilter::getTheta,
           () -> gamepad.rightBumper().getAsBoolean()));
 
-    //Dashboard Commands
-    SmartDashboard.putData(new ZeroYaw(drivetrain));
-    
     configureBindings();
   }
 
   private void configureBindings() {
     controlProfile whomst = profileSelection.getSelected();
     switch(whomst){
-        case STANDARD:
-            //TODO 
+        case HARTSVILLE:
+            
             break;
 
         case FACEBUTTON_CORAL:
@@ -93,6 +94,10 @@ public class RobotContainer {
             gamepad.leftBumper().onTrue(new CoralIntakeSequence(coralMechanism));
             gamepad.rightBumper().onTrue(new ScoreAlgae(algaeMechanism));
             gamepad.start().onTrue(new Lift(climber, 1));
+          break;
+        case ACTUAL_SMARTSCORE:
+          gamepad.leftBumper().onTrue(elevator.setTarget(elevator.);)
+
           break;
         default:
             break;

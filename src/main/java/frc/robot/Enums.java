@@ -26,7 +26,7 @@ public class Enums {
 
     //CONTROL PROFILES
     public enum controlProfile{
-        STANDARD, FACEBUTTON_CORAL
+        HARTSVILLE, FACEBUTTON_CORAL, ACTUAL_SMARTSCORE
     }
 
     //ALGAE CHOICES
