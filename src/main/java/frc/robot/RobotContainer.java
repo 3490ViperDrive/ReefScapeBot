@@ -5,14 +5,10 @@
 package frc.robot;
 
 import edu.wpi.first.epilogue.Logged;
-import edu.wpi.first.epilogue.NotLogged;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
@@ -60,7 +56,7 @@ public class RobotContainer {
 
     //Default Commands
       drivetrain.setDefaultCommand(
-        new DriveOpenLoop(
+        new Drive(
           drivetrain,
           () -> gamepadFilter.getX() * ((driverGamepad.leftBumper().getAsBoolean()) ? 0.4 : 1), //TODO WET!!!!
           () -> gamepadFilter.getY() * ((driverGamepad.leftBumper().getAsBoolean()) ? 0.4 : 1),
@@ -69,18 +65,16 @@ public class RobotContainer {
 
     //Dashboard Commands
     SmartDashboard.putData(new ZeroYaw(drivetrain));
-
-    //TODO move these lines
-    SmartDashboard.putData(new MoveCoralMechanism(coralMechanism, CoralMechanismPosition.SUPER_STOWED, MoveCoralCancelBehavior.CANCEL_IMMEDIATELY));
-    SmartDashboard.putData(new MoveCoralMechanism(coralMechanism, CoralMechanismPosition.SCORE_L2, MoveCoralCancelBehavior.CANCEL_IMMEDIATELY));
+    SmartDashboard.putData(new ChangeCoralAngle(coralMechanism, CoralMechanismPosition.SUPER_STOWED, MoveCoralCancelBehavior.CANCEL_IMMEDIATELY));
+    SmartDashboard.putData(new ChangeCoralAngle(coralMechanism, CoralMechanismPosition.SCORE_L2, MoveCoralCancelBehavior.CANCEL_IMMEDIATELY));
     
     configureBindings();
   }
 
   private void configureBindings() {
 
-    driverGamepad.leftTrigger().whileTrue(new CoralIntakeSequence(coralMechanism, elevator));
-    driverGamepad.rightTrigger().whileTrue(new CoralScoreSequence(coralMechanism, elevator));
+    driverGamepad.leftTrigger().whileTrue(new GrabCoralSequence(coralMechanism, elevator));
+    driverGamepad.rightTrigger().whileTrue(new ScoreCoralSequence(coralMechanism, elevator));
 
     driverGamepad.povUp().onTrue(new InstantCommand(() -> climber.triggerSolenoid(0)));
     driverGamepad.povDown().onTrue(new InstantCommand(() -> climber.triggerSolenoid(1)));
@@ -97,6 +91,6 @@ public class RobotContainer {
 
   //TODO and then, the Lord said, "we have 10 days, it's PathPlanner time baby"
   public Command getAutonomousCommand(){
-    return new DriveOpenLoop(drivetrain, () -> 0.185, () -> 0, () -> 0, () -> true).withTimeout(1.15);
+    return new Drive(drivetrain, () -> 0.185, () -> 0, () -> 0, () -> true).withTimeout(1.15);
   }
 }

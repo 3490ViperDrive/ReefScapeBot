@@ -7,8 +7,8 @@ import frc.robot.subsystems.AlgaeMechanism;
 import frc.robot.subsystems.Elevator;
 import static frc.robot.Enums.ElevatorEnums.*;
 
-public class AlgaeIntakeSequence extends SequentialCommandGroup {
-    public AlgaeIntakeSequence(AlgaeMechanism algaeMechanism, Elevator elevator, ElevatorPosition badPosition) {
+public class GrabAlgaeSequence extends SequentialCommandGroup {
+    public GrabAlgaeSequence(AlgaeMechanism algaeMechanism, Elevator elevator, ElevatorPosition badPosition) {
         addCommands(
             new SetElevator(elevator, () -> badPosition, SetElevatorCancelBehavior.CANCEL_SETPOINT_REACHED),
             new InstantCommand(() -> algaeMechanism.setAlgaePivotSetpoint(AlgaeMechanism.HOLD_SCORE)),

@@ -17,13 +17,13 @@ import static frc.robot.Enums.CoralEnums.*;
  * Returns the coral mechanism to the stow position once this command is canceled.
  * Cancels once coral is detected in the intake. Safe for autonomous use.
  */
-public class CoralIntakeSequence extends WrapperCommand {
+public class GrabCoralSequence extends WrapperCommand {
 
     public static final double CORAL_DETECTED_DELAY = 0.25; //seconds
 
     private final CoralMechanism coralMechanism;
 
-    public CoralIntakeSequence(CoralMechanism coralMechanism, Elevator elevator) {
+    public GrabCoralSequence(CoralMechanism coralMechanism, Elevator elevator) {
         super(
             new SequentialCommandGroup(
                 new ParallelCommandGroup(
@@ -31,7 +31,7 @@ public class CoralIntakeSequence extends WrapperCommand {
                         new SetElevator(elevator, ElevatorPosition.CORAL_INTAKE, SetElevatorCancelBehavior.CANCEL_SETPOINT_REACHED),
                         new InstantCommand(),
                         () -> elevator.getCurrentTarget() == TargetLevel.L1),
-                    new MoveCoralMechanism(coralMechanism,
+                    new ChangeCoralAngle(coralMechanism,
                                            CoralMechanismPosition.INTAKE,
                                            MoveCoralCancelBehavior.CANCEL_SETPOINT_REACHED)),
                 new RunCoralIntake(coralMechanism, CoralIntakeDirection.IN)

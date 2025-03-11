@@ -15,17 +15,17 @@ import frc.robot.Enums.CoralEnums.*;
  * If using this command in autonomous, you'll want to add a timeout or other condition to cancel it;
  * this command will not cancel itself.
  */
-public class CoralScoreSequence extends WrapperCommand{
+public class ScoreCoralSequence extends WrapperCommand{
     private final CoralMechanism coralMechanism;
 
-    public CoralScoreSequence(CoralMechanism coralMechanism, Elevator elevator) {
+    public ScoreCoralSequence(CoralMechanism coralMechanism, Elevator elevator) {
         super(
             new SequentialCommandGroup(
                 new ParallelCommandGroup(
                     new SetElevator(elevator,
                                     () -> mapLogicalToElevator(elevator.getCurrentTarget()),
                                     SetElevatorCancelBehavior.CANCEL_SETPOINT_REACHED),
-                    new MoveCoralMechanism(coralMechanism,
+                    new ChangeCoralAngle(coralMechanism,
                         () -> mapLogicalToCoral(elevator.getCurrentTarget()),
                         MoveCoralCancelBehavior.CANCEL_SETPOINT_REACHED)),
                 new RunCoralIntake(coralMechanism, CoralIntakeDirection.OUT)
@@ -34,14 +34,6 @@ public class CoralScoreSequence extends WrapperCommand{
         this.coralMechanism = coralMechanism;
         super.setName("Coral Score Sequence");
     } 
-
-    //adamya
-    // public CoralScoreSequence(CoralMechanism coralMechanism, Elevator elevator, ElevatorPosition scoringLevel, CoralMechanismPosition coralPosition){
-    //     addCommands(
-    //         new SetElevator(elevator, () -> scoringLevel, SetElevator.SetElevatorCancelBehavior.CANCEL_SETPOINT_REACHED),
-    //         new MoveCoralMechanism(coralMechanism, coralPosition, MoveCoralCancelBehavior.CANCEL_SETPOINT_REACHED)
-    //     );
-    // }
 
     //Coral intake must return to stow position whether the command group ends or is interrupted.
     //Could also be done with command.finallyDo(), but then this wrapper command

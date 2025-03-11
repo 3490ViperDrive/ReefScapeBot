@@ -4,7 +4,7 @@ import frc.robot.subsystems.AlgaeMechanism;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class PivotAlgae extends Command {
+public class SetAlgaeAngle extends Command {
     AlgaeMechanism algaeMechanism;
     double algaeSetpoint;
     PivotAlgaeCancelBehavior algaeCancelBehavior;
@@ -32,7 +32,7 @@ public class PivotAlgae extends Command {
         }
     }
 
-    public PivotAlgae(AlgaeMechanism algaeMechanism, double algaeSetpoint,
+    public SetAlgaeAngle(AlgaeMechanism algaeMechanism, double algaeSetpoint,
     PivotAlgaeCancelBehavior algaeCancelBehavior) {
 
         this.algaeMechanism = algaeMechanism;
@@ -40,9 +40,10 @@ public class PivotAlgae extends Command {
         this.algaeCancelBehavior = algaeCancelBehavior;
         super.addRequirements(algaeMechanism);
         super.setName(String.format("Move Algae Mechanism to %.3f", algaeSetpoint));
+        //String.format?? NEERRDS -Khiry
     }
 
-    public PivotAlgae(AlgaeMechanism algaeMechanism, AlgaeMechanismPosition algaeSetpoint,
+    public SetAlgaeAngle(AlgaeMechanism algaeMechanism, AlgaeMechanismPosition algaeSetpoint,
     PivotAlgaeCancelBehavior algaeCancelBehavior) {
         this(algaeMechanism, algaeSetpoint.getAlgaeAngle(), algaeCancelBehavior);
         super.setName("Move Algae Mechanism to " + algaeSetpoint);
