@@ -4,7 +4,7 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.Elevator.ElevatorPosition;
+import frc.robot.Enums.ElevatorEnums.*;
 public class SetElevator extends Command {
 
     //not the solution that we wanted, but the solution we needed.

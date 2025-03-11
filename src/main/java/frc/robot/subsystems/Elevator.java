@@ -17,6 +17,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.HardwareIds;
+import static frc.robot.Enums.ElevatorEnums.*;
 
 public class Elevator extends SubsystemBase {
 
@@ -28,7 +29,7 @@ public class Elevator extends SubsystemBase {
     //sensor to mechanism ratio; rotor rotations -> inches
     public static final double CONVERSION_FACTOR = 1 / ((Math.PI * SPOOL_DIAMETER) / GEAR_RATIO);
 
-    public static final InvertedValue INVERT = InvertedValue.Clockwise_Positive; //TODO double-check
+    public static final InvertedValue INVERT = InvertedValue.Clockwise_Positive; 
     public static final NeutralModeValue IDLE_MODE = NeutralModeValue.Brake;
 
     public static final double SUPPLY_CURRENT_LIMIT = 50; //amps
@@ -39,7 +40,7 @@ public class Elevator extends SubsystemBase {
 
     public static final double AT_SETPOINT_TOLERANCE = 0.5; //half an inch
 
-    public LogicalElevatorPosition logicalElevatorPosition;
+    public TargetLevel currentTarget;
 
     public static class ClosedLoopGains {
         //feedback
@@ -48,39 +49,12 @@ public class Elevator extends SubsystemBase {
         public static final double G = 0.16;
     }
 
-    public enum ElevatorPosition {
-        // TODO: find better values
-        DEFAULT(0.0),
-        CORAL_INTAKE(2),
-        //TODO tune
-        PROCESSOR(0),
-        ALGAE_L2(6),
-        ALGAE_L3(18),
-        CORAL_L1(0.0),
-        CORAL_L2(3),
-        CORAL_L3(18.5),
-        CORAL_L4(48);
 
-        double position;
 
-        ElevatorPosition(double position) {
-            this.position = position;
-        }
 
-        public double getPosition() {
-            return this.position;
-        }
-    }
-
-    public enum LogicalElevatorPosition {
-      L1,
-      L2,
-      L3,
-      L4
-    }
 
     public Elevator(){
-        logicalElevatorPosition = LogicalElevatorPosition.L1;
+        currentTarget = TargetLevel.L1;
 
         motorController = new TalonFX(HardwareIds.Can.ELEVATOR_MOTOR);
         final TalonFXConfigurator configurator = motorController.getConfigurator();
@@ -90,6 +64,7 @@ public class Elevator extends SubsystemBase {
         final FeedbackConfigs feedbackConfiguration = new FeedbackConfigs();
         final Slot0Configs slot0Configuration = new Slot0Configs();
 
+        //TODO separating the declaration from definition in the same method call is questionable
         motorOutputConfiguration
             .withInverted(INVERT)
             .withNeutralMode(IDLE_MODE);
@@ -126,13 +101,16 @@ public class Elevator extends SubsystemBase {
         return Math.abs(motorController.getClosedLoopError().getValueAsDouble()) < AT_SETPOINT_TOLERANCE;
     }
 
-    /** only Adam gets to call this method. it's MY method. i OWN it. the botchain doesn't lie. */
-    public void setLogicalElevatorPosition(LogicalElevatorPosition logicalElevatorPosition) {
-        this.logicalElevatorPosition = logicalElevatorPosition;
+    /** 
+     *  Updates the current "Target Level" of the Elevator. For use in 'automated' elevator commands.
+     * @param level
+     */
+    public void setTargetLevel(TargetLevel level) {
+        this.currentTarget = level;
     }
 
     @Logged
-    public LogicalElevatorPosition getLogicalElevatorPosition() {
-        return logicalElevatorPosition;
+    public TargetLevel getCurrentTarget() {
+        return currentTarget;
     }
 }

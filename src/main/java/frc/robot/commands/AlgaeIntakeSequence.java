@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.SetElevator.SetElevatorCancelBehavior;
 import frc.robot.subsystems.AlgaeMechanism;
 import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.Elevator.ElevatorPosition;
+import static frc.robot.Enums.ElevatorEnums.*;
 
 public class AlgaeIntakeSequence extends SequentialCommandGroup {
     public AlgaeIntakeSequence(AlgaeMechanism algaeMechanism, Elevator elevator, ElevatorPosition badPosition) {
