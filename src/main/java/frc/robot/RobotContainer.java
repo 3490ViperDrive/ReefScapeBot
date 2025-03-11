@@ -167,7 +167,8 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand(){
-    return new DriveOpenLoop(drivetrain, () -> 0.185, () -> 0, () -> 0, () -> true).withTimeout(1.15);
+    return new SequentialCommandGroup(new DriveOpenLoop(drivetrain, () -> 0.185, () -> 0, () -> 0, () -> true).withTimeout(1.15),
+    new MoveCoralMechanism(coralMechanism, CoralMechanismPosition.SCORE_L3, MoveCoralCancelBehavior.CANCEL_SETPOINT_REACHED));
     //return new DriveOpenLoop(drivetrain, () -> 0.75, () -> 0, () -> 0, () -> true).withTimeout(1.5);
     //return new SequentialCommandGroup(DriveOpenLoop(drivetrain, () -> 0.225, () -> 0, () -> 0, () -> true).withTimeout(1.5),)
   }
