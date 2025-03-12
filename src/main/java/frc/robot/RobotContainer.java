@@ -90,6 +90,7 @@ public class RobotContainer {
   }
 
   //TODO and then, the Lord said, "we have 10 days, it's PathPlanner time baby"
+  //so planned i could eat a path
   public Command getAutonomousCommand(){
     return new Drive(drivetrain, () -> 0.185, () -> 0, () -> 0, () -> true).withTimeout(1.15);
   }
