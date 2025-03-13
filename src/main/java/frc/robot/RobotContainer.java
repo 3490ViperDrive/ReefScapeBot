@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.auto.NamedCommands;
+
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -52,6 +54,11 @@ public class RobotContainer {
     driverGamepad = new CommandXboxController(DRIVER_CONTROLLER_PORT);
     operatorGamepad = new CommandXboxController(OPERATOR_CONTROLLER_PORT);
     gamepadFilter = new GamepadFilter(driverGamepad, CONTROLLER_DEADBAND);
+
+    NamedCommands.registerCommand("AutoRaiseL4", new PrepareToScore(elevator, coralMechanism, TargetLevel.L4, ElevatorPosition.CORAL_L4));
+    NamedCommands.registerCommand("AutoIntake",new RunCoralIntake(coralMechanism, CoralIntakeDirection.OUT));
+    NamedCommands.registerCommand("AutoScore",new ScoreCoralSequence(coralMechanism, elevator));
+    
 
 
     //Default Commands

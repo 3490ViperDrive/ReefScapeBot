@@ -10,6 +10,7 @@ import com.ctre.phoenix6.swerve.SwerveModuleConstants.SteerFeedbackType;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants.SteerMotorArrangement;
 import com.ctre.phoenix6.swerve.SwerveModuleConstantsFactory;
 import com.ctre.phoenix6.swerve.SwerveRequest;
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.ctre.phoenix6.swerve.SwerveDrivetrain;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
@@ -153,6 +154,11 @@ public class Drivetrain extends SubsystemBase {
             drivetrainConstants,
             frontLeft, frontRight, backRight, backLeft
         );
+
+       /*AutoBuilder.configure(
+            this::getPose, 
+            
+        );*/
     }
 
     @Override
