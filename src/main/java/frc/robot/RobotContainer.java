@@ -53,6 +53,8 @@ public class RobotContainer {
     operatorGamepad = new CommandXboxController(OPERATOR_CONTROLLER_PORT);
     gamepadFilter = new GamepadFilter(driverGamepad, CONTROLLER_DEADBAND);
 
+    
+
 
     //Default Commands
       drivetrain.setDefaultCommand(
@@ -65,8 +67,8 @@ public class RobotContainer {
 
     //Dashboard Commands
     SmartDashboard.putData(new ZeroYaw(drivetrain));
-    SmartDashboard.putData(new ChangeCoralAngle(coralMechanism, CoralMechanismPosition.SUPER_STOWED, MoveCoralCancelBehavior.CANCEL_IMMEDIATELY));
-    SmartDashboard.putData(new ChangeCoralAngle(coralMechanism, CoralMechanismPosition.SCORE_L2, MoveCoralCancelBehavior.CANCEL_IMMEDIATELY));
+    SmartDashboard.putData(new SetCoralAngle(coralMechanism, CoralMechanismPosition.SUPER_STOWED, MoveCoralCancelBehavior.CANCEL_IMMEDIATELY));
+    SmartDashboard.putData(new SetCoralAngle(coralMechanism, CoralMechanismPosition.SCORE_L2, MoveCoralCancelBehavior.CANCEL_IMMEDIATELY));
     
     configureBindings();
   }

@@ -62,7 +62,7 @@ public class CoralMechanism extends SubsystemBase {
 
     public static final IdleMode INTAKE_IDLE_MODE = IdleMode.kBrake;
 
-    public static final boolean PIVOT_INVERT = true;
+    public static final boolean PIVOT_INVERT = !true;
 
     //these are also guessed
     public static final Current PIVOT_CURRENT_LIMIT_FREE = Amps.of(50);
@@ -96,8 +96,8 @@ public class CoralMechanism extends SubsystemBase {
 
     public CoralMechanism() {
         //For backup coral pivot motor
-        //pivotMotor = new SparkMax(HardwareIds.Can.CORAL_PIVOT_MOTOR, MotorType.kBrushless);
-        pivotMotor = new SparkMax(HardwareIds.Can.CORAL_PIVOT_MOTOR, MotorType.kBrushed);
+        pivotMotor = new SparkMax(HardwareIds.Can.CORAL_PIVOT_MOTOR, MotorType.kBrushless);
+       // pivotMotor = new SparkMax(HardwareIds.Can.CORAL_PIVOT_MOTOR, MotorType.kBrushed);
         leftIntakeMotor = new SparkMax(HardwareIds.Can.CORAL_LEFT_INTAKE_MOTOR, MotorType.kBrushless);
         rightIntakeMotor = new SparkMax(HardwareIds.Can.CORAL_RIGHT_INTAKE_MOTOR, MotorType.kBrushless);
         distanceSensor = new CANrange(HardwareIds.Can.CORAL_DISTANCE_SENSOR);

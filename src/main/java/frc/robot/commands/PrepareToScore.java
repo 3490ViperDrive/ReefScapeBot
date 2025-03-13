@@ -18,7 +18,7 @@ public class PrepareToScore extends SequentialCommandGroup{
             new ParallelCommandGroup(
             new InstantCommand(() -> elevator.setTargetLevel(logicalPosition)),
             new SetElevator(elevator, realPosition, SetElevatorCancelBehavior.CANCEL_SETPOINT_REACHED),
-            new ChangeCoralAngle(coralMechanism, () -> ScoreCoralSequence.mapLogicalToCoral(logicalPosition), MoveCoralCancelBehavior.CANCEL_SETPOINT_REACHED) 
+            new SetCoralAngle(coralMechanism, () -> ScoreCoralSequence.mapLogicalToCoral(logicalPosition), MoveCoralCancelBehavior.CANCEL_SETPOINT_REACHED) 
         ),
         new PrintCommand("Elevator set to " + logicalPosition)
         );

@@ -25,7 +25,7 @@ public class ScoreCoralSequence extends WrapperCommand{
                     new SetElevator(elevator,
                                     () -> mapLogicalToElevator(elevator.getCurrentTarget()),
                                     SetElevatorCancelBehavior.CANCEL_SETPOINT_REACHED),
-                    new ChangeCoralAngle(coralMechanism,
+                    new SetCoralAngle(coralMechanism,
                         () -> mapLogicalToCoral(elevator.getCurrentTarget()),
                         MoveCoralCancelBehavior.CANCEL_SETPOINT_REACHED)),
                 new RunCoralIntake(coralMechanism, CoralIntakeDirection.OUT)

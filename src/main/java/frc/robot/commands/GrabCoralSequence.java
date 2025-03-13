@@ -31,7 +31,7 @@ public class GrabCoralSequence extends WrapperCommand {
                         new SetElevator(elevator, ElevatorPosition.CORAL_INTAKE, SetElevatorCancelBehavior.CANCEL_SETPOINT_REACHED),
                         new InstantCommand(),
                         () -> elevator.getCurrentTarget() == TargetLevel.L1),
-                    new ChangeCoralAngle(coralMechanism,
+                    new SetCoralAngle(coralMechanism,
                                            CoralMechanismPosition.INTAKE,
                                            MoveCoralCancelBehavior.CANCEL_SETPOINT_REACHED)),
                 new RunCoralIntake(coralMechanism, CoralIntakeDirection.IN)

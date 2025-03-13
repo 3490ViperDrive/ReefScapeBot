@@ -24,7 +24,7 @@ public class Elevator extends SubsystemBase {
     private final TalonFX motorController;
 
     public static final double SPOOL_DIAMETER = 1.37; //inches
-    public static final double GEAR_RATIO = 25; //25:1
+    public static final double GEAR_RATIO = 25 - 10; //25:1
 
     //sensor to mechanism ratio; rotor rotations -> inches
     public static final double CONVERSION_FACTOR = 1 / ((Math.PI * SPOOL_DIAMETER) / GEAR_RATIO);

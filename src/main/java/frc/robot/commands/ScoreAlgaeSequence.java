@@ -10,9 +10,9 @@ import static frc.robot.Enums.ElevatorEnums.*;
 public class ScoreAlgaeSequence extends SequentialCommandGroup {
     public ScoreAlgaeSequence(AlgaeMechanism algaeMechanism, Elevator elevator, ElevatorPosition cryingPosition) {
         addCommands(
-            new SetElevator(elevator, () -> cryingPosition, SetElevator.SetElevatorCancelBehavior.CANCEL_SETPOINT_REACHED),
+            new SetElevator(elevator, () -> cryingPosition, SetElevator.SetElevatorCancelBehavior.CANCEL_SETPOINT_REACHED)
             //new InstantCommand(() -> algaeMechanism.setAlgaePivotSetpoint(AlgaeMechanism.HOLD_SCORE)),
-            new ManualOuttakeAlgae(algaeMechanism)
+            //new ManualOuttakeAlgae(algaeMechanism)
         );
     }
 }
