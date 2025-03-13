@@ -46,18 +46,18 @@ public class AlgaeMechanism extends SubsystemBase {
     public static final boolean ALGAE_INVERT_FOLLOWER = true;
 
     // TODO put real numbers
-    public static final Current ALGAE_CURRENT_LIMIT_FREE = Amps.of(0);
-    public static final Current ALGAE_CURRENT_LIMIT_STALL = Amps.of(0);
+    public static final Current ALGAE_CURRENT_LIMIT_FREE = Amps.of(40);
+    public static final Current ALGAE_CURRENT_LIMIT_STALL = Amps.of(20);
 
-    public static final IdleMode ALGAE_INTAKE_IDLE_MODE = IdleMode.kBrake;
+    public static final IdleMode ALGAE_INTAKE_IDLE_MODE = IdleMode.kCoast;
 
     public static final boolean ALGAE_PIVOT_INVERT = false;
 
     // TODO put real numbers
-    public static final Current ALGAE_PIVOT_CURRENT_LIMIT_FREE = Amps.of(0);
-    public static final Current ALGAE_PIVOT_CURRENt_LIMIT_STALL = Amps.of(0);
+    public static final Current ALGAE_PIVOT_CURRENT_LIMIT_FREE = Amps.of(50);
+    public static final Current ALGAE_PIVOT_CURRENt_LIMIT_STALL = Amps.of(30);
 
-    public static final IdleMode ALGAE_PIVOT_IDLE_MODE = IdleMode.kBrake;
+    public static final IdleMode ALGAE_PIVOT_IDLE_MODE = IdleMode.kCoast;
 
     public static class AlgaeClosedLoopGains {
         public static final double P = 64; // volts per rotation of error
@@ -132,7 +132,7 @@ public class AlgaeMechanism extends SubsystemBase {
 
      @Override
      public void periodic() {
-      checkIntakeCurrent(); 
+      //checkIntakeCurrent(); 
       
       SmartDashboard.putNumber("algae angle", getAlgaePivotAngle());
 
@@ -147,9 +147,9 @@ public class AlgaeMechanism extends SubsystemBase {
         SmartDashboard.putNumber("applied fG", fG);
 
       // TODO put real numbers
-      // if (algaePivotClosedLoopModeActive) {
+      if (algaePivotClosedLoopModeActive) {
          algaePivotMotor.setVoltage(MathUtil.clamp(MathUtil.clamp(appliedP, -12, 12) + fS + fG , -12, 12));
-      // }
+      }
      }
 
      public void setAlgaePivotSetpoint(double rotations) {

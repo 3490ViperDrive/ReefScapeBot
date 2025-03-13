@@ -16,7 +16,7 @@ import frc.robot.subsystems.Drivetrain;
  * (i.e. [-1, 1] where each extreme is full speed forwards or backwards)
  * and commands the Drivetrain to do the thing.
  */
-public class DriveOpenLoop extends Command {
+public class Drive extends Command {
     private final Drivetrain drivetrain;
 
     //this might be bad?
@@ -47,7 +47,7 @@ public class DriveOpenLoop extends Command {
      * @param thetaSup rotational rate. [-1, 1]
      * @param robotCentricSup true to drive robot-centric, false to drive field-centric
      */
-    public DriveOpenLoop(Drivetrain drivetrain,
+    public Drive(Drivetrain drivetrain,
                          DoubleSupplier xSup,
                          DoubleSupplier ySup,
                          DoubleSupplier thetaSup,

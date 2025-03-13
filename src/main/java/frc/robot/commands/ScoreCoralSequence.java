@@ -1,18 +1,13 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WrapperCommand;
-import frc.robot.commands.MoveCoralMechanism.CoralMechanismPosition;
-import frc.robot.commands.MoveCoralMechanism.MoveCoralCancelBehavior;
-import frc.robot.commands.RunCoralIntake.CoralIntakeDirection;
 import frc.robot.commands.SetElevator.SetElevatorCancelBehavior;
 import frc.robot.subsystems.CoralMechanism;
 import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.Elevator.ElevatorPosition;
-import frc.robot.subsystems.Elevator.LogicalElevatorPosition;
+import frc.robot.Enums.ElevatorEnums.*;
+import frc.robot.Enums.CoralEnums.*;
 
 /**
  * Moves the coral mechanism to the given scoring position, and runs the intake to spit the coral out.
@@ -20,18 +15,18 @@ import frc.robot.subsystems.Elevator.LogicalElevatorPosition;
  * If using this command in autonomous, you'll want to add a timeout or other condition to cancel it;
  * this command will not cancel itself.
  */
-public class CoralScoreSequence extends WrapperCommand{
+public class ScoreCoralSequence extends WrapperCommand{
     private final CoralMechanism coralMechanism;
 
-    public CoralScoreSequence(CoralMechanism coralMechanism, Elevator elevator) {
+    public ScoreCoralSequence(CoralMechanism coralMechanism, Elevator elevator) {
         super(
             new SequentialCommandGroup(
                 new ParallelCommandGroup(
                     new SetElevator(elevator,
-                                    () -> mapLogicalToElevator(elevator.getLogicalElevatorPosition()),
+                                    () -> mapLogicalToElevator(elevator.getCurrentTarget()),
                                     SetElevatorCancelBehavior.CANCEL_SETPOINT_REACHED),
-                    new MoveCoralMechanism(coralMechanism,
-                        () -> mapLogicalToCoral(elevator.getLogicalElevatorPosition()),
+                    new SetCoralAngle(coralMechanism,
+                        () -> mapLogicalToCoral(elevator.getCurrentTarget()),
                         MoveCoralCancelBehavior.CANCEL_SETPOINT_REACHED)),
                 new RunCoralIntake(coralMechanism, CoralIntakeDirection.OUT)
             )
@@ -40,25 +35,17 @@ public class CoralScoreSequence extends WrapperCommand{
         super.setName("Coral Score Sequence");
     } 
 
-    //adamya
-    // public CoralScoreSequence(CoralMechanism coralMechanism, Elevator elevator, ElevatorPosition scoringLevel, CoralMechanismPosition coralPosition){
-    //     addCommands(
-    //         new SetElevator(elevator, () -> scoringLevel, SetElevator.SetElevatorCancelBehavior.CANCEL_SETPOINT_REACHED),
-    //         new MoveCoralMechanism(coralMechanism, coralPosition, MoveCoralCancelBehavior.CANCEL_SETPOINT_REACHED)
-    //     );
-    // }
-
     //Coral intake must return to stow position whether the command group ends or is interrupted.
     //Could also be done with command.finallyDo(), but then this wrapper command
     //would wrap another wrapper command, which is silly.
     @Override
     public void end(boolean interrupted) {
         coralMechanism.stopIntake();
-        coralMechanism.resetToStraight();
+        //coralMechanism.resetToStraight();
         //coralMechanism.setPivotSetpoint(CoralMechanismPosition.STOWED.getAngle());
     }
 
-    public static ElevatorPosition mapLogicalToElevator(LogicalElevatorPosition logicalPosition) {
+    public static ElevatorPosition mapLogicalToElevator(TargetLevel logicalPosition) {
         switch (logicalPosition) {
             case L1:
                 return ElevatorPosition.CORAL_L1;
@@ -72,7 +59,7 @@ public class CoralScoreSequence extends WrapperCommand{
         }
     }
 
-    public static CoralMechanismPosition mapLogicalToCoral(LogicalElevatorPosition logicalPosition) {
+    public static CoralMechanismPosition mapLogicalToCoral(TargetLevel logicalPosition) {
         switch (logicalPosition) {
             case L1:
                 return CoralMechanismPosition.SCORE_L1;

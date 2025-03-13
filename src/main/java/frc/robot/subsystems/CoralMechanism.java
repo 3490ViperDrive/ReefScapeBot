@@ -7,9 +7,7 @@ import com.ctre.phoenix6.configs.ProximityParamsConfigs;
 import com.ctre.phoenix6.configs.ToFParamsConfigs;
 import com.ctre.phoenix6.hardware.CANrange;
 import com.ctre.phoenix6.signals.UpdateModeValue;
-import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.AbsoluteEncoder;
-import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.config.AbsoluteEncoderConfig;
 import com.revrobotics.spark.config.ClosedLoopConfig;
@@ -18,15 +16,12 @@ import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.HardwareIds;
 import frc.robot.Robot;
 import frc.robot.utils.SparkMaxConfigUtil;
 
 import static edu.wpi.first.units.Units.*;
-
-import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.epilogue.Logged.Importance;
@@ -35,7 +30,6 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Distance;
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class CoralMechanism extends SubsystemBase {
@@ -66,15 +60,15 @@ public class CoralMechanism extends SubsystemBase {
     public static final Current INTAKE_CURRENT_LIMIT_FREE = Amps.of(40);
     public static final Current INTAKE_CURRENT_LIMIT_STALL = Amps.of(20);
 
-    public static final IdleMode INTAKE_IDLE_MODE = IdleMode.kCoast;
+    public static final IdleMode INTAKE_IDLE_MODE = IdleMode.kBrake;
 
-    public static final boolean PIVOT_INVERT = true;
+    public static final boolean PIVOT_INVERT = !true;
 
     //these are also guessed
     public static final Current PIVOT_CURRENT_LIMIT_FREE = Amps.of(50);
     public static final Current PIVOT_CURRENT_LIMIT_STALL = Amps.of(30);
 
-    public static final IdleMode PIVOT_IDLE_MODE = IdleMode.kCoast;
+    public static final IdleMode PIVOT_IDLE_MODE = IdleMode.kBrake;
 
     //TODO tune
     public static class PivotClosedLoopGains {
@@ -87,7 +81,7 @@ public class CoralMechanism extends SubsystemBase {
     
     public static final FeedbackSensor PIVOT_FEEDBACK_SENSOR = FeedbackSensor.kAbsoluteEncoder;
 
-    public static final Angle PIVOT_ENCODER_ZERO_OFFSET = Rotations.of(0.40);
+    public static final Angle PIVOT_ENCODER_ZERO_OFFSET = Rotations.of(0.27);
     public static final boolean PIVOT_ENCODER_ZERO_CENTERED = true;
     public static final boolean PIVOT_ENCODER_INVERT = false;
 
@@ -101,7 +95,9 @@ public class CoralMechanism extends SubsystemBase {
     public static final double STRAIGHT_ANGLE = 0.0;
 
     public CoralMechanism() {
-        pivotMotor = new SparkMax(HardwareIds.Can.CORAL_PIVOT_MOTOR, MotorType.kBrushed);
+        //For backup coral pivot motor
+        pivotMotor = new SparkMax(HardwareIds.Can.CORAL_PIVOT_MOTOR, MotorType.kBrushless);
+       // pivotMotor = new SparkMax(HardwareIds.Can.CORAL_PIVOT_MOTOR, MotorType.kBrushed);
         leftIntakeMotor = new SparkMax(HardwareIds.Can.CORAL_LEFT_INTAKE_MOTOR, MotorType.kBrushless);
         rightIntakeMotor = new SparkMax(HardwareIds.Can.CORAL_RIGHT_INTAKE_MOTOR, MotorType.kBrushless);
         distanceSensor = new CANrange(HardwareIds.Can.CORAL_DISTANCE_SENSOR);

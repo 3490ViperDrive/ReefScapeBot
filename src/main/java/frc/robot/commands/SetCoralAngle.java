@@ -4,42 +4,21 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CoralMechanism;
-
+import static frc.robot.Enums.CoralEnums.*;
 /**
  * Moves the coral mechanism to an angle using closed-loop controls.
  */
-public class MoveCoralMechanism extends Command {
+public class SetCoralAngle extends Command {
     private final CoralMechanism coralMechanism;
     private final Supplier<CoralMechanismPosition> setpointSup;
     private final MoveCoralCancelBehavior cancelBehavior;
 
-    public enum MoveCoralCancelBehavior {
-        CANCEL_IMMEDIATELY,
-        CANCEL_SETPOINT_REACHED
-    }
+
 
     //todo find actual numbers for these
-    public enum CoralMechanismPosition {
-        //TODO Call the STOWED thingy initialy and keep it until driver uses a command
-        STOWED(0.05),
-        INTAKE(0.12),
-        SCORE_L1(-0.05),
-        SCORE_L2(-0.05),
-        SCORE_L3(-0.05),
-        SCORE_L4(-0.138);
+    
 
-        private final double angle;
-
-        CoralMechanismPosition(double angle) {
-            this.angle = angle;
-        }
-
-        public double getAngle() {
-            return angle;
-        }
-    }
-
-    public MoveCoralMechanism(CoralMechanism coralMechanism,
+    public SetCoralAngle(CoralMechanism coralMechanism,
                               Supplier<CoralMechanismPosition> setpointSup,
                               MoveCoralCancelBehavior cancelBehavior) {
         this.coralMechanism = coralMechanism;
@@ -49,7 +28,7 @@ public class MoveCoralMechanism extends Command {
         super.setName(String.format("Move Coral Mech to somewhere idk"));
     }
 
-    public MoveCoralMechanism(CoralMechanism coralMechanism,
+    public SetCoralAngle(CoralMechanism coralMechanism,
                               CoralMechanismPosition setpoint,
                               MoveCoralCancelBehavior cancelBehavior) {
         this(coralMechanism, () -> setpoint, cancelBehavior);

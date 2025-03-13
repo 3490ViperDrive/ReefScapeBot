@@ -4,7 +4,7 @@ import frc.robot.subsystems.AlgaeMechanism;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class IntakeAlgae extends Command {
+public class RunAlgaeIntake extends Command {
     double ALGAE_INTAKE_SPEED = 12;
 
     AlgaeMechanism algaeMechanism;
@@ -14,7 +14,7 @@ public class IntakeAlgae extends Command {
         ALGAE_IN, ALGAE_OUT
     }
 
-    public IntakeAlgae(AlgaeMechanism algaeMechanism, AlgaeIntakeDirection algaeDirection) {
+    public RunAlgaeIntake(AlgaeMechanism algaeMechanism, AlgaeIntakeDirection algaeDirection) {
         this.algaeMechanism = algaeMechanism;
         this.algaeDirection = algaeDirection;
         super.addRequirements(algaeMechanism);
