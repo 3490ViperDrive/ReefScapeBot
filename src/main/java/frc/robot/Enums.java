@@ -72,5 +72,12 @@ public class Enums {
     public static class ClimberEnums{
 
     }
+
+    public static class GeneralEnums{
+        public static enum ControlProfile{
+            COMP, REVAMP
+        }
+    }
+ 
     
 }

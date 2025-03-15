@@ -14,6 +14,7 @@ import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import frc.robot.Enums.CoralEnums.*;
 import frc.robot.Enums.ElevatorEnums.*;
+import static frc.robot.Enums.GeneralEnums.*;
 import frc.robot.utils.GamepadFilter;
 import frc.robot.utils.controlProfile;
 
@@ -41,6 +42,12 @@ public class RobotContainer {
   private final CommandXboxController operatorGamepad;
   private final GamepadFilter gamepadFilter;
 
+  SendableChooser<ControlProfile> controlSelector;
+  ControlProfile currentProfile;
+
+
+  
+
   public RobotContainer() {
     //Subsystems
     drivetrain = new Drivetrain();
@@ -52,6 +59,17 @@ public class RobotContainer {
     driverGamepad = new CommandXboxController(DRIVER_CONTROLLER_PORT);
     operatorGamepad = new CommandXboxController(OPERATOR_CONTROLLER_PORT);
     gamepadFilter = new GamepadFilter(driverGamepad, CONTROLLER_DEADBAND);
+
+
+    for(ControlProfile profile : ControlProfile.values()){
+      controlSelector.addOption(profile.toString(), profile);
+    }
+
+    SmartDashboard.putData(controlSelector);
+    controlSelector.setDefaultOption("Default", ControlProfile.COMP);
+    currentProfile = controlSelector.getSelected();
+
+
 
     
 
@@ -75,19 +93,26 @@ public class RobotContainer {
 
   private void configureBindings() {
 
-    driverGamepad.leftTrigger().whileTrue(new GrabCoralSequence(coralMechanism, elevator));
-    driverGamepad.rightTrigger().whileTrue(new ScoreCoralSequence(coralMechanism, elevator));
+    switch (currentProfile) {
+      case COMP:
+      driverGamepad.leftTrigger().whileTrue(new GrabCoralSequence(coralMechanism, elevator));
+      driverGamepad.rightTrigger().whileTrue(new ScoreCoralSequence(coralMechanism, elevator));
+      driverGamepad.povUp().onTrue(new InstantCommand(() -> climber.triggerSolenoid(0)));
+      driverGamepad.povDown().onTrue(new InstantCommand(() -> climber.triggerSolenoid(1)));
+      driverGamepad.back().onTrue(new PrepareToScore(elevator, coralMechanism, TargetLevel.L4, ElevatorPosition.CORAL_L4));
+      driverGamepad.start().onTrue(new PrepareToScore(elevator, coralMechanism, TargetLevel.L3, ElevatorPosition.CORAL_L3));
+      driverGamepad.leftStick().onTrue(new PrepareToScore(elevator, coralMechanism, TargetLevel.L1, ElevatorPosition.CORAL_L1));
+      driverGamepad.rightStick().onTrue(new PrepareToScore(elevator, coralMechanism, TargetLevel.L2, ElevatorPosition.CORAL_L2));
+      operatorGamepad.a().whileTrue(new RunCoralIntake(coralMechanism, CoralIntakeDirection.IN));
+      operatorGamepad.b().whileTrue(new RunCoralIntake(coralMechanism, CoralIntakeDirection.OUT));
+        break;
+      case REVAMP:
+        break;
+      default:
+        break;
 
-    driverGamepad.povUp().onTrue(new InstantCommand(() -> climber.triggerSolenoid(0)));
-    driverGamepad.povDown().onTrue(new InstantCommand(() -> climber.triggerSolenoid(1)));
+    }
 
-    driverGamepad.back().onTrue(new PrepareToScore(elevator, coralMechanism, TargetLevel.L4, ElevatorPosition.CORAL_L4));
-    driverGamepad.start().onTrue(new PrepareToScore(elevator, coralMechanism, TargetLevel.L3, ElevatorPosition.CORAL_L3));
-    driverGamepad.leftStick().onTrue(new PrepareToScore(elevator, coralMechanism, TargetLevel.L1, ElevatorPosition.CORAL_L1));
-    driverGamepad.rightStick().onTrue(new PrepareToScore(elevator, coralMechanism, TargetLevel.L2, ElevatorPosition.CORAL_L2));
-
-    operatorGamepad.a().whileTrue(new RunCoralIntake(coralMechanism, CoralIntakeDirection.IN));
-    operatorGamepad.b().whileTrue(new RunCoralIntake(coralMechanism, CoralIntakeDirection.OUT));
   
   }
 
