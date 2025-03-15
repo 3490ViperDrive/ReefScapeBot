@@ -155,8 +155,28 @@ public class Drivetrain extends SubsystemBase {
             frontLeft, frontRight, backRight, backLeft
         );
 
-       /*AutoBuilder.configure(
-            this::getPose, 
+       /*/
+         AutoBuilder.configure(
+            this::getPose,
+            this::resetPose, 
+            this::getRobotRelativeSpeeds, 
+            (speeds, feedforwards) -> driveRobotRelative(speeds), 
+            new PPHolonomicDriveController( 
+                    new PIDConstants(5.0, 0.0, 0.0), 
+                    new PIDConstants(5.0, 0.0, 0.0) 
+            ),
+            config, 
+            () -> {
+              
+
+              var alliance = DriverStation.getAlliance();
+              if (alliance.isPresent()) {
+                return alliance.get() == DriverStation.Alliance.Red;
+              }
+              return false;
+            },
+            this 
+    ); 
             
         );*/
     }
