@@ -12,6 +12,7 @@ import com.ctre.phoenix6.swerve.SwerveModuleConstantsFactory;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.ctre.phoenix6.swerve.SwerveDrivetrain;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
+import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants.ClosedLoopOutputType;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants.DriveMotorArrangement;
@@ -23,8 +24,15 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.units.measure.*;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.HardwareIds;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
 /**
  * The Drivetrain class is responsible for managing all the hardware components of the swerve drive.
@@ -89,10 +97,14 @@ public class Drivetrain extends SubsystemBase {
     
     private SwerveDrivetrain.SwerveDriveState currentState;
 
+    private SwerveRequest.ApplyRobotSpeeds pathPlannerRequest;
+
     /**
      * Creates a new Drivetrain.
      */
     public Drivetrain() {
+         //yoinked and modified from Crescendobot
+        pathPlannerRequest = new SwerveRequest.ApplyRobotSpeeds().withDriveRequestType(DriveRequestType.OpenLoopVoltage);
         final SwerveDrivetrainConstants drivetrainConstants = new SwerveDrivetrainConstants();
         final SwerveModuleConstantsFactory<TalonFXConfiguration,
                                            TalonFXConfiguration,
@@ -153,7 +165,46 @@ public class Drivetrain extends SubsystemBase {
             drivetrainConstants,
             frontLeft, frontRight, backRight, backLeft
         );
-    }
+
+       
+
+        RobotConfig config;
+
+            try{
+                config = RobotConfig.fromGUISettings();
+                AutoBuilder.configure(
+                this::getPose, // Robot pose supplier
+                this::resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
+                this::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+                (speeds, feedforwards) -> {
+                    swerve.setControl(pathPlannerRequest.withSpeeds(speeds));
+                }, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
+                new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
+                        new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
+                        new PIDConstants(5.0, 0.0, 0.0) // Rotation PID constants
+                ),
+
+                config, // The robot configuration
+                () -> {
+                // Boolean supplier that controls when the path will be mirrored for the red alliance
+                // This will flip the path being followed to the red side of the field.
+                // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+                var alliance = DriverStation.getAlliance();
+                if (alliance.isPresent()) {
+                    return alliance.get() == DriverStation.Alliance.Red;
+                }
+                return false;
+                },
+                this // Reference to this subsystem to set requirements
+        );
+            } catch (Exception e) {
+                System.out.println("HUMANITY WAS A MISTAKE");
+                e.printStackTrace();
+            }
+
+            
+    } //Drivetrain constructor
 
     @Override
     public void periodic() {
@@ -189,5 +240,13 @@ public class Drivetrain extends SubsystemBase {
     @Logged
     public Pose2d getPose() {
         return currentState.Pose;
+    }
+
+    // public Command resetPoseCommand(Pose2d pose) {
+    //     return runOnce(() -> swerve.resetPose(pose));
+    // }
+
+    public void resetPose(Pose2d jojos){
+        swerve.resetPose(jojos);
     }
 }

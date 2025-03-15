@@ -14,9 +14,14 @@ import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import frc.robot.Enums.CoralEnums.*;
 import frc.robot.Enums.ElevatorEnums.*;
+import frc.robot.Enums.GeneralEnums.ControlProfile;
+
 import static frc.robot.Enums.GeneralEnums.*;
 import frc.robot.utils.GamepadFilter;
 import frc.robot.utils.controlProfile;
+
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 
 
 //@Logged
@@ -45,6 +50,8 @@ public class RobotContainer {
   SendableChooser<ControlProfile> controlSelector;
   ControlProfile currentProfile;
 
+  
+
 
   
 
@@ -61,6 +68,7 @@ public class RobotContainer {
     gamepadFilter = new GamepadFilter(driverGamepad, CONTROLLER_DEADBAND);
 
 
+    controlSelector = new SendableChooser<ControlProfile>();
     for(ControlProfile profile : ControlProfile.values()){
       controlSelector.addOption(profile.toString(), profile);
     }
@@ -87,7 +95,12 @@ public class RobotContainer {
     SmartDashboard.putData(new ZeroYaw(drivetrain));
     SmartDashboard.putData(new SetCoralAngle(coralMechanism, CoralMechanismPosition.SUPER_STOWED, MoveCoralCancelBehavior.CANCEL_IMMEDIATELY));
     SmartDashboard.putData(new SetCoralAngle(coralMechanism, CoralMechanismPosition.SCORE_L2, MoveCoralCancelBehavior.CANCEL_IMMEDIATELY));
+
+    // NamedCommands.registerCommand("AutoRaiseL4", new PrepareToScore(elevator, coralMechanism, TargetLevel.L4, ElevatorPosition.CORAL_L4));
+    // NamedCommands.registerCommand("AutoIntake",new RunCoralIntake(coralMechanism, CoralIntakeDirection.OUT));
+    // NamedCommands.registerCommand("AutoScore",new ScoreCoralSequence(coralMechanism, elevator));
     
+    PathPlannerAuto bruh = new PathPlannerAuto("Sample");
     configureBindings();
   }
 
@@ -118,6 +131,8 @@ public class RobotContainer {
 
   //TODO and then, the Lord said, "we have 10 days, it's PathPlanner time baby"
   public Command getAutonomousCommand(){
-    return new Drive(drivetrain, () -> 0.185, () -> 0, () -> 0, () -> true).withTimeout(1.15);
+    //return new Drive(drivetrain, () -> 0.185, () -> 0, () -> 0, () -> true).withTimeout(1.15);
+    //return new PathPlannerAuto("Sample");
+    return null;
   }
 }
