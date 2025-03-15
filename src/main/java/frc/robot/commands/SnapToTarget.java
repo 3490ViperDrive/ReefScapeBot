@@ -6,7 +6,7 @@ import frc.robot.subsystems.*;
 public class SnapToTarget extends Command{
 
     private double targetYaw;
-     double vTurn;
+    private double vTurn;
     
     Vision theTagCamera;
     Drivetrain theDrivetrain;
