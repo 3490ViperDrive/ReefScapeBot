@@ -37,6 +37,8 @@ public class RobotContainer {
   private final Elevator elevator;
   @Logged
   private final Climber climber;
+  @Logged
+  private final Vision vision;
   
 
   private final CommandXboxController driverGamepad;
@@ -49,6 +51,7 @@ public class RobotContainer {
     coralMechanism = new CoralMechanism();
     elevator = new Elevator();
     climber = new Climber();
+    vision = new Vision();
 
     //Controllers
     driverGamepad = new CommandXboxController(DRIVER_CONTROLLER_PORT);
@@ -85,6 +88,7 @@ public class RobotContainer {
 
     driverGamepad.povUp().onTrue(new InstantCommand(() -> climber.triggerSolenoid(0)));
     driverGamepad.povDown().onTrue(new InstantCommand(() -> climber.triggerSolenoid(1)));
+    driverGamepad.a().whileTrue(new SnapToTarget(vision, drivetrain));
 
     driverGamepad.back().onTrue(new PrepareToScore(elevator, coralMechanism, TargetLevel.L4, ElevatorPosition.CORAL_L4));
     driverGamepad.start().onTrue(new PrepareToScore(elevator, coralMechanism, TargetLevel.L3, ElevatorPosition.CORAL_L3));

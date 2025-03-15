@@ -12,11 +12,12 @@ public class SnapToTarget extends Command{
     Drivetrain theDrivetrain;
     Drive theDriveCmd;
 
-    public SnapToTarget(Vision aVision, Drivetrain aDrivetrain, Drive aDrive){
+    public SnapToTarget(Vision aVision, Drivetrain aDrivetrain){
         theTagCamera = aVision;
         theDrivetrain = aDrivetrain;
-        theDriveCmd = aDrive;
+        //theDriveCmd = aDrive;
         addRequirements(theTagCamera, theDrivetrain);
+        vTurn = 0;
     }
 
     @Override
