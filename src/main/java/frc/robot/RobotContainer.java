@@ -100,7 +100,7 @@ public class RobotContainer {
     // NamedCommands.registerCommand("AutoIntake",new RunCoralIntake(coralMechanism, CoralIntakeDirection.OUT));
     // NamedCommands.registerCommand("AutoScore",new ScoreCoralSequence(coralMechanism, elevator));
     
-    PathPlannerAuto bruh = new PathPlannerAuto("Sample");
+    PathPlannerAuto bruh = new PathPlannerAuto("HopeA");
     configureBindings();
   }
 
