@@ -5,24 +5,24 @@
 package frc.robot;
 
 import edu.wpi.first.epilogue.Logged;
-import edu.wpi.first.epilogue.NotLogged;
+//import edu.wpi.first.epilogue.NotLogged;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.Commands;
+// import edu.wpi.first.wpilibj2.command.CommandScheduler;
+// import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
+//import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.StartEndCommand;
+//import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.CoralIntakeSequence;
 import frc.robot.commands.CoralScoreSequence;
 import frc.robot.commands.DriveOpenLoop;
-import frc.robot.commands.ManualIntakeAlgae;
-import frc.robot.commands.ManualOuttakeAlgae;
+// import frc.robot.commands.ManualIntakeAlgae;
+// import frc.robot.commands.ManualOuttakeAlgae;
 //import frc.robot.commands.ManualPivotDown;
 //import frc.robot.commands.ManualPivot;
 import frc.robot.commands.MoveCoralMechanism;
@@ -37,7 +37,7 @@ import frc.robot.subsystems.*;
 import frc.robot.subsystems.Elevator.ElevatorPosition;
 import frc.robot.subsystems.Elevator.LogicalElevatorPosition;
 import frc.robot.utils.GamepadFilter;
-import frc.robot.utils.InputFilteringUtil;
+//import frc.robot.utils.InputFilteringUtil;
 import frc.robot.utils.controlProfile;
 
 //import frc.robot.commands.ManualPivotUp;
@@ -167,8 +167,8 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand(){
-    return new SequentialCommandGroup(new DriveOpenLoop(drivetrain, () -> 0.185, () -> 0, () -> 0, () -> true).withTimeout(1.15),
-    new MoveCoralMechanism(coralMechanism, CoralMechanismPosition.SCORE_L3, MoveCoralCancelBehavior.CANCEL_SETPOINT_REACHED));
+    return new SequentialCommandGroup(new DriveOpenLoop(drivetrain, () -> 0.185, () -> 0, () -> 0, () -> true).withTimeout(1.15));
+    //new MoveCoralMechanism(coralMechanism, CoralMechanismPosition.SCORE_L3, MoveCoralCancelBehavior.CANCEL_SETPOINT_REACHED));
     //return new DriveOpenLoop(drivetrain, () -> 0.75, () -> 0, () -> 0, () -> true).withTimeout(1.5);
     //return new SequentialCommandGroup(DriveOpenLoop(drivetrain, () -> 0.225, () -> 0, () -> 0, () -> true).withTimeout(1.5),)
   }
