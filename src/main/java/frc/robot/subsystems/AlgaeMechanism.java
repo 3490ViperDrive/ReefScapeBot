@@ -24,6 +24,8 @@ import frc.robot.utils.SparkMaxConfigUtil;
 
 public class AlgaeMechanism extends SubsystemBase {
 
+   public static AlgaeMechanism instance;
+
     @Logged
     private final SparkMax algaeMotorLeft;
     @Logged
@@ -84,6 +86,7 @@ public class AlgaeMechanism extends SubsystemBase {
       public static final double GROUND = 1;
 
       public AlgaeMechanism() {
+         instance = this;
         algaeMotorLeft = new SparkMax(HardwareIds.Can.ALGAE_INTAKE_MOTOR_LEFT, MotorType.kBrushless);
         algaeMotorRight = new SparkMax(HardwareIds.Can.ALGAE_INTAKE_MOTOR_RIGHT, MotorType.kBrushless);
         algaePivotMotor = new SparkMax(HardwareIds.Can.ALGAE_PIVOT_MOTOR, MotorType.kBrushless);

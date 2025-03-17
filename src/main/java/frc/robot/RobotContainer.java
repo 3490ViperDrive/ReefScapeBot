@@ -10,13 +10,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import frc.robot.Enums.CoralEnums.*;
 import frc.robot.Enums.ElevatorEnums.*;
+import static frc.robot.Enums.ElevatorEnums.ElevatorPosition.*;
+import static frc.robot.Enums.ElevatorEnums.TargetLevel.*;
 import frc.robot.Enums.GeneralEnums.ControlProfile;
-
-import static frc.robot.Enums.GeneralEnums.*;
 import frc.robot.utils.GamepadFilter;
 import frc.robot.utils.controlProfile;
 
@@ -24,7 +25,6 @@ import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 
-//@Logged
 public class RobotContainer {
 
   SendableChooser<controlProfile> profileSelection;
@@ -90,17 +90,17 @@ public class RobotContainer {
           () -> gamepadFilter.getY() * ((driverGamepad.leftBumper().getAsBoolean()) ? 0.4 : 1),
           () -> gamepadFilter.getTheta() * ((driverGamepad.leftBumper().getAsBoolean()) ? 0.4 : 1),
           () -> driverGamepad.rightBumper().getAsBoolean()));
+          //TODO 0.4 is a little much, innit?
 
     //Dashboard Commands
     SmartDashboard.putData(new ZeroYaw(drivetrain));
     SmartDashboard.putData(new SetCoralAngle(coralMechanism, CoralMechanismPosition.SUPER_STOWED, MoveCoralCancelBehavior.CANCEL_IMMEDIATELY));
     SmartDashboard.putData(new SetCoralAngle(coralMechanism, CoralMechanismPosition.SCORE_L2, MoveCoralCancelBehavior.CANCEL_IMMEDIATELY));
 
-    // NamedCommands.registerCommand("AutoRaiseL4", new PrepareToScore(elevator, coralMechanism, TargetLevel.L4, ElevatorPosition.CORAL_L4));
-    // NamedCommands.registerCommand("AutoIntake",new RunCoralIntake(coralMechanism, CoralIntakeDirection.OUT));
-    // NamedCommands.registerCommand("AutoScore",new ScoreCoralSequence(coralMechanism, elevator));
+    NamedCommands.registerCommand("AutoRaiseL4", new PrepareToScore(elevator, coralMechanism, TargetLevel.L4, ElevatorPosition.CORAL_L4));
+    NamedCommands.registerCommand("AutoIntake",new RunCoralIntake(coralMechanism, CoralIntakeDirection.OUT));
+    NamedCommands.registerCommand("AutoScore",new ScoreCoralSequence(coralMechanism, elevator));
     
-    PathPlannerAuto bruh = new PathPlannerAuto("HopeA");
     configureBindings();
   }
 
@@ -120,6 +120,19 @@ public class RobotContainer {
       operatorGamepad.b().whileTrue(new RunCoralIntake(coralMechanism, CoralIntakeDirection.OUT));
         break;
       case REVAMP:
+      //TODO change PrepToScore command to accept a single argument (which level to prep)
+      driverGamepad.x().onTrue(new PrepareToScore(elevator, coralMechanism, L1, CORAL_L1));
+      driverGamepad.y().onTrue(new PrepareToScore(elevator, coralMechanism, L2, CORAL_L2));
+      driverGamepad.a().onTrue(new PrepareToScore(elevator, coralMechanism, L3, CORAL_L3));
+      driverGamepad.b().onTrue(new PrepareToScore(elevator, coralMechanism, L4, CORAL_L4));
+      //TODO add Z targeting button, BUDDY HOLLY
+      driverGamepad.leftBumper().onTrue(new GrabCoralSequence(coralMechanism, elevator)); //TODO whileTrue()???
+      driverGamepad.povDown().onTrue(new InstantCommand(()-> climber.triggerSolenoid(1))); //TODO why not use "lift"
+
+      //TODO sheesh
+      new Trigger(()-> driverGamepad.getRightTriggerAxis() > 0.5).onTrue(new RunCoralIntake(coralMechanism, CoralIntakeDirection.OUT));
+      new Trigger(()-> driverGamepad.getLeftTriggerAxis() > 0.5).onTrue(new RunCoralIntake(coralMechanism, CoralIntakeDirection.IN));
+
         break;
       default:
         break;
@@ -130,9 +143,10 @@ public class RobotContainer {
   }
 
   //TODO and then, the Lord said, "we have 10 days, it's PathPlanner time baby"
+  //TODO move this out of getAutonomousCommand() as per the docs
   public Command getAutonomousCommand(){
     //return new Drive(drivetrain, () -> 0.185, () -> 0, () -> 0, () -> true).withTimeout(1.15);
-    //return new PathPlannerAuto("Sample");
-    return null;
+    return new PathPlannerAuto("HopeA");
+    //return null;
   }
 }

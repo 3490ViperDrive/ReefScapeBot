@@ -21,6 +21,8 @@ import static frc.robot.Enums.ElevatorEnums.*;
 
 public class Elevator extends SubsystemBase {
 
+    public static Elevator instance;
+
     private final TalonFX motorController;
 
     public static final double SPOOL_DIAMETER = 1.37; //inches
@@ -54,6 +56,7 @@ public class Elevator extends SubsystemBase {
 
 
     public Elevator(){
+        instance = this;
         currentTarget = TargetLevel.L1;
 
         motorController = new TalonFX(HardwareIds.Can.ELEVATOR_MOTOR);

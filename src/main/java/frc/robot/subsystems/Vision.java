@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Vision extends SubsystemBase {
+    public static Vision instance;
     PhotonCamera camera = new PhotonCamera("Jamera");
     private double yaw;
     private boolean hasTargets;
@@ -25,6 +26,7 @@ public class Vision extends SubsystemBase {
 
     @Override
     public void periodic(){
+        instance = this; //TODO this may not actually end up being a singleton
         var result = camera.getLatestResult();
         this.hasTargets = result.hasTargets();
         List<PhotonTrackedTarget> targets = result.getTargets();

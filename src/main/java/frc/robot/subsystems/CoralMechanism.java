@@ -33,6 +33,8 @@ import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class CoralMechanism extends SubsystemBase {
+
+    public static CoralMechanism instance;
     
     @Logged
     private final SparkMax leftIntakeMotor;
@@ -95,6 +97,7 @@ public class CoralMechanism extends SubsystemBase {
     public static final double STRAIGHT_ANGLE = 0.0;
 
     public CoralMechanism() {
+        instance = this;
         //For backup coral pivot motor
         pivotMotor = new SparkMax(HardwareIds.Can.CORAL_PIVOT_MOTOR, MotorType.kBrushless);
        // pivotMotor = new SparkMax(HardwareIds.Can.CORAL_PIVOT_MOTOR, MotorType.kBrushed);
@@ -175,28 +178,6 @@ public class CoralMechanism extends SubsystemBase {
             pivotMotor.setVoltage(MathUtil.clamp(MathUtil.clamp(appliedP, -4, 4) + fS + fG, -12, 12));
         }
     }
-
-    // public Command bruhCmd(DoubleSupplier sigma) {
-    //     return run(() -> {
-    //         double input = sigma.getAsDouble() * 4;
-    //         SmartDashboard.putNumber("input voltage", input);
-    //         double fS = Math.signum(input) * Preferences.getDouble("coral tuning kS", 0);
-    //         SmartDashboard.putNumber("applied fS", fS);
-    //         double fG = Math.cos(Units.rotationsToRadians(getPivotAngle())) * Preferences.getDouble("coral tuning kG", 0);
-    //         SmartDashboard.putNumber("applied fG", fG);
-    //         pivotMotor.setVoltage(input + fS + fG);
-    //     });
-    //     return run(() -> {
-    //         double setpoint = Preferences.getDouble("coral tuning setpoint", 0);
-    //         double error = setpoint - getPivotAngle();
-    //         SmartDashboard.putNumber("error", error);
-    //         double fS = Math.signum(error) * Preferences.getDouble("coral tuning kS", 0);
-    //         SmartDashboard.putNumber("applied fS", fS);
-    //         double fG = Math.cos(Units.rotationsToRadians(getPivotAngle())) * Preferences.getDouble("coral tuning kG", 0);
-    //         SmartDashboard.putNumber("applied fG", fG);
-    //         pivotClosedLoopController.setReference(setpoint, ControlType.kPosition, ClosedLoopSlot.kSlot0, fS + fG);
-    //     }).finallyDo(() -> pivotMotor.stopMotor());
-    // }
 
     /**
      * Commands the pivot motor's closed-loop controller to move

@@ -2,7 +2,7 @@ package frc.robot;
 
 public class Enums {
 
-    public static class ElevatorEnums{
+    public static final class ElevatorEnums{
         public static enum ElevatorPosition {
             DEFAULT(0.0),
             CORAL_INTAKE(0.5),

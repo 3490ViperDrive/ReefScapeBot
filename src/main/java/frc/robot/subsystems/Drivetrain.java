@@ -25,7 +25,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.units.measure.*;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj2.command.Command;
+//import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.HardwareIds;
 
@@ -39,6 +39,8 @@ import com.pathplanner.lib.controllers.PPHolonomicDriveController;
  * It leverages the swerve library from CTRE v6.
  */
 public class Drivetrain extends SubsystemBase {
+
+    public static Drivetrain instance;
 
     public static final Angle FRONT_LEFT_CANCODER_OFFSET = Rotations.of(-0.443359);
     public static final Angle FRONT_RIGHT_CANCODER_OFFSET = Rotations.of(-0.159180);
@@ -103,6 +105,7 @@ public class Drivetrain extends SubsystemBase {
      * Creates a new Drivetrain.
      */
     public Drivetrain() {
+        instance = this;
          //yoinked and modified from Crescendobot
         pathPlannerRequest = new SwerveRequest.ApplyRobotSpeeds().withDriveRequestType(DriveRequestType.OpenLoopVoltage);
         final SwerveDrivetrainConstants drivetrainConstants = new SwerveDrivetrainConstants();

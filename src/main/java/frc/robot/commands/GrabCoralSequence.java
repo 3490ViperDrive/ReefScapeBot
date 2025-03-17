@@ -19,10 +19,14 @@ import static frc.robot.Enums.CoralEnums.*;
  */
 public class GrabCoralSequence extends WrapperCommand {
 
+    Elevator _elevator;
+    CoralMechanism _coralMechanism; 
+
     public static final double CORAL_DETECTED_DELAY = 0.25; //seconds
 
     private final CoralMechanism coralMechanism;
 
+    //TODO this indentation is SINFUL
     public GrabCoralSequence(CoralMechanism coralMechanism, Elevator elevator) {
         super(
             new SequentialCommandGroup(
