@@ -168,15 +168,13 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand(){
-    return new SequentialCommandGroup(
+    return new SequentialCommandGroup (
+      new ParallelCommandGroup(
         new DriveOpenLoop(drivetrain, () -> 0.150, () -> 0, () -> 0, () -> true).withTimeout(0.9),
-
-        new ParallelCommandGroup(
-          new DriveOpenLoop(drivetrain, () -> 0.150, () -> 0, () -> 0, () -> true).withTimeout(0.9),
-          new SequentialCommandGroup(
-            new WaitCommand(0.1),
-            new SetElevator(elevator, () -> ElevatorPosition.CORAL_L4, SetElevatorCancelBehavior.CANCEL_SETPOINT_REACHED)
-          )
+        new SequentialCommandGroup(
+          new WaitCommand(0.1),
+          new SetElevator(elevator, () -> ElevatorPosition.CORAL_L4, SetElevatorCancelBehavior.CANCEL_SETPOINT_REACHED)
+        )
       ),
 
       //safeguard
