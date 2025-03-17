@@ -14,6 +14,8 @@ public class Vision extends SubsystemBase {
     private double yaw;
     private boolean hasTargets;
     private int tagID;
+
+    private double visionKp;
    
     //private members for
         //yaw
@@ -22,6 +24,7 @@ public class Vision extends SubsystemBase {
     public Vision(){
         yaw = 0;
         tagID = 0;
+        visionKp = 2;
     }
 
     @Override
@@ -51,5 +54,9 @@ public class Vision extends SubsystemBase {
     
     public int getTagID(){
         return this.tagID;
+    }
+
+    public double getVisionKp(){
+        return visionKp;
     }
 }

@@ -10,6 +10,7 @@ import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.epilogue.logging.FileBackend;
 import edu.wpi.first.epilogue.logging.NTEpilogueBackend;
 import edu.wpi.first.epilogue.logging.errors.ErrorHandler;
+import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -32,6 +33,7 @@ public class Robot extends TimedRobot {
   public final LoggingStrategy logStrategy = LoggingStrategy.NT_ALL;
 
   public Robot() {
+    //PortForwarder.add(5800, "photonvision.local", 5800);
     robotContainer = new RobotContainer();
 
     DriverStation.silenceJoystickConnectionWarning(true);

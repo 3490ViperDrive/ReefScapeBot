@@ -90,7 +90,7 @@ public class RobotContainer {
           () -> gamepadFilter.getY() * ((driverGamepad.leftBumper().getAsBoolean()) ? 0.4 : 1),
           () -> gamepadFilter.getTheta() * ((driverGamepad.leftBumper().getAsBoolean()) ? 0.4 : 1),
           () -> driverGamepad.rightBumper().getAsBoolean()));
-          //TODO 0.4 is a little much, innit?
+          
 
     //Dashboard Commands
     SmartDashboard.putData(new ZeroYaw(drivetrain));
@@ -99,7 +99,7 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("AutoRaiseL4", new PrepareToScore(elevator, coralMechanism, TargetLevel.L4, ElevatorPosition.CORAL_L4));
     NamedCommands.registerCommand("AutoIntake",new RunCoralIntake(coralMechanism, CoralIntakeDirection.OUT));
-    NamedCommands.registerCommand("AutoScore",new ScoreCoralSequence(coralMechanism, elevator));
+    //NamedCommands.registerCommand("AutoScore",new ScoreCoralSequence(coralMechanism, elevator));
     
     configureBindings();
   }
