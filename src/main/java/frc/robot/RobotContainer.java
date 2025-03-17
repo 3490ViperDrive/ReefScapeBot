@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 //import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 //import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.CoralIntakeSequence;
@@ -167,9 +168,23 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand(){
-    return new SequentialCommandGroup(new DriveOpenLoop(drivetrain, () -> 0.185, () -> 0, () -> 0, () -> true).withTimeout(1.15));
-    //new MoveCoralMechanism(coralMechanism, CoralMechanismPosition.SCORE_L3, MoveCoralCancelBehavior.CANCEL_SETPOINT_REACHED));
-    //return new DriveOpenLoop(drivetrain, () -> 0.75, () -> 0, () -> 0, () -> true).withTimeout(1.5);
-    //return new SequentialCommandGroup(DriveOpenLoop(drivetrain, () -> 0.225, () -> 0, () -> 0, () -> true).withTimeout(1.5),)
+    return new SequentialCommandGroup(
+        new DriveOpenLoop(drivetrain, () -> 0.150, () -> 0, () -> 0, () -> true).withTimeout(0.9),
+
+        new ParallelCommandGroup(
+          new DriveOpenLoop(drivetrain, () -> 0.150, () -> 0, () -> 0, () -> true).withTimeout(0.9),
+          new SequentialCommandGroup(
+            new WaitCommand(0.1),
+            new SetElevator(elevator, () -> ElevatorPosition.CORAL_L4, SetElevatorCancelBehavior.CANCEL_SETPOINT_REACHED)
+          )
+      ),
+
+      //safeguard
+      new DriveOpenLoop(drivetrain, () -> 0, () -> 0, () -> 0, () -> true).withTimeout(0.1),
+
+      new CoralScoreSequence(coralMechanism, elevator)
+    );
+    /* return new SequentialCommandGroup(new DriveOpenLoop(drivetrain, () -> 0.100, () -> 0, () -> 0, () -> true).withTimeout(1));
+    new MoveCoralMechanism(coralMechanism, CoralMechanismPosition.SCORE_L3, MoveCoralCancelBehavior.CANCEL_SETPOINT_REACHED)); */
   }
 }
