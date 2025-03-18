@@ -76,9 +76,9 @@ public class RobotContainer {
       controlSelector.addOption(profile.toString(), profile);
     }
 
-    SmartDashboard.putData(controlSelector);
+    SmartDashboard.putData("Controls", controlSelector);
     controlSelector.setDefaultOption("Default", ControlProfile.COMP);
-    currentProfile = controlSelector.getSelected();
+    //currentProfile = controlSelector.getSelected();
 
 
 
@@ -108,6 +108,7 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
+    currentProfile = controlSelector.getSelected();
 
     switch (currentProfile) {
       case COMP:
@@ -121,6 +122,7 @@ public class RobotContainer {
       driverGamepad.rightStick().onTrue(new PrepareToScore(elevator, coralMechanism, TargetLevel.L2, ElevatorPosition.CORAL_L2));
       operatorGamepad.a().whileTrue(new RunCoralIntake(coralMechanism, CoralIntakeDirection.IN));
       operatorGamepad.b().whileTrue(new RunCoralIntake(coralMechanism, CoralIntakeDirection.OUT));
+      driverGamepad.x().whileTrue(new SnapToTarget(vision, drivetrain));
         break;
       case REVAMP:
       //TODO change PrepToScore command to accept a single argument (which level to prep)

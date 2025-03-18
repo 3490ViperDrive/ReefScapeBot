@@ -24,7 +24,7 @@ public class Vision extends SubsystemBase {
     public Vision(){
         yaw = 0;
         tagID = 0;
-        visionKp = 2;
+        visionKp = 5;
     }
 
     @Override
@@ -39,8 +39,11 @@ public class Vision extends SubsystemBase {
             PhotonTrackedTarget target = result.getBestTarget();
             this.tagID = target.getFiducialId();
             SmartDashboard.putNumber("TagID",tagID);
+            SmartDashboard.putBoolean("Targets??", hasTargets);
+            SmartDashboard.putNumber("Target Yaw", target.getYaw());
         } else{
             SmartDashboard.putNumber("TagID", 00);
+            SmartDashboard.putBoolean("Targets??", hasTargets);
         }
 
     }
