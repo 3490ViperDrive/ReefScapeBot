@@ -170,17 +170,18 @@ public class RobotContainer {
   public Command getAutonomousCommand(){
     return new SequentialCommandGroup (
       new ParallelCommandGroup(
-        new DriveOpenLoop(drivetrain, () -> 0.150, () -> 0, () -> 0, () -> true).withTimeout(0.9),
+        new DriveOpenLoop(drivetrain, () -> 0.200, () -> 0, () -> 0, () -> true).withTimeout(1.7),
+        new MoveCoralMechanism(coralMechanism, CoralMechanismPosition.SCORE_L4, MoveCoralCancelBehavior.CANCEL_SETPOINT_REACHED),
         new SequentialCommandGroup(
-          new WaitCommand(0.1),
+          new WaitCommand(0.4),
           new SetElevator(elevator, () -> ElevatorPosition.CORAL_L4, SetElevatorCancelBehavior.CANCEL_SETPOINT_REACHED)
         )
       ),
 
       //safeguard
-      new DriveOpenLoop(drivetrain, () -> 0, () -> 0, () -> 0, () -> true).withTimeout(0.1),
+      new DriveOpenLoop(drivetrain, () -> 0, () -> 0, () -> 0, () -> true).withTimeout(1.5),
 
-      new CoralScoreSequence(coralMechanism, elevator)
+      new RunCoralIntake(coralMechanism, CoralIntakeDirection.OUT).withTimeout(2)
     );
     /* return new SequentialCommandGroup(new DriveOpenLoop(drivetrain, () -> 0.100, () -> 0, () -> 0, () -> true).withTimeout(1));
     new MoveCoralMechanism(coralMechanism, CoralMechanismPosition.SCORE_L3, MoveCoralCancelBehavior.CANCEL_SETPOINT_REACHED)); */
