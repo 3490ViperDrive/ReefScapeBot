@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Vision extends SubsystemBase {
     public static Vision instance;
-    PhotonCamera camera = new PhotonCamera("Jamera");
+    PhotonCamera camera = new PhotonCamera("TagCamera");
     private double yaw;
     private boolean hasTargets;
     private int tagID;
@@ -32,10 +32,11 @@ public class Vision extends SubsystemBase {
         instance = this; //TODO this may not actually end up being a singleton
         var result = camera.getLatestResult();
         this.hasTargets = result.hasTargets();
-        List<PhotonTrackedTarget> targets = result.getTargets();
-        PhotonTrackedTarget target = result.getBestTarget();
+        //List<PhotonTrackedTarget> targets = result.getTargets();
+        //PhotonTrackedTarget target = result.getBestTarget();
 
         if(hasTargets){
+            PhotonTrackedTarget target = result.getBestTarget();
             this.tagID = target.getFiducialId();
             SmartDashboard.putNumber("TagID",tagID);
         } else{

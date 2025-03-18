@@ -41,6 +41,8 @@ public class RobotContainer {
   private final Elevator elevator;
   @Logged
   private final Climber climber;
+
+  private final Vision vision;
   
 
   private final CommandXboxController driverGamepad;
@@ -61,6 +63,7 @@ public class RobotContainer {
     coralMechanism = new CoralMechanism();
     elevator = new Elevator();
     climber = new Climber();
+    vision = new Vision();
 
     //Controllers
     driverGamepad = new CommandXboxController(DRIVER_CONTROLLER_PORT);
@@ -125,7 +128,7 @@ public class RobotContainer {
       driverGamepad.y().onTrue(new PrepareToScore(elevator, coralMechanism, L2, CORAL_L2));
       driverGamepad.a().onTrue(new PrepareToScore(elevator, coralMechanism, L3, CORAL_L3));
       driverGamepad.b().onTrue(new PrepareToScore(elevator, coralMechanism, L4, CORAL_L4));
-      //TODO add Z targeting button, BUDDY HOLLY
+      driverGamepad.povUp().whileTrue(new SnapToTarget(vision, drivetrain));
       driverGamepad.leftBumper().onTrue(new GrabCoralSequence(coralMechanism, elevator)); //TODO whileTrue()???
       driverGamepad.povDown().onTrue(new InstantCommand(()-> climber.triggerSolenoid(1))); //TODO why not use "lift"
 
