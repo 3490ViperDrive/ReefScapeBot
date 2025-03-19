@@ -109,7 +109,6 @@ public class RobotContainer {
 
   private void configureBindings() {
     currentProfile = controlSelector.getSelected();
-
     switch (currentProfile) {
       case COMP:
       driverGamepad.leftTrigger().whileTrue(new GrabCoralSequence(coralMechanism, elevator));
@@ -151,7 +150,7 @@ public class RobotContainer {
   //TODO move this out of getAutonomousCommand() as per the docs
   public Command getAutonomousCommand(){
     //return new Drive(drivetrain, () -> 0.185, () -> 0, () -> 0, () -> true).withTimeout(1.15);
-    return new PathPlannerAuto("HopeA");
-    //return null;
+    //return new PathPlannerAuto("HopeA");
+    return null;
   }
 }
