@@ -25,6 +25,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.units.measure.*;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.HardwareIds;
@@ -212,6 +213,7 @@ public class Drivetrain extends SubsystemBase {
     @Override
     public void periodic() {
         currentState = swerve.getState();
+        SmartDashboard.putData("Drivetrain", this);
     }
 
     //Call this in the execute method of drive cmds

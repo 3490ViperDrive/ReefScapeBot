@@ -35,7 +35,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class CoralMechanism extends SubsystemBase {
 
     public static CoralMechanism instance;
-    
     @Logged
     private final SparkMax leftIntakeMotor;
     @Logged
