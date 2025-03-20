@@ -13,9 +13,6 @@ public class SetCoralAngle extends Command {
     private final Supplier<CoralMechanismPosition> setpointSup;
     private final MoveCoralCancelBehavior cancelBehavior;
 
-
-
-    //todo find actual numbers for these
     
 
     public SetCoralAngle(CoralMechanism coralMechanism,

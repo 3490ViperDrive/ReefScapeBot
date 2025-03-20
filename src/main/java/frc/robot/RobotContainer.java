@@ -14,6 +14,9 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import frc.robot.Enums.CoralEnums.*;
+import static frc.robot.Enums.CoralEnums.CoralMechanismPosition.*;
+import static frc.robot.Enums.CoralEnums.CoralIntakeDirection.*;
+import static frc.robot.Enums.CoralEnums.MoveCoralCancelBehavior.*;
 import frc.robot.Enums.ElevatorEnums.*;
 import static frc.robot.Enums.ElevatorEnums.ElevatorPosition.*;
 import static frc.robot.Enums.ElevatorEnums.TargetLevel.*;
@@ -79,9 +82,13 @@ public class RobotContainer {
 
     //TODO WARNING: DO NOT MOVE THESE COMMANDS FROM THIS SPOT.
     //TODO If they do not come before the autoSelector setup, none of the PathPlanner autos will work.
-    NamedCommands.registerCommand("SadCoral", new PrepareToScore(elevator, coralMechanism, L1, CORAL_L4));
-    NamedCommands.registerCommand("AutoRaiseL4", new PrepareToScore(elevator, coralMechanism, TargetLevel.L4, ElevatorPosition.CORAL_L4));
+    //TODO EVERY PP AUTO ROUTINE SHOULD START WITH THE SAD CORAL COMMAND
+    NamedCommands.registerCommand("SadCoral", new SetCoralAngle(coralMechanism, SCORE_L4, CANCEL_IMMEDIATELY));
+
     NamedCommands.registerCommand("AutoRaiseL1", new PrepareToScore(elevator, coralMechanism, L1, CORAL_L1));
+    NamedCommands.registerCommand("AutoRaiseL2", new PrepareToScore(elevator, coralMechanism, L2, CORAL_L2));
+    NamedCommands.registerCommand("AutoRaiseL3", new PrepareToScore(elevator, coralMechanism, L3, CORAL_L3));
+    NamedCommands.registerCommand("AutoRaiseL4", new PrepareToScore(elevator, coralMechanism, L4, CORAL_L4));
     NamedCommands.registerCommand("AutoScore",new RunCoralIntake(coralMechanism, CoralIntakeDirection.OUT));
     NamedCommands.registerCommand("AutoIntake",new RunCoralIntake(coralMechanism, CoralIntakeDirection.IN));
 

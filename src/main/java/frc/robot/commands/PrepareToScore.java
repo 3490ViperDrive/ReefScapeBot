@@ -15,18 +15,19 @@ public class PrepareToScore extends SequentialCommandGroup{
     Elevator _elevator;
     CoralMechanism _coralMechanism;
     TargetLevel _logicalPosition;
-    ElevatorPosition _realPosition;
+    ElevatorPosition _realPosition; //TODO the naming conventions here are a bit painful.
 
 
-    public PrepareToScore(TargetLevel whereAt){
+    public PrepareToScore(TargetLevel elevatorTarget, ElevatorPosition elevatorSetpoint){
         _elevator = Elevator.instance;
         _coralMechanism = CoralMechanism.instance;
-        //this(_elevator, _coralMechanism, whereAt, )
     }
 
 
     //TODO this one needs some WORK
     public PrepareToScore(Elevator elevator, CoralMechanism coralMechanism, TargetLevel logicalPosition, ElevatorPosition realPosition){
+        //TODO why don't we move the "set the coral mechanism to look downward" bit to execute before the rest of the stuff does, to prevent
+        //TODO any accidental breakage of the coral mechanism? seems an arbitrary rule to set
         this.addCommands(
             new ParallelCommandGroup(
             new InstantCommand(() -> elevator.setTargetLevel(logicalPosition)),

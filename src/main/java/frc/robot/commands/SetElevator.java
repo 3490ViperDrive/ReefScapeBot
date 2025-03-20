@@ -19,6 +19,7 @@ public class SetElevator extends Command {
         CANCEL_SETPOINT_REACHED
     }
 
+    //TODO Take the supplier goggles off; there is no need for this to require a supplier; just pass in the elevator position
     public SetElevator(Elevator _elevator, Supplier<ElevatorPosition> _position, SetElevatorCancelBehavior cancelBehavior) {
         this.cancelBehavior = cancelBehavior;
         position = _position;
@@ -26,6 +27,7 @@ public class SetElevator extends Command {
         addRequirements(elevator);
         setName("Set Elevator to some position idk");
     }
+
 
     public SetElevator(Elevator elevator, ElevatorPosition position, SetElevatorCancelBehavior cancelBehavior) {
         this(elevator, () -> position, cancelBehavior);
