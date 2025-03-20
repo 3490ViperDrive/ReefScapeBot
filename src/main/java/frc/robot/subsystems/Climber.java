@@ -7,11 +7,17 @@ import frc.robot.HardwareIds;
 
 public class Climber extends SubsystemBase {
 
+    public static Climber instance;
+
     public static final int FORWARD_CHANNEL = 14;
     public static final int REVERSE_CHANNEL = 15;
 
     DoubleSolenoid theSolenoid = new DoubleSolenoid(HardwareIds.Can.PNEUMATIC_HUB, PneumaticsModuleType.REVPH, FORWARD_CHANNEL, REVERSE_CHANNEL);
 
+    public Climber(){
+        instance = this;
+    }
+    
     public void triggerSolenoid(int whichDirection){
         switch (whichDirection) {
             case 0:
