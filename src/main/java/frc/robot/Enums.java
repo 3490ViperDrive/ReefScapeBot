@@ -33,9 +33,9 @@ public class Enums {
           }
     }
 
-    public static class AlgaeEnums{
+    // public static class AlgaeEnums{
 
-    }
+    // }
 
     public static class CoralEnums{
         public static enum CoralMechanismPosition {
