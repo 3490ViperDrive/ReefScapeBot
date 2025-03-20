@@ -1,0 +1,43 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Start2-Reef5"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Reef5-IntakeR"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "IntakeR-Reef4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Reef4-IntakeR"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "IntakeR-Reef3"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

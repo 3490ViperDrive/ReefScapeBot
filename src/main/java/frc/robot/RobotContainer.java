@@ -50,6 +50,7 @@ public class RobotContainer {
   private final GamepadFilter gamepadFilter;
 
   SendableChooser<ControlProfile> controlSelector;
+  SendableChooser<PathPlannerAuto> autoSelector;
   ControlProfile currentProfile;
 
   
@@ -76,6 +77,17 @@ public class RobotContainer {
       controlSelector.addOption(profile.toString(), profile);
     }
 
+    NamedCommands.registerCommand("SadCoral", new PrepareToScore(elevator, coralMechanism, L1, CORAL_L4));
+    NamedCommands.registerCommand("AutoRaiseL4", new PrepareToScore(elevator, coralMechanism, TargetLevel.L4, ElevatorPosition.CORAL_L4));
+    NamedCommands.registerCommand("AutoRaiseL1", new PrepareToScore(elevator, coralMechanism, L1, CORAL_L1));
+    NamedCommands.registerCommand("AutoScore",new RunCoralIntake(coralMechanism, CoralIntakeDirection.OUT));
+    NamedCommands.registerCommand("AutoIntake",new RunCoralIntake(coralMechanism, CoralIntakeDirection.IN));
+
+    autoSelector = new SendableChooser<PathPlannerAuto>();
+    autoSelector.addOption("Test", new PathPlannerAuto("ShivaShrimple"));
+    autoSelector.setDefaultOption("Test1", new PathPlannerAuto("SkrrA"));
+    SmartDashboard.putData(autoSelector);
+
     SmartDashboard.putData("Controls", controlSelector);
     controlSelector.setDefaultOption("Default", ControlProfile.COMP);
     //currentProfile = controlSelector.getSelected();
@@ -100,8 +112,7 @@ public class RobotContainer {
     SmartDashboard.putData(new SetCoralAngle(coralMechanism, CoralMechanismPosition.SUPER_STOWED, MoveCoralCancelBehavior.CANCEL_IMMEDIATELY));
     SmartDashboard.putData(new SetCoralAngle(coralMechanism, CoralMechanismPosition.SCORE_L2, MoveCoralCancelBehavior.CANCEL_IMMEDIATELY));
 
-    NamedCommands.registerCommand("AutoRaiseL4", new PrepareToScore(elevator, coralMechanism, TargetLevel.L4, ElevatorPosition.CORAL_L4));
-    NamedCommands.registerCommand("AutoIntake",new RunCoralIntake(coralMechanism, CoralIntakeDirection.OUT));
+
     //NamedCommands.registerCommand("AutoScore",new ScoreCoralSequence(coralMechanism, elevator));
     
     configureBindings();
@@ -121,7 +132,9 @@ public class RobotContainer {
       driverGamepad.rightStick().onTrue(new PrepareToScore(elevator, coralMechanism, TargetLevel.L2, ElevatorPosition.CORAL_L2));
       operatorGamepad.a().whileTrue(new RunCoralIntake(coralMechanism, CoralIntakeDirection.IN));
       operatorGamepad.b().whileTrue(new RunCoralIntake(coralMechanism, CoralIntakeDirection.OUT));
-      driverGamepad.x().whileTrue(new SnapToTarget(vision, drivetrain));
+      //driverGamepad.x().whileTrue(new SnapToTarget(vision, drivetrain));
+      driverGamepad.x().whileTrue(new MoveElevatorManually(-3));
+      driverGamepad.y().whileTrue(new MoveElevatorManually(3));
         break;
       case REVAMP:
       //TODO change PrepToScore command to accept a single argument (which level to prep)
@@ -151,6 +164,6 @@ public class RobotContainer {
   public Command getAutonomousCommand(){
     //return new Drive(drivetrain, () -> 0.185, () -> 0, () -> 0, () -> true).withTimeout(1.15);
     //return new PathPlannerAuto("HopeA");
-    return null;
+    return autoSelector.getSelected();
   }
 }
