@@ -77,6 +77,8 @@ public class RobotContainer {
       controlSelector.addOption(profile.toString(), profile);
     }
 
+    //TODO WARNING: DO NOT MOVE THESE COMMANDS FROM THIS SPOT.
+    //TODO If they do not come before the autoSelector setup, none of the PathPlanner autos will work.
     NamedCommands.registerCommand("SadCoral", new PrepareToScore(elevator, coralMechanism, L1, CORAL_L4));
     NamedCommands.registerCommand("AutoRaiseL4", new PrepareToScore(elevator, coralMechanism, TargetLevel.L4, ElevatorPosition.CORAL_L4));
     NamedCommands.registerCommand("AutoRaiseL1", new PrepareToScore(elevator, coralMechanism, L1, CORAL_L1));
@@ -111,9 +113,6 @@ public class RobotContainer {
     SmartDashboard.putData(new ZeroYaw(drivetrain));
     SmartDashboard.putData(new SetCoralAngle(coralMechanism, CoralMechanismPosition.SUPER_STOWED, MoveCoralCancelBehavior.CANCEL_IMMEDIATELY));
     SmartDashboard.putData(new SetCoralAngle(coralMechanism, CoralMechanismPosition.SCORE_L2, MoveCoralCancelBehavior.CANCEL_IMMEDIATELY));
-
-
-    //NamedCommands.registerCommand("AutoScore",new ScoreCoralSequence(coralMechanism, elevator));
     
     configureBindings();
   }
@@ -132,7 +131,7 @@ public class RobotContainer {
       driverGamepad.rightStick().onTrue(new PrepareToScore(elevator, coralMechanism, TargetLevel.L2, ElevatorPosition.CORAL_L2));
       operatorGamepad.a().whileTrue(new RunCoralIntake(coralMechanism, CoralIntakeDirection.IN));
       operatorGamepad.b().whileTrue(new RunCoralIntake(coralMechanism, CoralIntakeDirection.OUT));
-      //driverGamepad.x().whileTrue(new SnapToTarget(vision, drivetrain));
+
       driverGamepad.x().whileTrue(new MoveElevatorManually(-3));
       driverGamepad.y().whileTrue(new MoveElevatorManually(3));
         break;
@@ -146,10 +145,8 @@ public class RobotContainer {
       driverGamepad.leftBumper().onTrue(new GrabCoralSequence(coralMechanism, elevator)); //TODO whileTrue()???
       driverGamepad.povDown().onTrue(new InstantCommand(()-> climber.triggerSolenoid(1))); //TODO why not use "lift"
 
-      //TODO sheesh
       new Trigger(()-> driverGamepad.getRightTriggerAxis() > 0.5).onTrue(new RunCoralIntake(coralMechanism, CoralIntakeDirection.OUT));
       new Trigger(()-> driverGamepad.getLeftTriggerAxis() > 0.5).onTrue(new RunCoralIntake(coralMechanism, CoralIntakeDirection.IN));
-
         break;
       default:
         break;
@@ -159,7 +156,6 @@ public class RobotContainer {
   
   }
 
-  //TODO and then, the Lord said, "we have 10 days, it's PathPlanner time baby"
   //TODO move this out of getAutonomousCommand() as per the docs
   public Command getAutonomousCommand(){
     //return new Drive(drivetrain, () -> 0.185, () -> 0, () -> 0, () -> true).withTimeout(1.15);
