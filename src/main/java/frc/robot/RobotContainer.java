@@ -183,7 +183,7 @@ public class RobotContainer {
 
       new RunCoralIntake(coralMechanism, CoralIntakeDirection.OUT).withTimeout(2)
     ); */
-    return new SequentialCommandGroup(new DriveOpenLoop(drivetrain, () -> 0.100, () -> 0, () -> 0, () -> true).withTimeout(1));
+    return new SequentialCommandGroup(new DriveOpenLoop(drivetrain, () -> 0.100, () -> 0, () -> 0, () -> true).withTimeout(1),
     new MoveCoralMechanism(coralMechanism, CoralMechanismPosition.SCORE_L3, MoveCoralCancelBehavior.CANCEL_SETPOINT_REACHED));
   }
 }
