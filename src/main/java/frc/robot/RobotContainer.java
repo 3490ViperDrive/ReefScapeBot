@@ -9,9 +9,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
+import frc.robot.commands.SetElevator.SetElevatorCancelBehavior;
 import frc.robot.subsystems.*;
 import frc.robot.Enums.CoralEnums.*;
 import frc.robot.Enums.ElevatorEnums.*;
@@ -48,7 +52,7 @@ public class RobotContainer {
   private final GamepadFilter gamepadFilter;
 
   SendableChooser<ControlProfile> controlSelector;
-  SendableChooser<PathPlannerAuto> autoSelector;
+  //SendableChooser<PathPlannerAuto> autoSelector;
   ControlProfile currentProfile;
 
   public RobotContainer() {
@@ -69,16 +73,16 @@ public class RobotContainer {
       controlSelector.addOption(profile.toString(), profile);
     }
 
-    NamedCommands.registerCommand("SadCoral", new PrepareToScore(elevator, coralMechanism, L1, CORAL_L4));
-    NamedCommands.registerCommand("AutoRaiseL4", new PrepareToScore(elevator, coralMechanism, TargetLevel.L4, ElevatorPosition.CORAL_L4));
-    NamedCommands.registerCommand("AutoRaiseL1", new PrepareToScore(elevator, coralMechanism, L1, CORAL_L1));
-    NamedCommands.registerCommand("AutoScore",new RunCoralIntake(coralMechanism, CoralIntakeDirection.OUT));
-    NamedCommands.registerCommand("AutoIntake",new RunCoralIntake(coralMechanism, CoralIntakeDirection.IN));
+    // NamedCommands.registerCommand("SadCoral", new PrepareToScore(elevator, coralMechanism, L1, CORAL_L4));
+    // NamedCommands.registerCommand("AutoRaiseL4", new PrepareToScore(elevator, coralMechanism, TargetLevel.L4, ElevatorPosition.CORAL_L4));
+    // NamedCommands.registerCommand("AutoRaiseL1", new PrepareToScore(elevator, coralMechanism, L1, CORAL_L1));
+    // NamedCommands.registerCommand("AutoScore",new RunCoralIntake(coralMechanism, CoralIntakeDirection.OUT));
+    // NamedCommands.registerCommand("AutoIntake",new RunCoralIntake(coralMechanism, CoralIntakeDirection.IN));
 
-    autoSelector = new SendableChooser<PathPlannerAuto>();
-    autoSelector.addOption("Test", new PathPlannerAuto("ShivaShrimple"));
-    autoSelector.setDefaultOption("Test1", new PathPlannerAuto("SkrrA"));
-    SmartDashboard.putData(autoSelector);
+    // autoSelector = new SendableChooser<PathPlannerAuto>();
+    // autoSelector.addOption("Test", new PathPlannerAuto("ShivaShrimple"));
+    // autoSelector.setDefaultOption("Test1", new PathPlannerAuto("SkrrA"));
+    // SmartDashboard.putData(autoSelector);
 
     SmartDashboard.putData("Controls", controlSelector);
     controlSelector.setDefaultOption("Default", ControlProfile.COMP);
@@ -157,8 +161,24 @@ public class RobotContainer {
   //TODO and then, the Lord said, "we have 10 days, it's PathPlanner time baby"
   //TODO move this out of getAutonomousCommand() as per the docs
   public Command getAutonomousCommand(){
-    //return new Drive(drivetrain, () -> 0.185, () -> 0, () -> 0, () -> true).withTimeout(1.15);
+    return new SequentialCommandGroup (
+      new ParallelCommandGroup(
+        new Drive(drivetrain, () -> 0.200, () -> 0, () -> 0, () -> true).withTimeout(1.7),
+        new SetCoralAngle(coralMechanism, CoralMechanismPosition.SCORE_L4, MoveCoralCancelBehavior.CANCEL_SETPOINT_REACHED),
+        new SequentialCommandGroup(
+          new WaitCommand(0.4),
+          new SetElevator(elevator, () -> ElevatorPosition.CORAL_L4, SetElevatorCancelBehavior.CANCEL_SETPOINT_REACHED)
+        )
+      ),
+
+      //safeguard
+      new Drive(drivetrain, () -> 0, () -> 0, () -> 0, () -> true).withTimeout(1.5),
+
+      new RunCoralIntake(coralMechanism, CoralIntakeDirection.OUT).withTimeout(2)
+    );
+    /* return new SequentialCommandGroup(new Drive(drivetrain, () -> 0.100, () -> 0, () -> 0, () -> true).withTimeout(1),
+    new SetCoralAngle(coralMechanism, CoralMechanismPosition.SCORE_L3, MoveCoralCancelBehavior.CANCEL_SETPOINT_REACHED)); */
     //return new PathPlannerAuto("HopeA");
-    return autoSelector.getSelected();
+    //return autoSelector.getSelected();
   }
 }
