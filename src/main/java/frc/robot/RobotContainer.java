@@ -93,7 +93,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("AutoIntake",new RunCoralIntake(coralMechanism, CoralIntakeDirection.IN));
 
     autoSelector = new SendableChooser<PathPlannerAuto>();
-    autoSelector.addOption("Test", new PathPlannerAuto("ShivaShrimple"));
+    autoSelector.addOption("Test", new PathPlannerAuto("L_10L"));
     autoSelector.setDefaultOption("Test1", new PathPlannerAuto("SkrrA"));
     SmartDashboard.putData(autoSelector);
 
@@ -136,11 +136,23 @@ public class RobotContainer {
       driverGamepad.start().onTrue(new PrepareToScore(elevator, coralMechanism, TargetLevel.L3, ElevatorPosition.CORAL_L3));
       driverGamepad.leftStick().onTrue(new PrepareToScore(elevator, coralMechanism, TargetLevel.L1, ElevatorPosition.CORAL_L1));
       driverGamepad.rightStick().onTrue(new PrepareToScore(elevator, coralMechanism, TargetLevel.L2, ElevatorPosition.CORAL_L2));
-      operatorGamepad.a().whileTrue(new RunCoralIntake(coralMechanism, CoralIntakeDirection.IN));
-      operatorGamepad.b().whileTrue(new RunCoralIntake(coralMechanism, CoralIntakeDirection.OUT));
+      //driverGamepad.x().whileTrue(new SnapToTarget(vision, drivetrain));
 
-      driverGamepad.x().whileTrue(new MoveElevatorManually(-3));
-      driverGamepad.y().whileTrue(new MoveElevatorManually(3));
+      operatorGamepad.leftTrigger().whileTrue(new RunCoralIntake(coralMechanism, CoralIntakeDirection.IN));
+      operatorGamepad.rightTrigger().whileTrue(new RunCoralIntake(coralMechanism, CoralIntakeDirection.OUT));
+      operatorGamepad.povUp().whileTrue(new MoveElevatorManually(4));
+      operatorGamepad.povDown().whileTrue(new MoveElevatorManually(-4));
+      operatorGamepad.a().onTrue(new InstantCommand(() -> climber.triggerSolenoid(1)));
+      operatorGamepad.b().onTrue(new InstantCommand(() -> climber.triggerSolenoid(0)));
+      operatorGamepad.povRight().whileTrue(new MoveCoralManually(4));
+      operatorGamepad.povLeft().whileTrue(new MoveCoralManually(-4));
+      operatorGamepad.leftBumper().onTrue(new SetCoralAngle(coralMechanism, CoralMechanismPosition.SUPER_STOWED, MoveCoralCancelBehavior.CANCEL_IMMEDIATELY));
+      operatorGamepad.x().onTrue(new PrepareToScore(elevator, coralMechanism, TargetLevel.L3, ElevatorPosition.CORAL_L3));
+      operatorGamepad.y().onTrue(new PrepareToScore(elevator, coralMechanism, TargetLevel.L1, ElevatorPosition.CORAL_INTAKE));
+      operatorGamepad.leftStick().whileTrue(new GrabCoralSequence(coralMechanism, elevator));
+      operatorGamepad.rightStick().whileTrue(new ScoreCoralSequence(coralMechanism, elevator));
+      operatorGamepad.rightBumper().onTrue(new ZeroYaw(drivetrain));
+
         break;
       case REVAMP:
       //TODO change PrepToScore command to accept a single argument (which level to prep)

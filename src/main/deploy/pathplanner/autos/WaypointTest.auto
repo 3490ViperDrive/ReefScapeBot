@@ -7,7 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "10L"
+            "pathName": "12R"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoRaiseL4"
           }
         }
       ]
