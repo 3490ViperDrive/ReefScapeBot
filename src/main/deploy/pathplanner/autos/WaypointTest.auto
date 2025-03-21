@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Start1-Reef1"
+            "pathName": "10L"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Odin",
+  "folder": "WaypointTester",
   "choreoAuto": false
 }
