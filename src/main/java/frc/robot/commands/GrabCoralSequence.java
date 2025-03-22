@@ -39,7 +39,7 @@ public class GrabCoralSequence extends WrapperCommand {
                     new SetCoralAngle(coralMechanism,
                                            CoralMechanismAngle.INTAKE,
                                            MoveCoralCancelBehavior.CANCEL_SETPOINT_REACHED)),
-                new RunCoralIntake(coralMechanism, CoralIntakeDirection.IN)
+                new RunCoralMotor(coralMechanism, CoralIntakeDirection.IN)
                     .raceWith(new SequentialCommandGroup(Commands.waitUntil(() -> coralMechanism.getCoralDetected()),
                                                          Commands.waitSeconds(CORAL_DETECTED_DELAY)))));
         this.coralMechanism = coralMechanism;

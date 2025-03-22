@@ -15,20 +15,19 @@ public class SetCoralAngle extends Command {
 
     
 
-    public SetCoralAngle(CoralMechanism coralMechanism,
-                              Supplier<CoralMechanismAngle> setpointSup,
+    public SetCoralAngle(Supplier<CoralMechanismAngle> setpointSup,
                               MoveCoralCancelBehavior cancelBehavior) {
-        this.coralMechanism = coralMechanism;
+        this.coralMechanism = CoralMechanism.instance;
         this.setpointSup = setpointSup;
         this.cancelBehavior = cancelBehavior;
         super.addRequirements(coralMechanism);
         super.setName(String.format("Move Coral Mech to somewhere idk"));
     }
 
-    public SetCoralAngle(CoralMechanism coralMechanism,
-                              CoralMechanismAngle setpoint,
-                              MoveCoralCancelBehavior cancelBehavior) {
-        this(coralMechanism, () -> setpoint, cancelBehavior);
+    public SetCoralAngle(CoralMechanismAngle setpoint,
+                         MoveCoralCancelBehavior cancelBehavior) {
+
+        this(() -> setpoint, cancelBehavior);
         super.setName("Move Coral Mech to " + setpoint);
     }
 

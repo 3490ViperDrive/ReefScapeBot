@@ -1,6 +1,6 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -14,26 +14,25 @@ public class PrepareToScore extends SequentialCommandGroup{
 
     Elevator _elevator;
     CoralMechanism _coralMechanism;
-    ElevatorPosition _elevatorLevel; //TODO the naming conventions here are a bit painful.
+    ElevatorPosition _elevatorLevel;
     CoralMechanismAngle _coralAngle;
 
 
-    public PrepareToScore(TargetLevel elevatorTarget, ElevatorPosition elevatorSetpoint){
+    public PrepareToScore(ElevatorPosition elevatorSetpoint){
         _elevator = Elevator.instance;
         _coralMechanism = CoralMechanism.instance;
     }
 
 
     //TODO this one needs some WORK
-    public PrepareToScore(Elevator elevator, CoralMechanism coralMechanism, TargetLevel logicalPosition, ElevatorPosition targetPosition){
-        //TODO why don't we move the "set the coral mechanism to look downward" bit to execute before the rest of the stuff does, to prevent
-        //TODO any accidental breakage of the coral mechanism? seems an arbitrary rule to set
+    //TODO move "sadCoral" to front of sequence?
+    public PrepareToScore(Elevator elevator, CoralMechanism coralMechanism, ElevatorPosition targetPosition){
         this.addCommands(
             new ParallelCommandGroup(
             new SetElevator(elevator, targetPosition, SetElevatorCancelBehavior.CANCEL_SETPOINT_REACHED),
-            new SetCoralAngle(coralMechanism, () -> ScoreCoralSequence.mapLogicalToCoral(logicalPosition), MoveCoralCancelBehavior.CANCEL_SETPOINT_REACHED) 
+            new SetCoralAngle(CoralMechanism.getAngleFromElevatorSetpoint(targetPosition), MoveCoralCancelBehavior.CANCEL_SETPOINT_REACHED) 
         ),
-        new PrintCommand("Elevator set to " + logicalPosition)
+        new PrintCommand("Elevator set to " + targetPosition)
         );
     }
 }
