@@ -12,9 +12,6 @@ import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
-import frc.robot.Enums.ElevatorEnums.TargetLevel;
-import frc.robot.HardwareIds;
-
 public class ElevatorConfigs {
     public static final double SPOOL_DIAMETER = 1.37; //inches
     public static final double GEAR_RATIO = 15; //25:1
@@ -38,7 +35,7 @@ public class ElevatorConfigs {
         public static final double G = 0.16;
     }//ClosedLoopGains
 
-    //TODO pass in a more generalized motorController type as opposed to specifically the TalonFX
+    //TODO Pass in a more generalized motorController type as opposed to specifically the TalonFX
     public void configureMotor(TalonFX motorController){
         
         final TalonFXConfigurator configurator = motorController.getConfigurator();
@@ -48,7 +45,7 @@ public class ElevatorConfigs {
         final FeedbackConfigs feedbackConfiguration = new FeedbackConfigs();
         final Slot0Configs slot0Configuration = new Slot0Configs();
 
-        //TODO separating the declaration from definition in the same method call is questionable
+        //Questionable separation of declaration and configuration
         motorOutputConfiguration
             .withInverted(INVERT)
             .withNeutralMode(IDLE_MODE);

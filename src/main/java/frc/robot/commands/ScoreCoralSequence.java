@@ -3,7 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WrapperCommand;
-import frc.robot.commands.SetElevator.SetElevatorCancelBehavior;
+//import frc.robot.commands.SetElevator.SetElevatorCancelBehavior;
 import frc.robot.subsystems.CoralMechanism;
 import frc.robot.subsystems.Elevator;
 import frc.robot.Enums.ElevatorEnums.*;
@@ -22,15 +22,13 @@ public class ScoreCoralSequence extends WrapperCommand{
         super(
             new SequentialCommandGroup(
                 new ParallelCommandGroup(
-                    new SetElevator(elevator,
-                                    () -> mapLogicalToElevator(elevator.getCurrentTarget()),
+                    new SetElevator(elevator),
                                     SetElevatorCancelBehavior.CANCEL_SETPOINT_REACHED),
                     new SetCoralAngle(coralMechanism,
-                        () -> mapLogicalToCoral(elevator.getCurrentTarget()),
-                        MoveCoralCancelBehavior.CANCEL_SETPOINT_REACHED)),
+                        () -> mapLogicalToCoral(elevator.getCurrentTarget(),
+                        MoveCoralCancelBehavior.CANCEL_SETPOINT_REACHED),
                 new RunCoralIntake(coralMechanism, CoralIntakeDirection.OUT)
-            )
-        );
+            ));
         this.coralMechanism = coralMechanism;
         super.setName("Coral Score Sequence");
     } 
@@ -59,17 +57,17 @@ public class ScoreCoralSequence extends WrapperCommand{
         }
     }
 
-    public static CoralMechanismPosition mapLogicalToCoral(TargetLevel logicalPosition) {
+    public static CoralMechanismAngle mapLogicalToCoral(TargetLevel logicalPosition) {
         switch (logicalPosition) {
             case L1:
-                return CoralMechanismPosition.SCORE_L1;
+                return CoralMechanismAngle.SCORE_L1;
             case L3:
-                return CoralMechanismPosition.SCORE_L3;
+                return CoralMechanismAngle.SCORE_L3;
             case L4:
-                return CoralMechanismPosition.SCORE_L4;
+                return CoralMechanismAngle.SCORE_L4;
             case L2:
             default:
-                return CoralMechanismPosition.SCORE_L2;
+                return CoralMechanismAngle.SCORE_L2;
         }
     }
 }

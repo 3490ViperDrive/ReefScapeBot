@@ -69,4 +69,8 @@ public class Elevator extends SubsystemBase {
     public ElevatorPosition getCurrentTarget() {
         return currentTarget;
     }
+
+    public void updateTarget(ElevatorPosition newTargetLevel){
+        currentTarget = newTargetLevel;
+    }
 }

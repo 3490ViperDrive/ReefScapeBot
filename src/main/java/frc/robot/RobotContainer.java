@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import frc.robot.Enums.CoralEnums.*;
-import static frc.robot.Enums.CoralEnums.CoralMechanismPosition.*;
+import static frc.robot.Enums.CoralEnums.CoralMechanismAngle.*;
 import static frc.robot.Enums.CoralEnums.CoralIntakeDirection.*;
 import static frc.robot.Enums.CoralEnums.MoveCoralCancelBehavior.*;
 import frc.robot.Enums.ElevatorEnums.*;
@@ -118,8 +118,8 @@ public class RobotContainer {
 
     //Dashboard Commands
     SmartDashboard.putData(new ZeroYaw(drivetrain));
-    SmartDashboard.putData(new SetCoralAngle(coralMechanism, CoralMechanismPosition.SUPER_STOWED, MoveCoralCancelBehavior.CANCEL_IMMEDIATELY));
-    SmartDashboard.putData(new SetCoralAngle(coralMechanism, CoralMechanismPosition.SCORE_L2, MoveCoralCancelBehavior.CANCEL_IMMEDIATELY));
+    SmartDashboard.putData(new SetCoralAngle(coralMechanism, CoralMechanismAngle.SUPER_STOWED, MoveCoralCancelBehavior.CANCEL_IMMEDIATELY));
+    SmartDashboard.putData(new SetCoralAngle(coralMechanism, CoralMechanismAngle.SCORE_L2, MoveCoralCancelBehavior.CANCEL_IMMEDIATELY));
     
     configureBindings();
   }
@@ -146,7 +146,7 @@ public class RobotContainer {
       operatorGamepad.b().onTrue(new InstantCommand(() -> climber.triggerSolenoid(0)));
       operatorGamepad.povRight().whileTrue(new MoveCoralManually(4));
       operatorGamepad.povLeft().whileTrue(new MoveCoralManually(-4));
-      operatorGamepad.leftBumper().onTrue(new SetCoralAngle(coralMechanism, CoralMechanismPosition.SUPER_STOWED, MoveCoralCancelBehavior.CANCEL_IMMEDIATELY));
+      operatorGamepad.leftBumper().onTrue(new SetCoralAngle(coralMechanism, CoralMechanismAngle.SUPER_STOWED, MoveCoralCancelBehavior.CANCEL_IMMEDIATELY));
       operatorGamepad.x().onTrue(new PrepareToScore(elevator, coralMechanism, TargetLevel.L3, ElevatorPosition.CORAL_L3));
       operatorGamepad.y().onTrue(new PrepareToScore(elevator, coralMechanism, TargetLevel.L1, ElevatorPosition.CORAL_INTAKE));
       operatorGamepad.leftStick().whileTrue(new GrabCoralSequence(coralMechanism, elevator));

@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.SetElevator.SetElevatorCancelBehavior;
+import frc.robot.Enums.ElevatorEnums.SetElevatorCancelBehavior;
 import frc.robot.subsystems.CoralMechanism;
 import frc.robot.subsystems.Elevator;
 import static frc.robot.Enums.ElevatorEnums.*;
@@ -14,8 +14,8 @@ public class PrepareToScore extends SequentialCommandGroup{
 
     Elevator _elevator;
     CoralMechanism _coralMechanism;
-    TargetLevel _logicalPosition;
-    ElevatorPosition _realPosition; //TODO the naming conventions here are a bit painful.
+    ElevatorPosition _elevatorLevel; //TODO the naming conventions here are a bit painful.
+    CoralMechanismAngle _coralAngle;
 
 
     public PrepareToScore(TargetLevel elevatorTarget, ElevatorPosition elevatorSetpoint){
@@ -25,13 +25,12 @@ public class PrepareToScore extends SequentialCommandGroup{
 
 
     //TODO this one needs some WORK
-    public PrepareToScore(Elevator elevator, CoralMechanism coralMechanism, TargetLevel logicalPosition, ElevatorPosition realPosition){
+    public PrepareToScore(Elevator elevator, CoralMechanism coralMechanism, TargetLevel logicalPosition, ElevatorPosition targetPosition){
         //TODO why don't we move the "set the coral mechanism to look downward" bit to execute before the rest of the stuff does, to prevent
         //TODO any accidental breakage of the coral mechanism? seems an arbitrary rule to set
         this.addCommands(
             new ParallelCommandGroup(
-            new InstantCommand(() -> elevator.setTargetLevel(logicalPosition)),
-            new SetElevator(elevator, realPosition, SetElevatorCancelBehavior.CANCEL_SETPOINT_REACHED),
+            new SetElevator(elevator, targetPosition, SetElevatorCancelBehavior.CANCEL_SETPOINT_REACHED),
             new SetCoralAngle(coralMechanism, () -> ScoreCoralSequence.mapLogicalToCoral(logicalPosition), MoveCoralCancelBehavior.CANCEL_SETPOINT_REACHED) 
         ),
         new PrintCommand("Elevator set to " + logicalPosition)

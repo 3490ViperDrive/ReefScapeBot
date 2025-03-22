@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WrapperCommand;
-import frc.robot.commands.SetElevator.SetElevatorCancelBehavior;
+import frc.robot.Enums.ElevatorEnums.SetElevatorCancelBehavior;
 import frc.robot.subsystems.CoralMechanism;
 import frc.robot.subsystems.Elevator;
 import static frc.robot.Enums.ElevatorEnums.*;
@@ -28,6 +28,7 @@ public class GrabCoralSequence extends WrapperCommand {
 
     //TODO this indentation is SINFUL
     public GrabCoralSequence(CoralMechanism coralMechanism, Elevator elevator) {
+        //TODO wouldn't a regular if statement also work?
         super(
             new SequentialCommandGroup(
                 new ParallelCommandGroup(
@@ -36,7 +37,7 @@ public class GrabCoralSequence extends WrapperCommand {
                         new InstantCommand(),
                         () -> elevator.getCurrentTarget() == TargetLevel.L1),
                     new SetCoralAngle(coralMechanism,
-                                           CoralMechanismPosition.INTAKE,
+                                           CoralMechanismAngle.INTAKE,
                                            MoveCoralCancelBehavior.CANCEL_SETPOINT_REACHED)),
                 new RunCoralIntake(coralMechanism, CoralIntakeDirection.IN)
                     .raceWith(new SequentialCommandGroup(Commands.waitUntil(() -> coralMechanism.getCoralDetected()),

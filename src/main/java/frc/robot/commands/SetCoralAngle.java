@@ -10,13 +10,13 @@ import static frc.robot.Enums.CoralEnums.*;
  */
 public class SetCoralAngle extends Command {
     private final CoralMechanism coralMechanism;
-    private final Supplier<CoralMechanismPosition> setpointSup;
+    private final Supplier<CoralMechanismAngle> setpointSup;
     private final MoveCoralCancelBehavior cancelBehavior;
 
     
 
     public SetCoralAngle(CoralMechanism coralMechanism,
-                              Supplier<CoralMechanismPosition> setpointSup,
+                              Supplier<CoralMechanismAngle> setpointSup,
                               MoveCoralCancelBehavior cancelBehavior) {
         this.coralMechanism = coralMechanism;
         this.setpointSup = setpointSup;
@@ -26,7 +26,7 @@ public class SetCoralAngle extends Command {
     }
 
     public SetCoralAngle(CoralMechanism coralMechanism,
-                              CoralMechanismPosition setpoint,
+                              CoralMechanismAngle setpoint,
                               MoveCoralCancelBehavior cancelBehavior) {
         this(coralMechanism, () -> setpoint, cancelBehavior);
         super.setName("Move Coral Mech to " + setpoint);
