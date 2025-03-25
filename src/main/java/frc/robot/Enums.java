@@ -75,7 +75,7 @@ public class Enums {
     }
 
     public static class ClimberEnums{
-
+        
     }
 
     public static class GeneralEnums{

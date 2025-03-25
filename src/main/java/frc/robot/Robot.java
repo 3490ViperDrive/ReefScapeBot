@@ -34,6 +34,7 @@ public class Robot extends TimedRobot {
 
   public Robot() {
     //PortForwarder.add(5800, "photonvision.local", 5800);
+    
     robotContainer = new RobotContainer();
 
     DriverStation.silenceJoystickConnectionWarning(true);
@@ -41,7 +42,8 @@ public class Robot extends TimedRobot {
     //configure logging
     Epilogue.configure(config -> {
       if (isSimulation()) {
-        config.errorHandler = ErrorHandler.crashOnError();
+        config.errorHandler = ErrorHandler.printErrorMessages();
+        //config.errorHandler = ErrorHandler.crashOnError();
       } else {
         config.errorHandler = ErrorHandler.printErrorMessages();
       }

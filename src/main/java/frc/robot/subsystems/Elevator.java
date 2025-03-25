@@ -12,6 +12,7 @@ import frc.robot.configs.ElevatorConfigs;
 import static frc.robot.configs.ElevatorConfigs.*;
 import static frc.robot.HardwareIds.Can.*;
 import static frc.robot.Enums.ElevatorEnums.*;
+import static frc.robot.Enums.ElevatorEnums.ElevatorPosition.*;
 
 public class Elevator extends SubsystemBase {
 
@@ -19,7 +20,8 @@ public class Elevator extends SubsystemBase {
     public static ElevatorConfigs configs;
     private final TalonFX motorController;
 
-    private ElevatorPosition currentTarget;
+    //TODO ironic, this 
+    private ElevatorPosition currentTarget = DEFAULT;
 
     public static class ClosedLoopGains {
         //feedback
@@ -34,6 +36,7 @@ public class Elevator extends SubsystemBase {
 
     public Elevator(){
         instance = this;
+        configs = new ElevatorConfigs();
         motorController = new TalonFX(ELEVATOR_MOTOR);
         configs.configureMotor(motorController);
         

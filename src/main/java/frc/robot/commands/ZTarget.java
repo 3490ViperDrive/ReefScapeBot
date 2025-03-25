@@ -32,7 +32,12 @@ public class ZTarget extends Command{
 
     @Override
     public void execute(){
-        
+        //TODO first testing the behavior of the drivetrain when command is scheduled
+        robotCentricRequest.withVelocityX(0)
+                            .withVelocityY(0)
+                            .withRotationalRate(3);
+        //TODO 1 rad/s ~= 60 deg/s
+        _drivetrain.applySwerveRequest(robotCentricRequest);
     }
 
 

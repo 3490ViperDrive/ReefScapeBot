@@ -29,6 +29,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.HardwareIds;
+import frc.robot.configs.DrivetrainConfigs;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.PIDConstants;
@@ -42,6 +43,7 @@ import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 public class Drivetrain extends SubsystemBase {
 
     public static Drivetrain instance;
+    //private DrivetrainConfigs configs;
 
     public static final Angle FRONT_LEFT_CANCODER_OFFSET = Rotations.of(-0.443359);
     public static final Angle FRONT_RIGHT_CANCODER_OFFSET = Rotations.of(-0.159180);
@@ -97,9 +99,7 @@ public class Drivetrain extends SubsystemBase {
 													   .withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
 
     private final SwerveDrivetrain<TalonFX, TalonFX, CANcoder> swerve;
-    
     private SwerveDrivetrain.SwerveDriveState currentState;
-
     private SwerveRequest.ApplyRobotSpeeds pathPlannerRequest;
 
     /**
