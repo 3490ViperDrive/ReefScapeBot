@@ -5,12 +5,14 @@
 package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.epilogue.Epilogue;
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.epilogue.logging.FileBackend;
 import edu.wpi.first.epilogue.logging.NTEpilogueBackend;
 import edu.wpi.first.epilogue.logging.errors.ErrorHandler;
 import edu.wpi.first.net.PortForwarder;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -22,6 +24,11 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 @Logged
 public class Robot extends TimedRobot {
   private Command autonomousCommand;
+ 
+  // UsbCamera coralCamera;
+  // UsbCamera climberCamera;
+
+   //NetworkTableEntry cameraSelection;
 
   private final RobotContainer robotContainer;
 
@@ -67,8 +74,10 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData(CommandScheduler.getInstance());
 
     //one of these should work
-    CameraServer.startAutomaticCapture(0);
-    CameraServer.startAutomaticCapture(1);
+    //climberCamera = CameraServer.startAutomaticCapture(0);
+    //coralCamera = CameraServer.startAutomaticCapture(1);
+    //cameraSelection = NetworkTableInstance.getDefault().getTable("").getEntry("Camera Selection");
+    
   }
 
   @Override

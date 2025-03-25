@@ -151,6 +151,7 @@ public class RobotContainer {
       operatorGamepad.leftStick().whileTrue(new GrabCoralSequence(coralMechanism, elevator));
       operatorGamepad.rightStick().whileTrue(new ScoreCoralSequence(coralMechanism, elevator));
       operatorGamepad.rightBumper().onTrue(new ZeroYaw(drivetrain));
+      operatorGamepad.back().onTrue(new SwitchCamera(!SwitchCamera.whichCam));
 
         break;
       case REVAMP:
