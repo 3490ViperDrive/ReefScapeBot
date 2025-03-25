@@ -9,9 +9,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
+import frc.robot.commands.SetElevator.SetElevatorCancelBehavior;
 import frc.robot.subsystems.*;
 import frc.robot.Enums.CoralEnums.*;
 import frc.robot.Enums.ElevatorEnums.*;
@@ -23,7 +27,6 @@ import frc.robot.utils.controlProfile;
 
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
-
 
 public class RobotContainer {
 
@@ -44,19 +47,13 @@ public class RobotContainer {
 
   private final Vision vision;
   
-
   private final CommandXboxController driverGamepad;
   private final CommandXboxController operatorGamepad;
   private final GamepadFilter gamepadFilter;
 
   SendableChooser<ControlProfile> controlSelector;
-  SendableChooser<PathPlannerAuto> autoSelector;
+  //SendableChooser<PathPlannerAuto> autoSelector;
   ControlProfile currentProfile;
-
-  
-
-
-  
 
   public RobotContainer() {
     //Subsystems
@@ -71,31 +68,25 @@ public class RobotContainer {
     operatorGamepad = new CommandXboxController(OPERATOR_CONTROLLER_PORT);
     gamepadFilter = new GamepadFilter(driverGamepad, CONTROLLER_DEADBAND);
 
-
     controlSelector = new SendableChooser<ControlProfile>();
     for(ControlProfile profile : ControlProfile.values()){
       controlSelector.addOption(profile.toString(), profile);
     }
 
-    NamedCommands.registerCommand("SadCoral", new PrepareToScore(elevator, coralMechanism, L1, CORAL_L4));
-    NamedCommands.registerCommand("AutoRaiseL4", new PrepareToScore(elevator, coralMechanism, TargetLevel.L4, ElevatorPosition.CORAL_L4));
-    NamedCommands.registerCommand("AutoRaiseL1", new PrepareToScore(elevator, coralMechanism, L1, CORAL_L1));
-    NamedCommands.registerCommand("AutoScore",new RunCoralIntake(coralMechanism, CoralIntakeDirection.OUT));
-    NamedCommands.registerCommand("AutoIntake",new RunCoralIntake(coralMechanism, CoralIntakeDirection.IN));
+    // NamedCommands.registerCommand("SadCoral", new PrepareToScore(elevator, coralMechanism, L1, CORAL_L4));
+    // NamedCommands.registerCommand("AutoRaiseL4", new PrepareToScore(elevator, coralMechanism, TargetLevel.L4, ElevatorPosition.CORAL_L4));
+    // NamedCommands.registerCommand("AutoRaiseL1", new PrepareToScore(elevator, coralMechanism, L1, CORAL_L1));
+    // NamedCommands.registerCommand("AutoScore",new RunCoralIntake(coralMechanism, CoralIntakeDirection.OUT));
+    // NamedCommands.registerCommand("AutoIntake",new RunCoralIntake(coralMechanism, CoralIntakeDirection.IN));
 
-    autoSelector = new SendableChooser<PathPlannerAuto>();
-    autoSelector.addOption("Test", new PathPlannerAuto("ShivaShrimple"));
-    autoSelector.setDefaultOption("Test1", new PathPlannerAuto("SkrrA"));
-    SmartDashboard.putData(autoSelector);
+    // autoSelector = new SendableChooser<PathPlannerAuto>();
+    // autoSelector.addOption("Test", new PathPlannerAuto("ShivaShrimple"));
+    // autoSelector.setDefaultOption("Test1", new PathPlannerAuto("SkrrA"));
+    // SmartDashboard.putData(autoSelector);
 
     SmartDashboard.putData("Controls", controlSelector);
     controlSelector.setDefaultOption("Default", ControlProfile.COMP);
     //currentProfile = controlSelector.getSelected();
-
-
-
-    
-
 
     //Default Commands
       drivetrain.setDefaultCommand(
@@ -104,14 +95,12 @@ public class RobotContainer {
           () -> gamepadFilter.getX() * ((driverGamepad.leftBumper().getAsBoolean()) ? 0.4 : 1), //TODO WET!!!!
           () -> gamepadFilter.getY() * ((driverGamepad.leftBumper().getAsBoolean()) ? 0.4 : 1),
           () -> gamepadFilter.getTheta() * ((driverGamepad.leftBumper().getAsBoolean()) ? 0.4 : 1),
-          () -> driverGamepad.rightBumper().getAsBoolean()));
-          
+          () -> driverGamepad.rightBumper().getAsBoolean()));     
 
     //Dashboard Commands
     SmartDashboard.putData(new ZeroYaw(drivetrain));
     SmartDashboard.putData(new SetCoralAngle(coralMechanism, CoralMechanismPosition.SUPER_STOWED, MoveCoralCancelBehavior.CANCEL_IMMEDIATELY));
     SmartDashboard.putData(new SetCoralAngle(coralMechanism, CoralMechanismPosition.SCORE_L2, MoveCoralCancelBehavior.CANCEL_IMMEDIATELY));
-
 
     //NamedCommands.registerCommand("AutoScore",new ScoreCoralSequence(coralMechanism, elevator));
     
@@ -130,11 +119,23 @@ public class RobotContainer {
       driverGamepad.start().onTrue(new PrepareToScore(elevator, coralMechanism, TargetLevel.L3, ElevatorPosition.CORAL_L3));
       driverGamepad.leftStick().onTrue(new PrepareToScore(elevator, coralMechanism, TargetLevel.L1, ElevatorPosition.CORAL_L1));
       driverGamepad.rightStick().onTrue(new PrepareToScore(elevator, coralMechanism, TargetLevel.L2, ElevatorPosition.CORAL_L2));
-      operatorGamepad.a().whileTrue(new RunCoralIntake(coralMechanism, CoralIntakeDirection.IN));
-      operatorGamepad.b().whileTrue(new RunCoralIntake(coralMechanism, CoralIntakeDirection.OUT));
       //driverGamepad.x().whileTrue(new SnapToTarget(vision, drivetrain));
-      driverGamepad.x().whileTrue(new MoveElevatorManually(-3));
-      driverGamepad.y().whileTrue(new MoveElevatorManually(3));
+
+      operatorGamepad.leftTrigger().whileTrue(new RunCoralIntake(coralMechanism, CoralIntakeDirection.IN));
+      operatorGamepad.rightTrigger().whileTrue(new RunCoralIntake(coralMechanism, CoralIntakeDirection.OUT));
+      operatorGamepad.povUp().whileTrue(new MoveElevatorManually(4));
+      operatorGamepad.povDown().whileTrue(new MoveElevatorManually(-4));
+      operatorGamepad.a().onTrue(new InstantCommand(() -> climber.triggerSolenoid(1)));
+      operatorGamepad.b().onTrue(new InstantCommand(() -> climber.triggerSolenoid(0)));
+      operatorGamepad.povRight().whileTrue(new MoveCoralManually(4));
+      operatorGamepad.povLeft().whileTrue(new MoveCoralManually(-4));
+      operatorGamepad.leftBumper().onTrue(new SetCoralAngle(coralMechanism, CoralMechanismPosition.SUPER_STOWED, MoveCoralCancelBehavior.CANCEL_IMMEDIATELY));
+      operatorGamepad.x().onTrue(new PrepareToScore(elevator, coralMechanism, TargetLevel.L3, ElevatorPosition.CORAL_L3));
+      operatorGamepad.y().onTrue(new PrepareToScore(elevator, coralMechanism, TargetLevel.L1, ElevatorPosition.CORAL_INTAKE));
+      operatorGamepad.leftStick().whileTrue(new GrabCoralSequence(coralMechanism, elevator));
+      operatorGamepad.rightStick().whileTrue(new ScoreCoralSequence(coralMechanism, elevator));
+      operatorGamepad.rightBumper().onTrue(new ZeroYaw(drivetrain));
+
         break;
       case REVAMP:
       //TODO change PrepToScore command to accept a single argument (which level to prep)
@@ -147,23 +148,41 @@ public class RobotContainer {
       driverGamepad.povDown().onTrue(new InstantCommand(()-> climber.triggerSolenoid(1))); //TODO why not use "lift"
 
       //TODO sheesh
-      new Trigger(()-> driverGamepad.getRightTriggerAxis() > 0.5).onTrue(new RunCoralIntake(coralMechanism, CoralIntakeDirection.OUT));
-      new Trigger(()-> driverGamepad.getLeftTriggerAxis() > 0.5).onTrue(new RunCoralIntake(coralMechanism, CoralIntakeDirection.IN));
+      new Trigger(()-> operatorGamepad.getRightTriggerAxis() > 0.5).onTrue(new RunCoralIntake(coralMechanism, CoralIntakeDirection.OUT));
+      new Trigger(()-> operatorGamepad.getLeftTriggerAxis() > 0.5).onTrue(new RunCoralIntake(coralMechanism, CoralIntakeDirection.IN));
 
         break;
       default:
         break;
 
     }
-
-  
   }
 
   //TODO and then, the Lord said, "we have 10 days, it's PathPlanner time baby"
   //TODO move this out of getAutonomousCommand() as per the docs
-  public Command getAutonomousCommand(){
-    //return new Drive(drivetrain, () -> 0.185, () -> 0, () -> 0, () -> true).withTimeout(1.15);
+    public Command getAutonomousCommand(){
+  //   return new SequentialCommandGroup (
+  //     new ParallelCommandGroup(
+  //     new SetCoralAngle(coralMechanism, CoralMechanismPosition.SCORE_L4, MoveCoralCancelBehavior.CANCEL_SETPOINT_REACHED),
+  //       new Drive(drivetrain, () -> 0.200, () -> 0, () -> 0, () -> true).withTimeout(2),
+  //       new SequentialCommandGroup(
+  //         new WaitCommand(0.4),
+  //         new SetElevator(elevator, () -> ElevatorPosition.CORAL_L4, SetElevatorCancelBehavior.CANCEL_SETPOINT_REACHED)
+  //       )
+  //     ),
+
+  //     //safeguard
+  //     new Drive(drivetrain, () -> 0, () -> 0, () -> 0, () -> true).withTimeout(2),
+
+  //     new RunCoralIntake(coralMechanism, CoralIntakeDirection.OUT).withTimeout(2)
+  //   );
+    return new
+    SequentialCommandGroup(new SetCoralAngle(coralMechanism, CoralMechanismPosition.SCORE_L3, MoveCoralCancelBehavior.CANCEL_SETPOINT_REACHED), 
+    new Drive(drivetrain, () -> 0.175, () -> 0, () -> 0, () -> true).withTimeout(4.25),
+    new Drive(drivetrain, ()->0, ()->0, ()->0, ()->true).withTimeout(0.5));
+
+    /*new SetCoralAngle(coralMechanism, CoralMechanismPosition.SCORE_L3, MoveCoralCancelBehavior.CANCEL_SETPOINT_REACHED)); */
     //return new PathPlannerAuto("HopeA");
-    return autoSelector.getSelected();
+    //return autoSelector.getSelected();
   }
 }

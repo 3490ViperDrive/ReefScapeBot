@@ -12,7 +12,6 @@ public class MoveElevatorManually extends Command{
         _elevator = Elevator.instance;
         retVal = val;
         addRequirements(_elevator);
-
     }
 
     @Override

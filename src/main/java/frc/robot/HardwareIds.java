@@ -28,14 +28,14 @@ public class HardwareIds {
 
         public static final int IMU = 13; //gyro
 
-        public static final int ALGAE_INTAKE_MOTOR_LEFT = 18; //magic number in use
-        public static final int ALGAE_INTAKE_MOTOR_RIGHT = 19; //magic number in use
-        public static final int ALGAE_PIVOT_MOTOR = 20; //magic number in use
+        // public static final int ALGAE_INTAKE_MOTOR_LEFT = 18; 
+        // public static final int ALGAE_INTAKE_MOTOR_RIGHT = 19; 
+        // public static final int ALGAE_PIVOT_MOTOR = 20;
         
         //absolute encoder plugged directly into sparkmax
         public static final int CORAL_LEFT_INTAKE_MOTOR = 14; //sparkmax + neo550
         public static final int CORAL_RIGHT_INTAKE_MOTOR = 15;
-        public static final int CORAL_PIVOT_MOTOR = 16; //sparkmax + snowblower motor aka windshield wiper motor
+        public static final int CORAL_PIVOT_MOTOR = 16; //sparkmax + standard  neo
         public static final int CORAL_DISTANCE_SENSOR = 17; //canrange
 
         public static final int ELEVATOR_MOTOR = 21;
