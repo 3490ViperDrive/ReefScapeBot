@@ -12,7 +12,7 @@ public class Enums {
             CORAL_L1(0.0),
             CORAL_L2(2),
             CORAL_L3(17.5),
-            CORAL_L4(46);
+            CORAL_L4(46.5);
     
             double position;
     
