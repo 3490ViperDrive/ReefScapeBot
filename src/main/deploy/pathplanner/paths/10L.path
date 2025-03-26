@@ -4,24 +4,24 @@
     {
       "anchor": {
         "x": 7.5,
-        "y": 6.54
+        "y": 6.9
       },
       "prevControl": null,
       "nextControl": {
         "x": 6.1034999999999995,
-        "y": 6.553249999999999
+        "y": 6.91325
       },
       "isLocked": false,
       "linkedName": "LeftWallStart"
     },
     {
       "anchor": {
-        "x": 5.5286931818181815,
-        "y": 5.454261363636363
+        "x": 4.45,
+        "y": 4.4
       },
       "prevControl": {
-        "x": 5.986500000000001,
-        "y": 6.062749999999999
+        "x": 4.90780681818182,
+        "y": 5.008488636363637
       },
       "nextControl": null,
       "isLocked": false,
@@ -40,7 +40,7 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
+    "maxVelocity": 2.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,

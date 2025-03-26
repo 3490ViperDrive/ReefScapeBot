@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 @Logged
 public class Robot extends TimedRobot {
+  private AutoMaster autoMaster; //That's not true, I call the constructor
   private Command autonomousCommand;
 
   private final RobotContainer robotContainer;
@@ -34,7 +35,7 @@ public class Robot extends TimedRobot {
 
   public Robot() {
     //PortForwarder.add(5800, "photonvision.local", 5800);
-    
+    autoMaster = new AutoMaster();
     robotContainer = new RobotContainer();
 
     DriverStation.silenceJoystickConnectionWarning(true);

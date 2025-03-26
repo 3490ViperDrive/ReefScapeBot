@@ -19,8 +19,7 @@ public class PrepareToScore extends SequentialCommandGroup{
 
 
     public PrepareToScore(ElevatorPosition elevatorSetpoint){
-        _elevator = Elevator.instance;
-        _coralMechanism = CoralMechanism.instance;
+        this(Elevator.instance, CoralMechanism.instance, elevatorSetpoint);
     }
 
 

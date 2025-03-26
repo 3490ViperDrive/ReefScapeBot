@@ -13,19 +13,16 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
-import frc.robot.Enums.CoralEnums.*;
 import static frc.robot.Enums.CoralEnums.CoralMechanismAngle.*;
 import static frc.robot.Enums.CoralEnums.CoralIntakeDirection.*;
 import static frc.robot.Enums.CoralEnums.MoveCoralCancelBehavior.*;
-import frc.robot.Enums.ElevatorEnums.*;
 import static frc.robot.Enums.ElevatorEnums.ElevatorPosition.*;
-import static frc.robot.Enums.ElevatorEnums.TargetLevel.*;
+
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
 import frc.robot.Enums.GeneralEnums.ControlProfile;
 import frc.robot.utils.GamepadFilter;
 import frc.robot.utils.controlProfile;
-
-import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.commands.PathPlannerAuto;
 
 
 public class RobotContainer {
@@ -64,7 +61,7 @@ public class RobotContainer {
     climber = new Climber();
     vision = new Vision();
 
-    AutoMaster autoMaster = new AutoMaster();
+    AutoMaster.initialize(); //TODO wee bit of spaghetti here
 
     //Controllers
     driverGamepad = new CommandXboxController(DRIVER_CONTROLLER_PORT);
@@ -77,7 +74,7 @@ public class RobotContainer {
       controlSelector.addOption(profile.toString(), profile);
     }
 
-    SmartDashboard.putData("Controls", controlSelector);
+    SmartDashboard.putData("Control Profile", controlSelector);
     controlSelector.setDefaultOption("Default", ControlProfile.COMP);
 
     //Default Commands
@@ -133,7 +130,7 @@ public class RobotContainer {
       driverGamepad.y().onTrue(new PrepareToScore(CORAL_L2));
       driverGamepad.a().onTrue(new PrepareToScore(CORAL_L3));
       driverGamepad.b().onTrue(new PrepareToScore(CORAL_L4));
-      driverGamepad.povUp().whileTrue(new SnapToTarget(vision, drivetrain));
+      //driverGamepad.povUp().whileTrue(new ZTarget());
       //driverGamepad.leftBumper().onTrue(new GrabCoralSequence(coralMechanism, elevator)); //TODO whileTrue()???
       driverGamepad.povDown().onTrue(new InstantCommand(()-> climber.triggerSolenoid(1))); //TODO why not use "lift"
 
@@ -152,6 +149,6 @@ public class RobotContainer {
   public Command getAutonomousCommand(){
     //TODO move into AutoMaster(?)
     //return AutoMaster.chosenAuto;
-    return null;
+    return new PathPlannerAuto("Tester");
   }
 }
