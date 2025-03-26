@@ -55,8 +55,8 @@ public class AutoMaster {
 
     static void setupAutos(){
         ppAutoSelector = new SendableChooser<PathPlannerAuto>();
-        ppAutoSelector.addOption("Test", new PathPlannerAuto("L_10L"));
-        ppAutoSelector.setDefaultOption("Test1", new PathPlannerAuto("SkrrA"));
+        ppAutoSelector.addOption("Test", new PathPlannerAuto("Tester"));
+        ppAutoSelector.setDefaultOption("Test1", new PathPlannerAuto("Tester"));
         //
     }
 

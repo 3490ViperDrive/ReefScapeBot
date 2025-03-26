@@ -22,6 +22,7 @@ public class Vision extends SubsystemBase {
         //hastargets
     
     public Vision(){
+        instance = this; //TODO this may not actually end up being a singleton
         yaw = 0;
         tagID = 0;
         visionKp = 5;
@@ -29,7 +30,6 @@ public class Vision extends SubsystemBase {
 
     @Override
     public void periodic(){
-        instance = this; //TODO this may not actually end up being a singleton
         var result = camera.getLatestResult();
         this.hasTargets = result.hasTargets();
         //List<PhotonTrackedTarget> targets = result.getTargets();
