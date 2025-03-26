@@ -43,13 +43,14 @@ public class RobotContainer {
   private final Climber climber;
 
   private final Vision vision;
+  private final Bandicams hypercam;
   
   private final CommandXboxController driverGamepad;
   private final CommandXboxController operatorGamepad;
   private final GamepadFilter gamepadFilter;
 
   SendableChooser<ControlProfile> controlSelector;
-  //SendableChooser<PathPlannerAuto> autoSelector;
+  //TODO make a dashboard initializer with Daniel's layout (+ any mods driveteam asks for)
   ControlProfile currentProfile;
 
   
@@ -60,6 +61,7 @@ public class RobotContainer {
     elevator = new Elevator();
     climber = new Climber();
     vision = new Vision();
+    hypercam = new Bandicams();
 
     AutoMaster.initialize(); //TODO wee bit of spaghetti here
 
@@ -106,7 +108,7 @@ public class RobotContainer {
       driverGamepad.start().onTrue(new PrepareToScore(CORAL_L3));
       driverGamepad.leftStick().onTrue(new PrepareToScore(CORAL_L1));
       driverGamepad.rightStick().onTrue(new PrepareToScore(CORAL_L2));
-      driverGamepad.x().whileTrue(new ZTarget());
+      driverGamepad.x().whileTrue(new SwitchCamera());
 
       operatorGamepad.leftTrigger().whileTrue(new RunCoralMotor(IN));
       operatorGamepad.rightTrigger().whileTrue(new RunCoralMotor(OUT));
