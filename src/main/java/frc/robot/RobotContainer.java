@@ -101,7 +101,7 @@ public class RobotContainer {
     switch (currentProfile) {
       case COMP:
       driverGamepad.leftTrigger().whileTrue(new AutoEatCoral());
-      driverGamepad.rightTrigger().whileTrue(new RunCoralMotor(OUT));
+      driverGamepad.rightTrigger().whileTrue(new AutoDumpCoral());
       driverGamepad.povUp().onTrue(new InstantCommand(() -> climber.triggerSolenoid(0)));
       driverGamepad.povDown().onTrue(new InstantCommand(() -> climber.triggerSolenoid(1)));
       driverGamepad.back().onTrue(new PrepareToScore(CORAL_L4));
@@ -132,8 +132,6 @@ public class RobotContainer {
       driverGamepad.y().onTrue(new PrepareToScore(CORAL_L2));
       driverGamepad.a().onTrue(new PrepareToScore(CORAL_L3));
       driverGamepad.b().onTrue(new PrepareToScore(CORAL_L4));
-      //driverGamepad.povUp().whileTrue(new ZTarget());
-      //driverGamepad.leftBumper().onTrue(new GrabCoralSequence(coralMechanism, elevator)); //TODO whileTrue()???
       driverGamepad.povDown().onTrue(new InstantCommand(()-> climber.triggerSolenoid(1))); //TODO why not use "lift"
 
       new Trigger(()-> driverGamepad.getRightTriggerAxis() > 0.5).onTrue(new RunCoralMotor(OUT));
@@ -147,7 +145,6 @@ public class RobotContainer {
   
   }
 
-  //TODO move this out of getAutonomousCommand() as per the docs
   public Command getAutonomousCommand(){
     //TODO move into AutoMaster(?)
     //return AutoMaster.chosenAuto;

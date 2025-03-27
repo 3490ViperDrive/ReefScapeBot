@@ -38,13 +38,13 @@ public class Vision extends SubsystemBase {
         if(hasTargets){
             PhotonTrackedTarget target = result.getBestTarget();
             this.tagID = target.getFiducialId();
-            SmartDashboard.putNumber("TagID",tagID);
-            SmartDashboard.putBoolean("Targets??", hasTargets);
-            SmartDashboard.putNumber("Target Yaw", target.getYaw());
+            // SmartDashboard.putNumber("TagID",tagID);
+            // SmartDashboard.putBoolean("Targets??", hasTargets);
+            // SmartDashboard.putNumber("Target Yaw", target.getYaw());
             this.yaw = target.getYaw();
         } else{
-            SmartDashboard.putNumber("TagID", 00);
-            SmartDashboard.putBoolean("Targets??", hasTargets);
+            // SmartDashboard.putNumber("TagID", 00);
+            // SmartDashboard.putBoolean("Targets??", hasTargets);
             this.yaw = 0;
         }
 
