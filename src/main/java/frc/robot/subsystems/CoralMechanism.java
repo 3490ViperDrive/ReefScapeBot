@@ -24,6 +24,7 @@ import frc.robot.Robot;
 import frc.robot.utils.SparkMaxConfigUtil;
 
 import static edu.wpi.first.units.Units.*;
+import static frc.robot.Enums.CoralEnums.CoralMechanismAngle.INTAKE;
 import static frc.robot.Enums.CoralEnums.CoralMechanismAngle.SCORE_L1;
 import static frc.robot.Enums.CoralEnums.CoralMechanismAngle.SCORE_L2;
 import static frc.robot.Enums.CoralEnums.CoralMechanismAngle.SCORE_L3;
@@ -281,6 +282,7 @@ public class CoralMechanism extends SubsystemBase {
             case ALGAE_L3:
                 break;
             case CORAL_INTAKE:
+                retVal = INTAKE;
                 break;
             case CORAL_L1:
                 retVal = SCORE_L1;

@@ -16,6 +16,8 @@ import static frc.robot.Enums.CoralEnums.CoralMechanismAngle.SCORE_L4;
 import static frc.robot.Enums.CoralEnums.MoveCoralCancelBehavior.CANCEL_IMMEDIATELY;
 import static frc.robot.Enums.CoralEnums.MoveCoralCancelBehavior.CANCEL_SETPOINT_REACHED;
 
+import frc.robot.Enums.CoralEnums.CoralIntakeDirection;
+import frc.robot.commands.AutoEatCoral;
 import frc.robot.commands.PrepareToScore;
 import frc.robot.commands.RunCoralMotor;
 import frc.robot.commands.SetCoralAngle;
@@ -50,7 +52,9 @@ public class AutoMaster {
         NamedCommands.registerCommand("AutoRaiseL3", new PrepareToScore(CORAL_L3));
         NamedCommands.registerCommand("AutoRaiseL4", new PrepareToScore(CORAL_L4));
         NamedCommands.registerCommand("AutoScore",new RunCoralMotor(OUT));
-        NamedCommands.registerCommand("AutoIntake",new RunCoralMotor(IN));
+        NamedCommands.registerCommand("AutoRunIntake",new RunCoralMotor(IN));
+        NamedCommands.registerCommand("AutoPrepIntake", new PrepareToScore(CORAL_INTAKE));
+        NamedCommands.registerCommand("AutoEatCoral", new AutoEatCoral());
     }
 
     static void setupAutos(){

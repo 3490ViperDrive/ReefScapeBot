@@ -19,7 +19,7 @@ public class ZTarget extends Command{
     
     Vision _vision;
     Drivetrain _drivetrain;
-    private static final SwerveRequest.RobotCentric robotCentricRequest;
+    //private static final SwerveRequest.RobotCentric robotCentricRequest;
 
     private double targetYaw;
 
@@ -33,10 +33,10 @@ public class ZTarget extends Command{
 
 
     static {
-        robotCentricRequest = new SwerveRequest.RobotCentric().withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+        //robotCentricRequest = new SwerveRequest.RobotCentric().withDriveRequestType(DriveRequestType.OpenLoopVoltage);
     }
     
-    public ZTarget(){
+    public ZTarget(double strafe, double scoot){
         _vision = Vision.instance;
         _drivetrain = Drivetrain.instance;
         addRequirements(_vision, _drivetrain);
