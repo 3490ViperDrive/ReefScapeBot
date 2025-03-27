@@ -83,6 +83,22 @@ public class Enums {
             COMP, REVAMP
         }
     }
+
+    //Numbers are in meters
+    public static class ReefEnums {
+        LEFT_POLE(-0.1778),
+        RIGHT_POLE(0.2032);
+
+        double pole;
+    
+        ReefPoleOffset(double pole) {
+            this.reefpoleoffset = reefpoleoffset;
+        }
+    
+        public double getReefPoleOffset() {
+            return this.reefpoleoffset;
+        }
+    }
  
     
 }
