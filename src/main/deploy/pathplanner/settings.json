@@ -1,17 +1,18 @@
 {
-  "robotWidth": 0.9,
-  "robotLength": 0.9,
+  "robotWidth": 0.813,
+  "robotLength": 0.914,
   "holonomicMode": true,
   "pathFolders": [
     "Spots"
   ],
   "autoFolders": [
-    "WaypointTester",
+    "PathsV2",
     "Odin",
     "Ramuh",
-    "Shiva"
+    "Shiva",
+    "WaypointTester"
   ],
-  "defaultMaxVel": 2.0,
+  "defaultMaxVel": 2.5,
   "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,
@@ -20,9 +21,9 @@
   "robotMOI": 6.883,
   "robotTrackwidth": 0.546,
   "driveWheelRadius": 0.048,
-  "driveGearing": 5.143,
-  "maxDriveSpeed": 5.45,
-  "driveMotorType": "krakenX60",
+  "driveGearing": 6.75,
+  "maxDriveSpeed": 4.78,
+  "driveMotorType": "falcon500",
   "driveCurrentLimit": 60.0,
   "wheelCOF": 1.2,
   "flModuleX": 0.273,

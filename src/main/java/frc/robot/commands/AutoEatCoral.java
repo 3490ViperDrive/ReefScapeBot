@@ -46,6 +46,8 @@ public class AutoEatCoral extends Command{
     @Override
     public void end(boolean wasInterrupted){
         //Stop the intake motors
+        commandTimer.stop();
+        commandTimer.reset();
         _coralMechanism.stopIntake();
     }
 }

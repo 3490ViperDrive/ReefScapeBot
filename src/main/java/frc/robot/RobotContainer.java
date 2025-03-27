@@ -100,8 +100,8 @@ public class RobotContainer {
     currentProfile = controlSelector.getSelected();
     switch (currentProfile) {
       case COMP:
-      driverGamepad.leftTrigger().whileTrue(new AutoEatCoral());
-      driverGamepad.rightTrigger().whileTrue(new AutoDumpCoral());
+      driverGamepad.leftTrigger().whileTrue(new RealCoralIntake());
+      driverGamepad.rightTrigger().whileTrue(new RunCoralMotor(OUT));
       driverGamepad.povUp().onTrue(new InstantCommand(() -> climber.triggerSolenoid(0)));
       driverGamepad.povDown().onTrue(new InstantCommand(() -> climber.triggerSolenoid(1)));
       driverGamepad.back().onTrue(new PrepareToScore(CORAL_L4));
