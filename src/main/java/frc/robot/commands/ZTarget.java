@@ -57,10 +57,15 @@ public class ZTarget extends Command{
                 robotCentric.withVelocityX(0).
                         withVelocityY(0).
                     withRotationalRate(turnrate);
+            } else {
+                //Else, the camera does not see any targets
+                //TODO notify the user on the dashboard
             }
         }
 
-        //TODO 1 rad/s ~= 60 deg/s
+        robotCentric.withVelocityX(0).
+                    withVelocityY(0).
+                    withRotationalRate(turnrate);
         _drivetrain.applySwerveRequest(robotCentric);
     }
 

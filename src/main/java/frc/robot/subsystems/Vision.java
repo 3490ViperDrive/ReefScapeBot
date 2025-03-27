@@ -22,7 +22,7 @@ public class Vision extends SubsystemBase {
         //hastargets
     
     public Vision(){
-        instance = this; //TODO this may not actually end up being a singleton
+        instance = this; 
         yaw = 0;
         tagID = 0;
         visionKp = 5;
@@ -45,6 +45,7 @@ public class Vision extends SubsystemBase {
         } else{
             // SmartDashboard.putNumber("TagID", 00);
             // SmartDashboard.putBoolean("Targets??", hasTargets);
+            //TODO update display on dashboard
             this.yaw = 0;
         }
 
