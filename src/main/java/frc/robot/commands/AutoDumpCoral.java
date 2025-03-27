@@ -20,6 +20,6 @@ public class AutoDumpCoral extends SequentialCommandGroup{
         _elevator = Elevator.instance;
         this.addCommands(
             new SetCoralAngle(CoralMechanism.getAngleFromElevatorSetpoint(_elevator.getCurrentTarget()), CANCEL_SETPOINT_REACHED),
-            new RunCoralMotor(OUT));
+            new RunCoralMotor(OUT).withTimeout(0.5));
     }
 }
