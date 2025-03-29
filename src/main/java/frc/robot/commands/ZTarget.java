@@ -43,7 +43,7 @@ public class ZTarget extends Command{
     }
 
     @Override
-    public void execute(){
+    public void execute(){ 
 
         if(_vision.getTargetStatus()){
             targetYaw = _vision.getYaw();
