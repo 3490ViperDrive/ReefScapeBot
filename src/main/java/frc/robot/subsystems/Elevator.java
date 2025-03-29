@@ -24,14 +24,14 @@ public class Elevator extends SubsystemBase {
     //TODO ironic, this 
     private ElevatorPosition currentTarget = DEFAULT;
 
-    public static class ClosedLoopGains {
-        //feedback
-        public static final double P = 6;
-        //1
-        //gravity feedforward (static)
-        public static final double G = 0.16;
-        //0.4
-    }
+    // public static class ClosedLoopGains {
+    //     //feedback
+    //     public static final double P = 6;
+    //     //1
+    //     //gravity feedforward (static)
+    //     public static final double G = 0.16;
+    //     //0.4
+    // }
 
 
 
