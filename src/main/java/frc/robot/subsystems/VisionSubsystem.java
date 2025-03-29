@@ -33,8 +33,8 @@ public class VisionSubsystem extends SubsystemBase {
             catch (Exception e) {
                 list[i] = null;
             }
-        return list;
         }
+        return list;
     }
 
     public static int getLengthOfCameraList() {
@@ -47,5 +47,4 @@ public class VisionSubsystem extends SubsystemBase {
 
             }
         }
-    }
 }
