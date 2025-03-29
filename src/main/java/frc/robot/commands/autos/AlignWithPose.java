@@ -1,4 +1,6 @@
-package frc.robot.subsystems.vision;
+package frc.robot.commands.autos;
+
+import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -9,19 +11,21 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.commands.Drive;
 import frc.robot.utils.CowboyUtils;
 
 public class AlignWithPose extends Command {
-    Drivetrain drive;
+    Drivetrain drivetrain;
     Pose2d pose;
     ProfiledPIDController xController;
     ProfiledPIDController yController;
     ProfiledPIDController rotController;
 
-    public AlignWithPose(Drivetrain drive, Pose2d pose) {
-        this.drive = drive;
-        this.pose = pose;
-        addRequirements(drive);
+    public AlignWithPose(Drivetrain _drivetrain, Pose2d _pose) {
+        drivetrain = _drivetrain;
+        pose = _pose;
+
+        private SwerveRquest.RobotCentric roboticCentric = new SwerveRquest.RobotCentric();
 
         xController = new ProfiledPIDController(0.35, 0, 0, new Constraints(4, 3));
         yController = new ProfiledPIDController(0.35, 0, 0, new Constraints(4, 3));
@@ -35,7 +39,8 @@ public class AlignWithPose extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        drive.drive(0, 0, 0, true, true);
+        roboticCentric.withVelocityX(0).withVelocityY(0).withRotationalRate(0);
+        drivetrain.applySwerveRequest(roboticCentric);
     }
 
     @Override

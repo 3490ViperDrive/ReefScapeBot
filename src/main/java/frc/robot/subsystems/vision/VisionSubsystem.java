@@ -21,7 +21,6 @@ public class VisionSubsystem extends SubsystemBase {
     private static String[] cameraNames = { "frontLeftCamera", "frontRightCamera" };// , "backLeftCamera",
     // "backRightCamera" };
     public static Camera[] cameras = new Camera[2];
-    public static CameraSim[] cameraSims = new CameraSim[2];
 
 
     public VisionSubsystem() {

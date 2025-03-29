@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class Camera {
+    
     public PhotonCamera photonCamera;
     public PhotonPoseEstimator photonPoseEstimator;
 
