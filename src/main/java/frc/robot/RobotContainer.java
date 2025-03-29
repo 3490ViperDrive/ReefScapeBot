@@ -109,6 +109,7 @@ public class RobotContainer {
       driverGamepad.leftStick().onTrue(new PrepareToScore(CORAL_L1));
       driverGamepad.rightStick().onTrue(new PrepareToScore(CORAL_L2));
       driverGamepad.x().whileTrue(new ZTarget(driverGamepad.getLeftX(), 0));
+      driverGamepad.y().onTrue(new SwitchCamera());
 
       operatorGamepad.leftTrigger().whileTrue(new RunCoralMotor(IN));
       operatorGamepad.rightTrigger().whileTrue(new RunCoralMotor(OUT));

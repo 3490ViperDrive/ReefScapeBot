@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -26,8 +27,10 @@ public class Elevator extends SubsystemBase {
     public static class ClosedLoopGains {
         //feedback
         public static final double P = 6;
+        //1
         //gravity feedforward (static)
         public static final double G = 0.16;
+        //0.4
     }
 
 
@@ -48,7 +51,8 @@ public class Elevator extends SubsystemBase {
     }
 
     public void setPosition(double rawPosition) {
-        motorController.setControl(new PositionVoltage(rawPosition));
+        //motorController.setControl(new PositionVoltage(rawPosition));
+        motorController.setControl(new MotionMagicVoltage(rawPosition));
     }
 
     public void runOpenLoop(double volts) {

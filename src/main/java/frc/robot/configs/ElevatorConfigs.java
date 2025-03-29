@@ -2,6 +2,7 @@ package frc.robot.configs;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.FeedbackConfigs;
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -33,6 +34,9 @@ public class ElevatorConfigs {
         public static final double P = 6;
         //gravity feedforward (static)
         public static final double G = 0.16;
+
+        public static final double CRUISE_VELOCITY = 90.34;
+        public static final double ACCELERATION = 343; 
     }//ClosedLoopGains
 
     //TODO Pass in a more generalized motorController type as opposed to specifically the TalonFX
@@ -44,6 +48,7 @@ public class ElevatorConfigs {
         final CurrentLimitsConfigs currentLimitsConfiguration = new CurrentLimitsConfigs();
         final FeedbackConfigs feedbackConfiguration = new FeedbackConfigs();
         final Slot0Configs slot0Configuration = new Slot0Configs();
+        final MotionMagicConfigs motionMagicConfigs = new MotionMagicConfigs();
 
         //Questionable separation of declaration and configuration
         motorOutputConfiguration
@@ -58,10 +63,14 @@ public class ElevatorConfigs {
         slot0Configuration
             .withKP(ClosedLoopGains.P)
             .withKG(ClosedLoopGains.G);
+        motionMagicConfigs
+            .withMotionMagicAcceleration(ClosedLoopGains.ACCELERATION)
+            .withMotionMagicCruiseVelocity(ClosedLoopGains.CRUISE_VELOCITY);
         configuration
             .withMotorOutput(motorOutputConfiguration)
             .withFeedback(feedbackConfiguration)
-            .withSlot0(slot0Configuration);
+            .withSlot0(slot0Configuration)
+            .withMotionMagic(motionMagicConfigs);
 
         configurator.apply(configuration);
     }
