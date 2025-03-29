@@ -52,7 +52,6 @@ public class ZTarget extends Command{
                 robotCentric.withVelocityX(0).
                                     withVelocityY(0).
                                     withRotationalRate(-turnrate);
-
             } else if(targetYaw < tolerance){
                 robotCentric.withVelocityX(0).
                         withVelocityY(0).

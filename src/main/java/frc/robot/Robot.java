@@ -43,7 +43,7 @@ public class Robot extends TimedRobot {
     //PortForwarder.add(5800, "photonvision.local", 5800);
     coralCamera = CameraServer.startAutomaticCapture(0);
     climbCamera = CameraServer.startAutomaticCapture(1);
-    cameraSelection = NetworkTableInstance.getDefault().getTable("").getEntry("Camera Selection");
+    cameraSelection = NetworkTableInstance.getDefault().getTable("CameraPublisher").getEntry("Camera Selection");
     autoMaster = new AutoMaster();
     robotContainer = new RobotContainer();
 
