@@ -7,7 +7,8 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.RightCamera;
+import frc.robot.subsystems.LeftCamera;
 
 
 /**
@@ -17,7 +18,8 @@ import frc.robot.subsystems.Vision;
  */
 public class ZTarget extends Command{
     
-    Vision _vision;
+    RightCamera _rightcamera;
+    LeftCamera _leftcamera;
     Drivetrain _drivetrain;
     //private static final SwerveRequest.RobotCentric robotCentricRequest;
 
@@ -37,28 +39,30 @@ public class ZTarget extends Command{
     }
     
     public ZTarget(double strafe, double scoot){
-        _vision = Vision.instance;
+        _rightcamera = RightCamera.instance;
+        _leftcamera = LeftCamera.instance;
         _drivetrain = Drivetrain.instance;
-        addRequirements(_vision, _drivetrain);
+        addRequirements(_rightcamera, _leftcamera, _drivetrain);
     }
 
     @Override
     public void execute(){
 
-        if(_vision.getTargetStatus()){
-            targetYaw = _vision.getYaw();
-            SmartDashboard.putNumber("YAW", targetYaw);
-            if(targetYaw > tolerance){
-                robotCentric.withVelocityX(0).
+        if(_rightcamera.getTargetStatus() && _leftcamera.getTargetStatus()){
+            if (_leftcamera.getTagID() == _rightcamera.getTagID()){
+                targetYaw = _rightcamera.getYaw();
+                SmartDashboard.putNumber("YAW", targetYaw);
+                if(targetYaw > tolerance){
+                    robotCentric.withVelocityX(0).
                                     withVelocityY(0).
                                     withRotationalRate(-turnrate);
-            } else if(targetYaw < tolerance){
-                robotCentric.withVelocityX(0).
-                        withVelocityY(0).
-                    withRotationalRate(turnrate);
+                } else if(targetYaw < tolerance){
+                    robotCentric.withVelocityX(0).
+                            withVelocityY(0).
+                            withRotationalRate(turnrate);
+
             } else {
-                //Else, the camera does not see any targets
-                //TODO notify the user on the dashboard
+              //TODO: Need to know behaviour if they have mismatch Tags  
             }
         }
 
@@ -67,6 +71,7 @@ public class ZTarget extends Command{
                     withRotationalRate(turnrate);
         _drivetrain.applySwerveRequest(robotCentric);
     }
+}
 
     private double smoothingFunction(double input){
         return input;

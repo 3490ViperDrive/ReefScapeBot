@@ -11,12 +11,12 @@ public class SnapToTarget extends Command{
     private double targetYaw;
     private double vTurn;
     
-    Vision theTagCamera;
+    RightCamera theTagCamera;
     Drivetrain theDrivetrain;
     //Drive theDriveCmd;
     //SwerveRequest.RobotCentric turnRequest;
 
-    public SnapToTarget(Vision aVision, Drivetrain aDrivetrain){
+    public SnapToTarget(RightCamera aVision, Drivetrain aDrivetrain){
         theTagCamera = aVision;
         theDrivetrain = aDrivetrain;
         addRequirements(theTagCamera, theDrivetrain);

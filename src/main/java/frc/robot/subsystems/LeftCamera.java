@@ -8,9 +8,9 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Vision extends SubsystemBase {
-    public static Vision instance;
-    PhotonCamera camera = new PhotonCamera("TagCamera");
+public class LeftCamera extends SubsystemBase {
+    public static LeftCamera instance;
+    PhotonCamera camera = new PhotonCamera("LeftCamera");
     private double yaw;
     private boolean hasTargets;
     private int tagID;
@@ -21,7 +21,7 @@ public class Vision extends SubsystemBase {
         //yaw
         //hastargets
     
-    public Vision(){
+    public LeftCamera(){
         instance = this; 
         yaw = 0;
         tagID = 0;
