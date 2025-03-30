@@ -42,7 +42,8 @@ public class RobotContainer {
   //@Logged
   private final Climber climber;
 
-  private final Vision vision;
+  private final RightCamera rightcamera;
+  private final LeftCamera leftcamera;
   private final Bandicams hypercam;
   
   private final CommandXboxController driverGamepad;
@@ -60,7 +61,8 @@ public class RobotContainer {
     coralMechanism = new CoralMechanism();
     elevator = new Elevator();
     climber = new Climber();
-    vision = new Vision();
+    rightcamera = new RightCamera();
+    leftcamera = new LeftCamera();
     hypercam = new Bandicams();
 
     AutoMaster.initialize(); //TODO wee bit of spaghetti here
