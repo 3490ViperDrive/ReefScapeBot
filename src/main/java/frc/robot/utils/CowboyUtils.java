@@ -1,7 +1,7 @@
 // All credits go to 8575, who this code comes from. 
 // https://github.com/DueWesternersProgramming/FRCCode-2025/blob/Individual-Poses-Automated-Score/src/main/java/frc/robot/utils/CowboyUtils.java
 
-package frc.robot.util;
+package frc.robot.utils;
 
 import java.io.IOException;
 
@@ -21,11 +21,11 @@ public class CowboyUtils {
     public static Pose2d testPose = new Pose2d(1.4, 5.55, new Rotation2d(Math.toRadians(0)));
 
     public static boolean isRedAlliance() {
-        return DriverStation.getAlliance().isPresent() ? (DriverStation.getAlliance.get() == Alliance.Red) : (false);
+        return DriverStation.getAlliance().isPresent() ? (DriverStation.getAlliance().get() == Alliance.Red) : (false);
     }
 
         public static boolean isBlueAlliance() {
-        return DriverStation.getAlliance().isPresent() ? (DriverStation.getAlliance.get() == Alliance.Blue) : (false);
+        return DriverStation.getAlliance().isPresent() ? (DriverStation.getAlliance().get() == Alliance.Blue) : (false);
     }
 
     public static double getParallelError(Pose2d origin, Pose2d target) {
@@ -33,7 +33,7 @@ public class CowboyUtils {
         Rotation2d angleBetween = originToTarget.getAngle();
         double parallelError = originToTarget.getNorm() * angleBetween.getSin();
 
-        return parallelError
+        return parallelError;
     }
 
     public static double getPerpendicularError(Pose2d origin, Pose2d target) {
