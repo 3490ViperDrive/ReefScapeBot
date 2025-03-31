@@ -20,6 +20,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "WaypointTester",
+  "folder": null,
   "choreoAuto": false
 }

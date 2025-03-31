@@ -38,6 +38,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Odin",
+  "folder": "Scrapped",
   "choreoAuto": false
 }

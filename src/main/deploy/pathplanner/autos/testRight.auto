@@ -17,7 +17,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "10L"
+                  "pathName": "test2L"
                 }
               },
               {
@@ -86,7 +86,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Next"
+                  "pathName": "test2LtoFeed"
                 }
               },
               {
