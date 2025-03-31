@@ -7,12 +7,15 @@ import frc.robot.subsystems.CoralMechanism;
 public class AutoEatCoral extends Command{
     
     CoralMechanism _coralMechanism;
-    Timer commandTimer; //The timer starts in init (when command is first scheduled)
+    Timer commandTimer; 
     private double timeoutWindow = 0.25; //how many seconds to run the mechanism's intake for after detecting a coral
     private boolean timerHasStarted = false;
 
+    //Testing to see if the stupidity arose from idiosyncrasies of the Timer class
+    private double timeToStop;
+
     public AutoEatCoral(){
-        commandTimer = new Timer();
+        //commandTimer = new Timer();
         _coralMechanism = CoralMechanism.instance;
         addRequirements(_coralMechanism);
     }
@@ -22,7 +25,8 @@ public class AutoEatCoral extends Command{
         //only start the timer on the call where coral is first detected
         _coralMechanism.runIntake(10);
         if(_coralMechanism.getCoralDetected() == true && timerHasStarted == false){
-            commandTimer.start();
+            //commandTimer.start();
+            timeToStop = Timer.getFPGATimestamp() + timeoutWindow;
             timerHasStarted = true;
         }
     }
@@ -37,7 +41,8 @@ public class AutoEatCoral extends Command{
 
     @Override
     public boolean isFinished(){
-       if(commandTimer.hasElapsed(timeoutWindow)){
+       //if(commandTimer.hasElapsed(timeoutWindow)){
+       if(Timer.getFPGATimestamp() > timeToStop){
             return true;
        }
        return false;
@@ -47,5 +52,7 @@ public class AutoEatCoral extends Command{
     public void end(boolean wasInterrupted){
         //Stop the intake motors
         _coralMechanism.stopIntake();
+        // commandTimer.stop();
+        // commandTimer.reset();
     }
 }
