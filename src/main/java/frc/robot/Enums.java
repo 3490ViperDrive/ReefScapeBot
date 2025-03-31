@@ -2,6 +2,13 @@ package frc.robot;
 
 public class Enums {
 
+    public static final class BranchEnums{
+        public static enum BranchChoice {
+            LEFT,
+            RIGHT
+        }
+    }
+
     public static final class ElevatorEnums{
         public static enum ElevatorPosition {
             DEFAULT(0.0),

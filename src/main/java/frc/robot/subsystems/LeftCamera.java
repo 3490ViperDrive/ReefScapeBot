@@ -12,6 +12,7 @@ public class LeftCamera extends SubsystemBase {
     public static LeftCamera instance;
     PhotonCamera camera = new PhotonCamera("LeftCamera");
     private double yaw;
+    private double skew;
     private boolean hasTargets;
     private int tagID;
 
@@ -24,6 +25,7 @@ public class LeftCamera extends SubsystemBase {
     public LeftCamera(){
         instance = this; 
         yaw = 0;
+        skew = 0;
         tagID = 0;
         visionKp = 5;
     }
@@ -42,11 +44,13 @@ public class LeftCamera extends SubsystemBase {
             // SmartDashboard.putBoolean("Targets??", hasTargets);
             // SmartDashboard.putNumber("Target Yaw", target.getYaw());
             this.yaw = target.getYaw();
+            this.skew = target.getSkew();
         } else{
             // SmartDashboard.putNumber("TagID", 00);
             // SmartDashboard.putBoolean("Targets??", hasTargets);
             //TODO update display on dashboard
             this.yaw = 0;
+            this.skew = 0;
         }
 
     }
@@ -65,5 +69,9 @@ public class LeftCamera extends SubsystemBase {
 
     public double getVisionKp(){
         return visionKp;
+    }
+
+    public double getSkew(){
+        return skew;
     }
 }
