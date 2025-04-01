@@ -17,6 +17,7 @@ import static frc.robot.Enums.CoralEnums.CoralMechanismAngle.*;
 import static frc.robot.Enums.CoralEnums.CoralIntakeDirection.*;
 import static frc.robot.Enums.CoralEnums.MoveCoralCancelBehavior.*;
 import static frc.robot.Enums.ElevatorEnums.ElevatorPosition.*;
+import static frc.robot.Enums.BranchEnums.BranchChoice;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
@@ -112,6 +113,8 @@ public class RobotContainer {
       driverGamepad.rightStick().onTrue(new PrepareToScore(CORAL_L2));
       driverGamepad.x().whileTrue(new ZTarget(driverGamepad.getLeftX(), 0));
       driverGamepad.y().onTrue(new SwitchCamera());
+      driverGamepad.povLeft().whileTrue(new AlignToTarget(BranchChoice.LEFT));
+      driverGamepad.povRight().whileTrue(new AlignToTarget(BranchChoice.RIGHT));
 
       operatorGamepad.leftTrigger().whileTrue(new RunCoralMotor(IN));
       operatorGamepad.rightTrigger().whileTrue(new RunCoralMotor(OUT));

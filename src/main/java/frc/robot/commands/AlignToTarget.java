@@ -26,7 +26,7 @@ public class AlignToTarget extends Command {
     private double rotationRate = 1.0;
     private SwerveRequest.RobotCentric robotCentric = new SwerveRequest.RobotCentric();
 
-    public AlignToTarget(Drivetrain _drivetrain, BranchChoice branch){
+    public AlignToTarget(BranchChoice branch){
         _rightCamera = RightCamera.instance;
         _leftcamera = LeftCamera.instance;
         _drivetrain = Drivetrain.instance;
