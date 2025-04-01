@@ -21,8 +21,7 @@ public class AlignToTarget extends Command {
     Drivetrain _drivetrain;
     BranchChoice _branch;
 
-    private double targetYaw;
-    private double tolerance = 0.03;
+    private double tolerance = 0.3;
     private double strafeRate = 2.0;
     private double rotationRate = 1.0;
     private SwerveRequest.RobotCentric robotCentric = new SwerveRequest.RobotCentric();
@@ -37,48 +36,56 @@ public class AlignToTarget extends Command {
 
     @Override
     public void execute() {
-        double currentYaw;
         if (_branch == BranchChoice.LEFT) {
-            targetYaw = 0;
-            currentYaw = _rightCamera.getYaw();
-            double currentSkew = _rightCamera.getSkew();
-
-            if (currentSkew < 0 ) {
-                robotCentric.withVelocityX(0).
-                                withVelocityY(0).
-                                withRotationalRate(-rotationRate);
+            // focus on right camera
+            if (_rightCamera.getTargetStatus()) {
+                double currentYaw = _rightCamera.getYaw();
+                if (currentYaw > tolerance) {
+                    robotCentric.withVelocityX(0).
+                                        withVelocityY(0).
+                                        withRotationalRate(-rotationRate);
+                } else if (currentYaw < tolerance) {
+                    robotCentric.withVelocityX(0).
+                                        withVelocityY(0).
+                                        withRotationalRate(rotationRate);         
+                } else {
+                    robotCentric.withVelocityX(0).
+                                    withVelocityY(0).
+                                    withRotationalRate(0);  
+                }
             }
-            if (currentSkew > 0 ) {
-                robotCentric.withVelocityX(0).
-                                withVelocityY(0).
-                                withRotationalRate(rotationRate); 
-            }
-                //TODO: These might be backwards
-            if (currentYaw > tolerance) {
+            else {
+                //we need to strafe to see it first
                 robotCentric.withVelocityX(-strafeRate).
-                                    withVelocityY(0).
-                                    withRotationalRate(0);
-                }
-            if (currentYaw < tolerance) {
-                robotCentric.withVelocityX(strafeRate).
-                                    withVelocityY(0).
-                                    withRotationalRate(0);
-                }
+                                withVelocityY(0).
+                                withRotationalRate(0);
+            }
         }
         if (_branch == BranchChoice.RIGHT) {
-            targetYaw = 0;
-            currentYaw = _leftcamera.getYaw();
-            //TODO: These might be backwards
-            if (currentYaw > tolerance) {
-                robotCentric.withVelocityX(strafeRate).
-                                withVelocityY(0).
-                                withRotationalRate(0);
+            if (_leftcamera.getTargetStatus()) {
+                double currentYaw = _rightCamera.getYaw();
+                if (currentYaw > tolerance) {
+                    robotCentric.withVelocityX(0).
+                                        withVelocityY(0).
+                                        withRotationalRate(-rotationRate);
+                } else if (currentYaw < tolerance) {
+                    robotCentric.withVelocityX(0).
+                                        withVelocityY(0).
+                                        withRotationalRate(rotationRate);         
+                } else {
+                    robotCentric.withVelocityX(0).
+                                    withVelocityY(0).
+                                    withRotationalRate(0);  
+                }
             }
-            if (currentYaw < tolerance) {
-                robotCentric.withVelocityX(-strafeRate).
-                                withVelocityY(0).
-                                withRotationalRate(0);
+        else {
+            //we need to strafe to see it first
+            robotCentric.withVelocityX(strafeRate).
+                            withVelocityY(0).
+                            withRotationalRate(0);
             }
         }
+
+        _drivetrain.applySwerveRequest(robotCentric);
     }
 }
