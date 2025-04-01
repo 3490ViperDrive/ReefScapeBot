@@ -108,9 +108,9 @@ public class RobotContainer {
           
 
     //Dashboard Commands
-    SmartDashboard.putData(new ZeroYaw(drivetrain));
-    SmartDashboard.putData(new SetCoralAngle(coralMechanism, CoralMechanismPosition.SUPER_STOWED, MoveCoralCancelBehavior.CANCEL_IMMEDIATELY));
-    SmartDashboard.putData(new SetCoralAngle(coralMechanism, CoralMechanismPosition.SCORE_L2, MoveCoralCancelBehavior.CANCEL_IMMEDIATELY));
+    // SmartDashboard.putData(new ZeroYaw(drivetrain));
+    // SmartDashboard.putData(new SetCoralAngle(coralMechanism, CoralMechanismPosition.SUPER_STOWED, MoveCoralCancelBehavior.CANCEL_IMMEDIATELY));
+    // SmartDashboard.putData(new SetCoralAngle(coralMechanism, CoralMechanismPosition.SCORE_L2, MoveCoralCancelBehavior.CANCEL_IMMEDIATELY));
 
 
     //NamedCommands.registerCommand("AutoScore",new ScoreCoralSequence(coralMechanism, elevator));
