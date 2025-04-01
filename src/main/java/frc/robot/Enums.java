@@ -12,7 +12,7 @@ public class Enums {
             CORAL_L1(0.0),
             CORAL_L2(2),
             CORAL_L3(17.5),
-            CORAL_L4(46);
+            CORAL_L4(47.12);
     
             double position;
     
@@ -50,7 +50,7 @@ public class Enums {
             SCORE_L1(-0.05),
             SCORE_L2(-0.05),
             SCORE_L3(-0.05),
-            SCORE_L4(-0.150);
+            SCORE_L4(-0.165);
     
             private final double angle;
     

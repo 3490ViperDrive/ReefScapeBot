@@ -113,13 +113,13 @@ public class RobotContainer {
 
       operatorGamepad.leftTrigger().whileTrue(new RunCoralMotor(IN));
       operatorGamepad.rightTrigger().whileTrue(new RunCoralMotor(OUT));
-      operatorGamepad.povUp().whileTrue(new MoveElevatorManually(4));
-      operatorGamepad.povDown().whileTrue(new MoveElevatorManually(-4));
+      operatorGamepad.povUp().whileTrue(new MoveElevatorManually(3));
+      operatorGamepad.povDown().whileTrue(new MoveElevatorManually(-3));
       operatorGamepad.a().onTrue(new InstantCommand(() -> climber.triggerSolenoid(1)));
       operatorGamepad.b().onTrue(new InstantCommand(() -> climber.triggerSolenoid(0)));
-      operatorGamepad.povRight().whileTrue(new MoveCoralManually(4));
-      operatorGamepad.povLeft().whileTrue(new MoveCoralManually(-4));
-      operatorGamepad.leftBumper().onTrue(new SetCoralAngle(SUPER_STOWED, CANCEL_IMMEDIATELY));
+      operatorGamepad.povRight().whileTrue(new MoveCoralManually(3));
+      operatorGamepad.povLeft().whileTrue(new MoveCoralManually(-3));
+      operatorGamepad.leftBumper().onTrue(new SetCoralAngle(SUPER_STOWED, CANCEL_SETPOINT_REACHED));
       operatorGamepad.x().onTrue(new PrepareToScore(CORAL_L3));
       operatorGamepad.y().onTrue(new PrepareToScore(CORAL_INTAKE));
       //operatorGamepad.leftStick().whileTrue(new GrabCoralSequence(coralMechanism, elevator));
@@ -149,6 +149,6 @@ public class RobotContainer {
   public Command getAutonomousCommand(){
     //TODO move into AutoMaster(?)
     //return AutoMaster.chosenAuto;
-    return new PathPlannerAuto("Tester");
+    return new PathPlannerAuto("Straight L4");
   }
 }

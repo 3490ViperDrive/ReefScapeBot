@@ -5,15 +5,33 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "SadCoral"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoRaiseL4"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Move forward"
           }
         },
         {
-          "type": "named",
+          "type": "wait",
           "data": {
-            "name": "AutoRaiseL1"
+            "waitTime": 0.5
           }
         },
         {
@@ -26,6 +44,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Ramuh",
+  "folder": "WaypointTester",
   "choreoAuto": false
 }
