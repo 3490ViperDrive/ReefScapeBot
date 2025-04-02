@@ -54,7 +54,6 @@ public class AutoMaster {
         NamedCommands.registerCommand("AutoScore",new RunCoralMotor(OUT));
         NamedCommands.registerCommand("AutoRunIntake",new RunCoralMotor(IN));
         NamedCommands.registerCommand("AutoPrepIntake", new PrepareToScore(CORAL_INTAKE));
-        NamedCommands.registerCommand("AutoEatCoral", new AutoEatCoral());
     }
 
     static void setupAutos(){
