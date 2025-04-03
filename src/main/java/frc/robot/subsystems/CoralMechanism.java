@@ -176,10 +176,10 @@ public class CoralMechanism extends SubsystemBase {
         double fS = Math.signum(error) * PivotClosedLoopGains.S;
         double fG = Math.cos(Units.rotationsToRadians(getPivotAngle())) * PivotClosedLoopGains.G;
         //TODO (re)move
-        SmartDashboard.putNumber("error", error);
-        SmartDashboard.putNumber("appliedP", appliedP);
-        SmartDashboard.putNumber("applied fS", fS);
-        SmartDashboard.putNumber("applied fG", fG);
+        // SmartDashboard.putNumber("error", error);
+        // SmartDashboard.putNumber("appliedP", appliedP);
+        // SmartDashboard.putNumber("applied fS", fS);
+        // SmartDashboard.putNumber("applied fG", fG);
         if (pivotClosedLoopModeActive) {
             pivotMotor.setVoltage(MathUtil.clamp(MathUtil.clamp(appliedP, -4, 4) + fS + fG, -12, 12));
         }

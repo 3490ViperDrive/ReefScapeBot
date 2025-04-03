@@ -53,6 +53,7 @@ public class RobotContainer {
   //TODO make a dashboard initializer with Daniel's layout (+ any mods driveteam asks for)
   ControlProfile currentProfile;
 
+  //private final AutoMaster autoMaster;
   
   public RobotContainer() {
     //Subsystems
@@ -63,6 +64,7 @@ public class RobotContainer {
     vision = new Vision();
     hypercam = new Bandicams();
 
+    //autoMaster = new AutoMaster();
     AutoMaster.initialize(); //TODO wee bit of spaghetti here
 
     //Controllers
@@ -76,7 +78,7 @@ public class RobotContainer {
       controlSelector.addOption(profile.toString(), profile);
     }
 
-    SmartDashboard.putData("Control Profile", controlSelector);
+    //SmartDashboard.putData("Control Profile", controlSelector);
     controlSelector.setDefaultOption("Default", ControlProfile.COMP);
 
     //Default Commands
@@ -89,9 +91,9 @@ public class RobotContainer {
           () -> driverGamepad.rightBumper().getAsBoolean()));
           
     //Dashboard Commands
-    SmartDashboard.putData(new ZeroYaw(drivetrain));
+    // SmartDashboard.putData(new ZeroYaw(drivetrain));
     SmartDashboard.putData(new SetCoralAngle(SUPER_STOWED, CANCEL_IMMEDIATELY));
-    SmartDashboard.putData(new SetCoralAngle(SCORE_L2, CANCEL_IMMEDIATELY));
+    // SmartDashboard.putData(new SetCoralAngle(SCORE_L2, CANCEL_IMMEDIATELY));
     
     configureBindings();
   }
@@ -113,17 +115,17 @@ public class RobotContainer {
 
       operatorGamepad.leftTrigger().whileTrue(new RunCoralMotor(IN));
       operatorGamepad.rightTrigger().whileTrue(new RunCoralMotor(OUT));
-      operatorGamepad.povUp().whileTrue(new MoveElevatorManually(4));
-      operatorGamepad.povDown().whileTrue(new MoveElevatorManually(-4));
+      operatorGamepad.povUp().whileTrue(new MoveElevatorManually(3));
+      operatorGamepad.povDown().whileTrue(new MoveElevatorManually(-3));
       operatorGamepad.a().onTrue(new InstantCommand(() -> climber.triggerSolenoid(1)));
       operatorGamepad.b().onTrue(new InstantCommand(() -> climber.triggerSolenoid(0)));
-      operatorGamepad.povRight().whileTrue(new MoveCoralManually(4));
-      operatorGamepad.povLeft().whileTrue(new MoveCoralManually(-4));
+      operatorGamepad.povRight().whileTrue(new MoveCoralManually(3));
+      operatorGamepad.povLeft().whileTrue(new MoveCoralManually(-3));
       operatorGamepad.leftBumper().onTrue(new SetCoralAngle(SUPER_STOWED, CANCEL_IMMEDIATELY));
       operatorGamepad.x().onTrue(new PrepareToScore(CORAL_L3));
       operatorGamepad.y().onTrue(new PrepareToScore(CORAL_INTAKE));
-      //operatorGamepad.leftStick().whileTrue(new GrabCoralSequence(coralMechanism, elevator));
-      //operatorGamepad.rightStick().whileTrue(new ScoreCoralSequence(coralMechanism, elevator));
+      operatorGamepad.leftStick().whileTrue(new GrabCoralSequence(CoralMechanism.instance, Elevator.instance));
+      //operatorGamepad.rightStick();
       operatorGamepad.rightBumper().onTrue(new ZeroYaw(drivetrain));
 
         break;
@@ -142,14 +144,14 @@ public class RobotContainer {
         break;
 
     }
-
-  
   }
 
   public Command getAutonomousCommand(){
-    //TODO move into AutoMaster(?)
-    //return AutoMaster.chosenAuto;
-    //return new PathPlannerAuto("Tester");
-    return AutoMaster.getChosenAuto();
+    // return AutoMaster.getChosenAuto();
+    if (AutoMaster.instance != null) {
+      return AutoMaster.instance.autoChooser.getSelected();
+    } else {
+      return null;
+    }
   }
 }

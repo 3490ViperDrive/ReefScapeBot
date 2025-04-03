@@ -30,18 +30,27 @@ import static frc.robot.Enums.ElevatorEnums.ElevatorPosition.*;
  */
 public class AutoMaster {
     public static AutoMaster instance;
-    static SendableChooser<PathPlannerAuto> ppAutoSelector;
-    public static Command chosenAuto; //does this need to be public static?
+    //static SendableChooser<PathPlannerAuto> autoChooser;
+    public final SendableChooser<Command> autoChooser = new SendableChooser<>();
 
     public AutoMaster(){
         instance = this;
+        configureAutonomusChooser();
         //initialize();
     }
 
     public static void initialize(){
         registerNamedCommands();
-        setupAutos();
     }
+
+    public void configureAutonomusChooser() {
+        autoChooser.setDefaultOption("Straight L4", new PathPlannerAuto("Straight L4"));
+        autoChooser.addOption("2 Coral L4", new PathPlannerAuto("Tester"));
+        //autoChooser.addOption("Just forward", new PathPlannerAuto(""));
+
+        SmartDashboard.putData("Auto", autoChooser);
+    } 
+
 
     /**
      * Want to use a command in PathPlanner? You're in the right place
@@ -59,9 +68,6 @@ public class AutoMaster {
         //NamedCommands.registerCommand("AutoStopIntake", new  );
     }
 
-    static void setupAutos(){
-        //TODO @adamya sendablechooser stuff
-    }
 
     static Command oldSchoolSequence(){
         return new SequentialCommandGroup(
@@ -71,7 +77,7 @@ public class AutoMaster {
         );
     }
 
-    public static Command getChosenAuto(){
-        return ppAutoSelector.getSelected();
-    }
+    // public static Command getChosenAuto(){
+    //     return autoChooser.getSelected();
+    // }
 }

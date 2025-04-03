@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Commands;
 
 @Logged
 public class Robot extends TimedRobot {
@@ -99,7 +100,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    autonomousCommand = robotContainer.getAutonomousCommand();
+    /*Command*/ autonomousCommand = robotContainer.getAutonomousCommand();
 
     if (autonomousCommand != null) {
       autonomousCommand.schedule();
@@ -107,7 +108,9 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    //CommandScheduler.getInstance().run();
+  }
 
   @Override
   public void autonomousExit() {}
