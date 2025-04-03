@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WrapperCommand;
-import frc.robot.commands.SetElevator.SetElevatorCancelBehavior;
+import frc.robot.Enums.ElevatorEnums.SetElevatorCancelBehavior;
 import frc.robot.subsystems.CoralMechanism;
 import frc.robot.subsystems.Elevator;
 import static frc.robot.Enums.ElevatorEnums.*;
@@ -26,19 +26,18 @@ public class GrabCoralSequence extends WrapperCommand {
 
     private final CoralMechanism coralMechanism;
 
-    //TODO this indentation is SINFUL
     public GrabCoralSequence(CoralMechanism coralMechanism, Elevator elevator) {
+        //TODO wouldn't a regular if statement also work?
         super(
             new SequentialCommandGroup(
                 new ParallelCommandGroup(
                     new ConditionalCommand(
-                        new SetElevator(elevator, ElevatorPosition.CORAL_INTAKE, SetElevatorCancelBehavior.CANCEL_SETPOINT_REACHED),
+                        new SetElevator(Elevator.instance, ElevatorPosition.CORAL_INTAKE, SetElevatorCancelBehavior.CANCEL_SETPOINT_REACHED),
                         new InstantCommand(),
-                        () -> elevator.getCurrentTarget() == TargetLevel.L1),
-                    new SetCoralAngle(coralMechanism,
-                                           CoralMechanismPosition.INTAKE,
-                                           MoveCoralCancelBehavior.CANCEL_SETPOINT_REACHED)),
-                new RunCoralIntake(coralMechanism, CoralIntakeDirection.IN)
+                        () -> elevator.getCurrentTarget() == ElevatorPosition.CORAL_INTAKE),
+                    new SetCoralAngle(CoralMechanismAngle.INTAKE,
+                                      MoveCoralCancelBehavior.CANCEL_SETPOINT_REACHED)),
+                new RunCoralMotor(CoralIntakeDirection.IN)
                     .raceWith(new SequentialCommandGroup(Commands.waitUntil(() -> coralMechanism.getCoralDetected()),
                                                          Commands.waitSeconds(CORAL_DETECTED_DELAY)))));
         this.coralMechanism = coralMechanism;
@@ -53,7 +52,6 @@ public class GrabCoralSequence extends WrapperCommand {
         //this might be redundant, but when it wasn't there it didn't worky
         //and when it there it worky, so it stays
         coralMechanism.stopIntake();
-        coralMechanism.resetToStraight();
-        //coralMechanism.setPivotSetpoint(CoralMechanismPosition.STOWED.getAngle());
+        coralMechanism.setPivotSetpoint(CoralMechanismAngle.SCORE_L2.getAngle());
     }
 }

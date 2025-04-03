@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Vision extends SubsystemBase {
     public static Vision instance;
-    PhotonCamera camera = new PhotonCamera("TagCamera");
+    PhotonCamera camera = new PhotonCamera("leftCamera");
     private double yaw;
     private boolean hasTargets;
     private int tagID;
@@ -22,6 +22,7 @@ public class Vision extends SubsystemBase {
         //hastargets
     
     public Vision(){
+        instance = this; 
         yaw = 0;
         tagID = 0;
         visionKp = 5;
@@ -29,7 +30,6 @@ public class Vision extends SubsystemBase {
 
     @Override
     public void periodic(){
-        instance = this; //TODO this may not actually end up being a singleton
         var result = camera.getLatestResult();
         this.hasTargets = result.hasTargets();
         //List<PhotonTrackedTarget> targets = result.getTargets();
@@ -38,12 +38,15 @@ public class Vision extends SubsystemBase {
         if(hasTargets){
             PhotonTrackedTarget target = result.getBestTarget();
             this.tagID = target.getFiducialId();
-            SmartDashboard.putNumber("TagID",tagID);
-            SmartDashboard.putBoolean("Targets??", hasTargets);
-            SmartDashboard.putNumber("Target Yaw", target.getYaw());
+            // SmartDashboard.putNumber("TagID",tagID);
+            // SmartDashboard.putBoolean("Targets??", hasTargets);
+            // SmartDashboard.putNumber("Target Yaw", target.getYaw());
+            this.yaw = target.getYaw();
         } else{
-            SmartDashboard.putNumber("TagID", 00);
-            SmartDashboard.putBoolean("Targets??", hasTargets);
+            // SmartDashboard.putNumber("TagID", 00);
+            // SmartDashboard.putBoolean("Targets??", hasTargets);
+            //TODO update display on dashboard
+            this.yaw = 0;
         }
 
     }

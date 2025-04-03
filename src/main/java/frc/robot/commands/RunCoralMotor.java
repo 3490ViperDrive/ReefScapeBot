@@ -7,15 +7,15 @@ import frc.robot.Enums.CoralEnums.*;
 /**
  * Runs the coral intake at a set speed.
  */
-public class RunCoralIntake extends Command {
+public class RunCoralMotor extends Command {
     public static final double INTAKE_SPEED = 10; //volts
 
     private final CoralMechanism coralMechanism;
     private final CoralIntakeDirection direction;
 
 
-    public RunCoralIntake(CoralMechanism coralMechanism, CoralIntakeDirection direction) {
-        this.coralMechanism = coralMechanism;
+    public RunCoralMotor(CoralIntakeDirection direction) {
+        this.coralMechanism = CoralMechanism.instance;
         this.direction = direction;
         super.addRequirements(coralMechanism);
         super.setName("Run Coral Intake " + direction);

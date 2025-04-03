@@ -7,19 +7,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Start3-Reef6"
+            "pathName": "12R"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "AutoRaiseL1"
+            "name": "AutoRaiseL4"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "WaypointTester",
   "choreoAuto": false
 }

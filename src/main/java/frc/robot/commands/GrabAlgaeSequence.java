@@ -2,7 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.SetElevator.SetElevatorCancelBehavior;
+import frc.robot.Enums.ElevatorEnums.SetElevatorCancelBehavior;
 import frc.robot.subsystems.AlgaeMechanism;
 import frc.robot.subsystems.Elevator;
 import static frc.robot.Enums.ElevatorEnums.*;

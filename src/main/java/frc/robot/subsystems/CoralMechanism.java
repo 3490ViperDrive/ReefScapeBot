@@ -17,11 +17,18 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Enums.CoralEnums.CoralMechanismAngle;
+import frc.robot.Enums.ElevatorEnums.ElevatorPosition;
 import frc.robot.HardwareIds;
 import frc.robot.Robot;
 import frc.robot.utils.SparkMaxConfigUtil;
 
 import static edu.wpi.first.units.Units.*;
+import static frc.robot.Enums.CoralEnums.CoralMechanismAngle.INTAKE;
+import static frc.robot.Enums.CoralEnums.CoralMechanismAngle.SCORE_L1;
+import static frc.robot.Enums.CoralEnums.CoralMechanismAngle.SCORE_L2;
+import static frc.robot.Enums.CoralEnums.CoralMechanismAngle.SCORE_L3;
+import static frc.robot.Enums.CoralEnums.CoralMechanismAngle.SCORE_L4;
 
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.epilogue.Logged.Importance;
@@ -264,5 +271,38 @@ public class CoralMechanism extends SubsystemBase {
     @Logged(importance = Importance.CRITICAL)
     public double getPivotAngle() {
         return pivotEncoder.getPosition();
+    }
+
+    //TODO add a default coralMechAngle
+    public static CoralMechanismAngle getAngleFromElevatorSetpoint(ElevatorPosition elevatorPos){
+        CoralMechanismAngle retVal = SCORE_L1;
+        switch(elevatorPos){
+            case ALGAE_L2:
+                break;
+            case ALGAE_L3:
+                break;
+            case CORAL_INTAKE:
+                retVal = INTAKE;
+                break;
+            case CORAL_L1:
+                retVal = SCORE_L1;
+                break;
+            case CORAL_L2:
+                retVal = SCORE_L2;
+                break;
+            case CORAL_L3:
+                retVal = SCORE_L3;
+                break;
+            case CORAL_L4:
+                retVal = SCORE_L4;
+                break;
+            case DEFAULT:
+                break;
+            case PROCESSOR:
+                break;
+            default:
+                break;
+        }
+        return retVal;
     }
 }

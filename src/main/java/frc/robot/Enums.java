@@ -25,6 +25,11 @@ public class Enums {
             }
         }
 
+        public enum SetElevatorCancelBehavior {
+            CANCEL_IMMEDIATELY,
+            CANCEL_SETPOINT_REACHED
+        }
+
         public static enum TargetLevel {
             L1,
             L2,
@@ -38,7 +43,7 @@ public class Enums {
     }
 
     public static class CoralEnums{
-        public static enum CoralMechanismPosition {
+        public static enum CoralMechanismAngle {
             SUPER_STOWED(0.26),
             STOWED(0.05),
             INTAKE(0.12),
@@ -49,7 +54,7 @@ public class Enums {
     
             private final double angle;
     
-            CoralMechanismPosition(double angle) {
+            CoralMechanismAngle(double angle) {
                 this.angle = angle;
             }
     
@@ -70,7 +75,7 @@ public class Enums {
     }
 
     public static class ClimberEnums{
-
+        
     }
 
     public static class GeneralEnums{

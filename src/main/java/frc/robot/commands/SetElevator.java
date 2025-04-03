@@ -7,18 +7,13 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.Enums.ElevatorEnums.*;
 public class SetElevator extends Command {
 
-    //not the solution that we wanted, but the solution we needed.
-    //TODO I'm not sure about that last bit, chief
     Supplier<ElevatorPosition> position;
     Elevator elevator;
     SetElevatorCancelBehavior cancelBehavior;
 
-    //TODO overly-verbose enum names are overly-verbose
-    public enum SetElevatorCancelBehavior {
-        CANCEL_IMMEDIATELY,
-        CANCEL_SETPOINT_REACHED
-    }
 
+
+    
     public SetElevator(Elevator _elevator, Supplier<ElevatorPosition> _position, SetElevatorCancelBehavior cancelBehavior) {
         this.cancelBehavior = cancelBehavior;
         position = _position;
@@ -27,8 +22,10 @@ public class SetElevator extends Command {
         setName("Set Elevator to some position idk");
     }
 
+
     public SetElevator(Elevator elevator, ElevatorPosition position, SetElevatorCancelBehavior cancelBehavior) {
         this(elevator, () -> position, cancelBehavior);
+        elevator.updateTarget(position); //This was the only addition, really
         setName("Set Elevator to " + position);
     }
 

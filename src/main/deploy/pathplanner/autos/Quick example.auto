@@ -5,15 +5,9 @@
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "SadCoral"
-          }
-        },
-        {
           "type": "path",
           "data": {
-            "pathName": "Skrr"
+            "pathName": "10L"
           }
         },
         {
@@ -21,11 +15,17 @@
           "data": {
             "name": "AutoRaiseL4"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "10R to Feed station"
+          }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "WaypointTester",
   "choreoAuto": false
 }
