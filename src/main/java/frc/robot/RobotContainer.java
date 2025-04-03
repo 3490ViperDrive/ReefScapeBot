@@ -18,6 +18,7 @@ import static frc.robot.Enums.CoralEnums.CoralIntakeDirection.*;
 import static frc.robot.Enums.CoralEnums.MoveCoralCancelBehavior.*;
 import static frc.robot.Enums.ElevatorEnums.ElevatorPosition.*;
 
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import frc.robot.Enums.GeneralEnums.ControlProfile;
@@ -50,8 +51,10 @@ public class RobotContainer {
   private final GamepadFilter gamepadFilter;
 
   SendableChooser<ControlProfile> controlSelector;
+  SendableChooser<PathPlannerAuto> autoChooser;
   //TODO make a dashboard initializer with Daniel's layout (+ any mods driveteam asks for)
   ControlProfile currentProfile;
+  //AutoMaster autoMaster; 
 
   //private final AutoMaster autoMaster;
   
@@ -65,7 +68,9 @@ public class RobotContainer {
     hypercam = new Bandicams();
 
     //autoMaster = new AutoMaster();
-    AutoMaster.initialize(); //TODO wee bit of spaghetti here
+    autoChooser = new SendableChooser<PathPlannerAuto>();
+
+    
 
     //Controllers
     driverGamepad = new CommandXboxController(DRIVER_CONTROLLER_PORT);
@@ -94,6 +99,22 @@ public class RobotContainer {
     // SmartDashboard.putData(new ZeroYaw(drivetrain));
     SmartDashboard.putData(new SetCoralAngle(SUPER_STOWED, CANCEL_IMMEDIATELY));
     // SmartDashboard.putData(new SetCoralAngle(SCORE_L2, CANCEL_IMMEDIATELY));
+
+        NamedCommands.registerCommand("SadCoral", new SetCoralAngle(SCORE_L4, CANCEL_SETPOINT_REACHED));
+        NamedCommands.registerCommand("AutoRaiseL1", new PrepareToScore(CORAL_L1));
+        NamedCommands.registerCommand("AutoRaiseL2", new PrepareToScore(CORAL_L2));
+        NamedCommands.registerCommand("AutoRaiseL3", new PrepareToScore(CORAL_L3));
+        NamedCommands.registerCommand("AutoRaiseL4", new PrepareToScore(CORAL_L4));
+        NamedCommands.registerCommand("AutoScore",new RunCoralMotor(OUT));
+        NamedCommands.registerCommand("AutoRunIntake",new RunCoralMotor(IN));
+        NamedCommands.registerCommand("AutoPrepIntake", new PrepareToScore(CORAL_INTAKE));
+        NamedCommands.registerCommand("AutoEatCoral", new AutoEatCoral());
+
+        autoChooser = new SendableChooser<PathPlannerAuto>();
+        autoChooser.setDefaultOption("Straight L4", new PathPlannerAuto("Straight L4"));
+        autoChooser.addOption("2 Coral L4", new PathPlannerAuto("Tester"));
+        //autoChooser.addOption("Just forward", new PathPlannerAuto(""));
+        SmartDashboard.putData("Auto", autoChooser);
     
     configureBindings();
   }
@@ -147,11 +168,14 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand(){
-     return AutoMaster.getChosenAuto();
-    // if (AutoMaster.instance != null) {
-    //   return AutoMaster.instance.autoChooser.getSelected();
-    // } else {
-    //   return null;
-    }
+    // AutoMaster.initialize();
+    // return AutoMaster.getChosenAuto();
+    // // if (AutoMaster.instance != null) {
+    // //   return AutoMaster.instance.autoChooser.getSelected();
+    // // } else {
+    // //   return null;
+    // }
+    return autoChooser.getSelected();
   }
+}
 

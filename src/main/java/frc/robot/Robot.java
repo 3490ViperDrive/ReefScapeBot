@@ -24,7 +24,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 
 @Logged
 public class Robot extends TimedRobot {
-  private AutoMaster autoMaster; //That's not true, I call the constructor
+  //private AutoMaster autoMaster; //That's not true, I call the constructor
   private Command autonomousCommand;
 
   public static UsbCamera coralCamera;
@@ -45,7 +45,7 @@ public class Robot extends TimedRobot {
     coralCamera = CameraServer.startAutomaticCapture(0);
     climbCamera = CameraServer.startAutomaticCapture(1);
     cameraSelection = NetworkTableInstance.getDefault().getTable("CameraPublisher").getEntry("Camera Selection");
-    autoMaster = new AutoMaster();
+    //autoMaster = new AutoMaster();
     robotContainer = new RobotContainer();
 
     DriverStation.silenceJoystickConnectionWarning(true);
