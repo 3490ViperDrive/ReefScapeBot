@@ -20,10 +20,11 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Commands;
 
 @Logged
 public class Robot extends TimedRobot {
-  private AutoMaster autoMaster; //That's not true, I call the constructor
+  //private AutoMaster autoMaster; //That's not true, I call the constructor
   private Command autonomousCommand;
 
   public static UsbCamera coralCamera;
@@ -44,7 +45,7 @@ public class Robot extends TimedRobot {
     coralCamera = CameraServer.startAutomaticCapture(0);
     climbCamera = CameraServer.startAutomaticCapture(1);
     cameraSelection = NetworkTableInstance.getDefault().getTable("CameraPublisher").getEntry("Camera Selection");
-    autoMaster = new AutoMaster();
+    //autoMaster = new AutoMaster();
     robotContainer = new RobotContainer();
 
     DriverStation.silenceJoystickConnectionWarning(true);
@@ -99,7 +100,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    autonomousCommand = robotContainer.getAutonomousCommand();
+    /*Command*/ autonomousCommand = robotContainer.getAutonomousCommand();
 
     if (autonomousCommand != null) {
       autonomousCommand.schedule();
@@ -107,7 +108,9 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    //CommandScheduler.getInstance().run();
+  }
 
   @Override
   public void autonomousExit() {}

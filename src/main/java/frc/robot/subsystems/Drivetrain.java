@@ -213,7 +213,7 @@ public class Drivetrain extends SubsystemBase {
     @Override
     public void periodic() {
         currentState = swerve.getState();
-        SmartDashboard.putData("Drivetrain", this);
+        // SmartDashboard.putData("Drivetrain", this);
     }
 
     //Call this in the execute method of drive cmds
