@@ -149,6 +149,7 @@ public class RobotContainer {
   public Command getAutonomousCommand(){
     //TODO move into AutoMaster(?)
     //return AutoMaster.chosenAuto;
-    return new PathPlannerAuto("Tester");
+    //return new PathPlannerAuto("Tester");
+    return AutoMaster.getChosenAuto();
   }
 }

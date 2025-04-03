@@ -60,10 +60,7 @@ public class AutoMaster {
     }
 
     static void setupAutos(){
-        ppAutoSelector = new SendableChooser<PathPlannerAuto>();
-        ppAutoSelector.addOption("Test", new PathPlannerAuto("Tester"));
-        ppAutoSelector.setDefaultOption("Test1", new PathPlannerAuto("Tester"));
-        //
+        //TODO @adamya sendablechooser stuff
     }
 
     static Command oldSchoolSequence(){
