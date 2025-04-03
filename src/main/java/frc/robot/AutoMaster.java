@@ -30,8 +30,8 @@ import static frc.robot.Enums.ElevatorEnums.ElevatorPosition.*;
  */
 public class AutoMaster {
     public static AutoMaster instance;
-    //static SendableChooser<PathPlannerAuto> autoChooser;
-    public final SendableChooser<Command> autoChooser = new SendableChooser<>();
+    static SendableChooser<PathPlannerAuto> autoChooser;
+    //public final SendableChooser<Command> autoChooser = new SendableChooser<>();
 
     public AutoMaster(){
         instance = this;
@@ -41,15 +41,8 @@ public class AutoMaster {
 
     public static void initialize(){
         registerNamedCommands();
+        configureAutonomusChooser();
     }
-
-    public void configureAutonomusChooser() {
-        autoChooser.setDefaultOption("Straight L4", new PathPlannerAuto("Straight L4"));
-        autoChooser.addOption("2 Coral L4", new PathPlannerAuto("Tester"));
-        //autoChooser.addOption("Just forward", new PathPlannerAuto(""));
-
-        SmartDashboard.putData("Auto", autoChooser);
-    } 
 
 
     /**
@@ -68,6 +61,16 @@ public class AutoMaster {
         //NamedCommands.registerCommand("AutoStopIntake", new  );
     }
 
+    public static void configureAutonomusChooser() {
+        autoChooser = new SendableChooser<PathPlannerAuto>();
+
+        autoChooser.setDefaultOption("Straight L4", new PathPlannerAuto("Straight L4"));
+        autoChooser.addOption("2 Coral L4", new PathPlannerAuto("Tester"));
+        //autoChooser.addOption("Just forward", new PathPlannerAuto(""));
+
+        SmartDashboard.putData("Auto", autoChooser);
+    }
+
 
     static Command oldSchoolSequence(){
         return new SequentialCommandGroup(
@@ -77,7 +80,7 @@ public class AutoMaster {
         );
     }
 
-    // public static Command getChosenAuto(){
-    //     return autoChooser.getSelected();
-    // }
+    public static Command getChosenAuto(){
+        return autoChooser.getSelected();
+    }
 }

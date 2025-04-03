@@ -147,11 +147,11 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand(){
-    // return AutoMaster.getChosenAuto();
-    if (AutoMaster.instance != null) {
-      return AutoMaster.instance.autoChooser.getSelected();
-    } else {
-      return null;
+     return AutoMaster.getChosenAuto();
+    // if (AutoMaster.instance != null) {
+    //   return AutoMaster.instance.autoChooser.getSelected();
+    // } else {
+    //   return null;
     }
   }
-}
+
