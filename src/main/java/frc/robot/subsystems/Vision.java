@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Vision extends SubsystemBase {
     public static Vision instance;
-    PhotonCamera camera = new PhotonCamera("TagCamera");
+    PhotonCamera camera = new PhotonCamera("leftCamera");
     private double yaw;
     private boolean hasTargets;
     private int tagID;
