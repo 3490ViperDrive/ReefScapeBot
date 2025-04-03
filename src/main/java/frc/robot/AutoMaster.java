@@ -81,6 +81,7 @@ public class AutoMaster {
     }
 
     public static Command getChosenAuto(){
-        return autoChooser.getSelected();
+        //return autoChooser.getSelected();
+        return null;
     }
 }
