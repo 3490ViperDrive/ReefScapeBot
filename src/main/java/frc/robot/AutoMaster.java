@@ -33,11 +33,11 @@
 //     static SendableChooser<PathPlannerAuto> autoChooser;
 //     //public final SendableChooser<Command> autoChooser = new SendableChooser<>();
 
-//     public AutoMaster(){
-//         instance = this;
-//         //configureAutonomusChooser();
-//         initialize();
-//     }
+    public AutoMaster(){
+        instance = this;
+        configureAutonomusChooser();
+        //initialize();
+    }
 
 //     public static void initialize(){
 //         registerNamedCommands();
@@ -61,13 +61,15 @@
 //         //NamedCommands.registerCommand("AutoStopIntake", new  );
 //     }
 
-//     public static void configureAutonomusChooser() {
-//         autoChooser = new SendableChooser<PathPlannerAuto>();
-//         autoChooser.setDefaultOption("Straight L4", new PathPlannerAuto("Straight L4"));
-//         autoChooser.addOption("2 Coral L4", new PathPlannerAuto("Tester"));
-//         //autoChooser.addOption("Just forward", new PathPlannerAuto(""));
-//         SmartDashboard.putData("Auto", autoChooser);
-//     }
+    public static void configureAutonomusChooser() {
+        autoChooser = new SendableChooser<PathPlannerAuto>();
+
+        autoChooser.setDefaultOption("Straight L4", new PathPlannerAuto("Straight L4"));
+        autoChooser.addOption("2 Coral L4", new PathPlannerAuto("Tester"));
+        //autoChooser.addOption("Just forward", new PathPlannerAuto(""));
+
+        SmartDashboard.putData("Auto", autoChooser);
+    }
 
 
 //     static Command oldSchoolSequence(){
@@ -78,7 +80,7 @@
 //         );
 //     }
 
-//     public static Command getChosenAuto(){
-//         return autoChooser.getSelected();
-//     }
-// }
+    public static Command getChosenAuto(){
+        return autoChooser.getSelected();
+    }
+}

@@ -56,6 +56,8 @@ public class RobotContainer {
   ControlProfile currentProfile;
   //AutoMaster autoMaster; 
 
+  SendableChooser<PathPlannerAuto> autoChooser;
+
   //private final AutoMaster autoMaster;
   
   public RobotContainer() {
@@ -72,6 +74,7 @@ public class RobotContainer {
 
     
 
+
     //Controllers
     driverGamepad = new CommandXboxController(DRIVER_CONTROLLER_PORT);
     operatorGamepad = new CommandXboxController(OPERATOR_CONTROLLER_PORT);
@@ -85,6 +88,7 @@ public class RobotContainer {
 
     //SmartDashboard.putData("Control Profile", controlSelector);
     controlSelector.setDefaultOption("Default", ControlProfile.COMP);
+    autoChooser = new SendableChooser<PathPlannerAuto>();
 
     //Default Commands
     drivetrain.setDefaultCommand(
@@ -111,9 +115,12 @@ public class RobotContainer {
         NamedCommands.registerCommand("AutoEatCoral", new AutoEatCoral());
 
         autoChooser = new SendableChooser<PathPlannerAuto>();
+
         autoChooser.setDefaultOption("Straight L4", new PathPlannerAuto("Straight L4"));
         autoChooser.addOption("2 Coral L4", new PathPlannerAuto("Tester"));
         //autoChooser.addOption("Just forward", new PathPlannerAuto(""));
+
+
         SmartDashboard.putData("Auto", autoChooser);
     
     configureBindings();
@@ -168,14 +175,14 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand(){
-    // AutoMaster.initialize();
-    // return AutoMaster.getChosenAuto();
-    // // if (AutoMaster.instance != null) {
-    // //   return AutoMaster.instance.autoChooser.getSelected();
-    // // } else {
-    // //   return null;
-    // }
+
     return autoChooser.getSelected();
+    // return AutoMaster.getChosenAuto();
+    // if (AutoMaster.instance != null) {
+    //   return AutoMaster.instance.autoChooser.getSelected();
+    // } else {
+    //   return null;
+    }
   }
-}
+
 
