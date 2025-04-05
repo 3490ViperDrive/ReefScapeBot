@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.671311475409836,
-        "y": 7.16577868852459
+        "x": 0.599,
+        "y": 7.275
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.7262295081967212,
-        "y": 7.38155737704918
+        "x": 1.6539180327868852,
+        "y": 7.490778688524577
       },
       "isLocked": false,
       "linkedName": "FeedStationL"
@@ -21,7 +21,7 @@
       },
       "prevControl": {
         "x": 4.962909836065573,
-        "y": 6.746209016393444
+        "y": 6.746209016393445
       },
       "nextControl": null,
       "isLocked": false,
