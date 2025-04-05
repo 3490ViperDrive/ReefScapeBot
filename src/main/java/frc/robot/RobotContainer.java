@@ -118,6 +118,7 @@ public class RobotContainer {
 
         autoChooser.setDefaultOption("Move Forward", new PathPlannerAuto ("New New Auto"));
         autoChooser.addOption("Brad Goofin", new PathPlannerAuto ("brad goofin"));
+        autoChooser.addOption("Side 2 Coral", new PathPlannerAuto(""));
         autoChooser.addOption("Straight L4", new PathPlannerAuto("Straight L4"));
         autoChooser.addOption("Side L4", new PathPlannerAuto("Tester"));
         autoChooser.addOption("Do none", null);
