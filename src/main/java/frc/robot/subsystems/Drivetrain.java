@@ -45,11 +45,16 @@ public class Drivetrain extends SubsystemBase {
     public static Drivetrain instance;
     //private DrivetrainConfigs configs;
 
-    public static final Angle FRONT_LEFT_CANCODER_OFFSET = Rotations.of(-0.443359);
-    public static final Angle FRONT_RIGHT_CANCODER_OFFSET = Rotations.of(-0.159180);
-    public static final Angle BACK_RIGHT_CANCODER_OFFSET = Rotations.of(-0.344971);
-    public static final Angle BACK_LEFT_CANCODER_OFFSET = Rotations.of(0.138428);
+    //public static final Angle FRONT_LEFT_CANCODER_OFFSET = Rotations.of(-0.443359);
+    public static final Angle FRONT_LEFT_CANCODER_OFFSET = Rotations.of(-0.438720703125);
+    //public static final Angle FRONT_RIGHT_CANCODER_OFFSET = Rotations.of(-0.159180);
+    public static final Angle FRONT_RIGHT_ENCODER_OFFSET = Rotations.of(0.35498046875);
+    //public static final Angle BACK_RIGHT_CANCODER_OFFSET = Rotations.of(-0.344971);
+    public static final Angle BACK_RIGHT_CANCODER_OFFSET = Rotations.of(0.160400390625);
 
+
+    // public static final Angle BACK_LEFT_CANCODER_OFFSET = Rotations.of(0.138428);
+    public static final Angle BACK_LEFT_CANCODER_OFFSET = Rotations.of(0.14990234375);
     //28"x32" frame, one of the shorter sides are the front
     //Measured from centers of the wheels
     public static final Distance TRACK_WIDTH = Inches.of(21.367); //robot Y

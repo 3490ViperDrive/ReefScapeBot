@@ -43,6 +43,9 @@ public class RobotContainer {
   //@Logged
   private final Climber climber;
 
+  @Logged
+  private final NewAlgaeManipulator algaeManipulator;
+
   private final Vision vision;
   private final Bandicams hypercam;
   
@@ -66,6 +69,8 @@ public class RobotContainer {
     climber = new Climber();
     vision = new Vision();
     hypercam = new Bandicams();
+    algaeManipulator = new NewAlgaeManipulator();
+
 
     //autoMaster = new AutoMaster();
     //AutoMaster.initialize(); //TODO wee bit of spaghetti here
@@ -139,8 +144,8 @@ public class RobotContainer {
       operatorGamepad.rightTrigger().whileTrue(new RunCoralMotor(OUT));
       operatorGamepad.povUp().whileTrue(new MoveElevatorManually(3));
       operatorGamepad.povDown().whileTrue(new MoveElevatorManually(-3));
-      operatorGamepad.a().onTrue(new InstantCommand(() -> climber.triggerSolenoid(1)));
-      operatorGamepad.b().onTrue(new InstantCommand(() -> climber.triggerSolenoid(0)));
+      //operatorGamepad.a().onTrue(new InstantCommand(() -> climber.triggerSolenoid(1)));
+      //operatorGamepad.b().onTrue(new InstantCommand(() -> climber.triggerSolenoid(0)));
       operatorGamepad.povRight().whileTrue(new MoveCoralManually(3));
       operatorGamepad.povLeft().whileTrue(new MoveCoralManually(-3));
       operatorGamepad.leftBumper().onTrue(new SetCoralAngle(SUPER_STOWED, CANCEL_IMMEDIATELY));
@@ -149,6 +154,10 @@ public class RobotContainer {
       operatorGamepad.leftStick().whileTrue(new GrabCoralSequence(CoralMechanism.instance, Elevator.instance));
       //operatorGamepad.rightStick();
       operatorGamepad.rightBumper().onTrue(new ZeroYaw(drivetrain));
+
+      operatorGamepad.a().whileTrue(new RunAlgaeMotor(RunAlgaeMotor.Direction.OUT));
+      operatorGamepad.b().whileTrue(new RunAlgaeMotor(RunAlgaeMotor.Direction.IN));
+
 
         break;
       case REVAMP:
