@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.5,
-        "y": 4.4
-      },
-      "prevControl": null,
-      "nextControl": {
-        "x": 5.5,
-        "y": 4.4
-      },
-      "isLocked": false,
-      "linkedName": "10L"
-    },
-    {
-      "anchor": {
         "x": 0.599,
         "y": 7.275
       },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.5365613266907467,
+        "y": 6.678030822544764
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.6981697264791755,
+        "y": 5.807077614846082
+      },
       "prevControl": {
-        "x": -0.401,
-        "y": 7.274999999999997
+        "x": 2.0807290868171666,
+        "y": 6.258328645464486
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "FeedStationL"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 119.05460409907717
+    "rotation": 121.5088626299929
   },
   "reversed": false,
-  "folder": "Spots",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -119.99999999999999
+    "rotation": 119.05499999999999
   },
   "useDefaultConstraints": true
 }

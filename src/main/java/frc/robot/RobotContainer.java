@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
@@ -21,6 +22,8 @@ import static frc.robot.Enums.ElevatorEnums.ElevatorPosition.*;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
+import frc.robot.Enums.CoralEnums.CoralMechanismAngle;
+import frc.robot.Enums.CoralEnums.MoveCoralCancelBehavior;
 import frc.robot.Enums.GeneralEnums.ControlProfile;
 import frc.robot.utils.GamepadFilter;
 import frc.robot.utils.controlProfile;
@@ -54,8 +57,10 @@ public class RobotContainer {
   private final GamepadFilter gamepadFilter;
 
   SendableChooser<ControlProfile> controlSelector;
+  //SendableChooser<PathPlannerAuto> autoChooser;
   //TODO make a dashboard initializer with Daniel's layout (+ any mods driveteam asks for)
   ControlProfile currentProfile;
+  //AutoMaster autoMaster; 
 
   SendableChooser<PathPlannerAuto> autoChooser;
 
@@ -73,7 +78,7 @@ public class RobotContainer {
 
 
     //autoMaster = new AutoMaster();
-    //AutoMaster.initialize(); //TODO wee bit of spaghetti here
+    autoChooser = new SendableChooser<PathPlannerAuto>();
 
     //Controllers
     driverGamepad = new CommandXboxController(DRIVER_CONTROLLER_PORT);
@@ -116,8 +121,12 @@ public class RobotContainer {
 
         autoChooser = new SendableChooser<PathPlannerAuto>();
 
-        autoChooser.setDefaultOption("Straight L4", new PathPlannerAuto("Straight L4"));
-        autoChooser.addOption("2 Coral L4", new PathPlannerAuto("Tester"));
+        autoChooser.setDefaultOption("Move Forward", new PathPlannerAuto ("New New Auto"));
+        autoChooser.addOption("Brad Goofin", new PathPlannerAuto ("brad goofin"));
+        autoChooser.addOption("Side 2 Coral", new PathPlannerAuto(""));
+        autoChooser.addOption("Straight L4", new PathPlannerAuto("Straight L4"));
+        autoChooser.addOption("Side L4", new PathPlannerAuto("Tester"));
+        autoChooser.addOption("Do none", null);
         //autoChooser.addOption("Just forward", new PathPlannerAuto(""));
 
         SmartDashboard.putData("Auto", autoChooser);
@@ -178,8 +187,14 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand(){
+    // return new
+    // SequentialCommandGroup(new SetCoralAngle(CoralMechanismAngle.SCORE_L3, MoveCoralCancelBehavior.CANCEL_SETPOINT_REACHED), 
+    // new Drive(drivetrain, () -> 0.45, () -> 0, () -> 0, () -> true).withTimeout(6),
+    // new Drive(drivetrain, ()->0, ()->0, ()->0, ()->true).withTimeout(0.5));
 
     return autoChooser.getSelected();
+
+
     // return AutoMaster.getChosenAuto();
     // if (AutoMaster.instance != null) {
     //   return AutoMaster.instance.autoChooser.getSelected();
@@ -187,4 +202,5 @@ public class RobotContainer {
     //   return null;
     }
   }
+
 

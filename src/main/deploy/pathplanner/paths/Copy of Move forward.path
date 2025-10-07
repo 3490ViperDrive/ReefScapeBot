@@ -3,38 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.5,
-        "y": 4.4
+        "x": 7.137,
+        "y": 3.74225
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.5,
-        "y": 4.4
+        "x": 7.447,
+        "y": 3.752
       },
       "isLocked": false,
-      "linkedName": "10L"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 0.599,
-        "y": 7.275
+        "x": 5.489,
+        "y": 3.74225
       },
       "prevControl": {
-        "x": -0.401,
-        "y": 7.274999999999997
+        "x": 5.739,
+        "y": 3.74225
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "FeedStationL"
+      "linkedName": "reef6"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "AutoRaiseL1",
+      "waypointRelativePos": 1.0,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
-    "maxVelocity": 2.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 1.5,
+    "maxAcceleration": 2.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -42,13 +49,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 119.05460409907717
+    "rotation": -179.99999999999986
   },
   "reversed": false,
-  "folder": "Spots",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -119.99999999999999
+    "rotation": 180.0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }
