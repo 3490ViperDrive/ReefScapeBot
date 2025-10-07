@@ -153,7 +153,7 @@ public class Drivetrain extends SubsystemBase {
         frontRight = commonModuleConstants.createModuleConstants(
                         HardwareIds.Can.FRONT_RIGHT_STEER_MOTOR,
                         HardwareIds.Can.FRONT_RIGHT_DRIVE_MOTOR,
-                        HardwareIds.Can.FRONT_RIGHT_ENCODER, FRONT_RIGHT_CANCODER_OFFSET,
+                        HardwareIds.Can.FRONT_RIGHT_ENCODER, FRONT_RIGHT_ENCODER_OFFSET,
                         WHEELBASE.div(2), TRACK_WIDTH.div(2).unaryMinus(),
                         DRIVE_MOTOR_INVERTED, STEER_MOTOR_INVERTED, ENCODER_INVERTED);
         backRight = commonModuleConstants.createModuleConstants(
