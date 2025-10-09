@@ -46,13 +46,11 @@ public class Drivetrain extends SubsystemBase {
     //private DrivetrainConfigs configs;
 
     //public static final Angle FRONT_LEFT_CANCODER_OFFSET = Rotations.of(-0.443359);
-    public static final Angle FRONT_LEFT_CANCODER_OFFSET = Rotations.of(-0.438720703125);
+    public static final Angle FRONT_LEFT_CANCODER_OFFSET = Rotations.of(-0.4375);
     //public static final Angle FRONT_RIGHT_CANCODER_OFFSET = Rotations.of(-0.159180);
     public static final Angle FRONT_RIGHT_ENCODER_OFFSET = Rotations.of(0.35498046875);
     //public static final Angle BACK_RIGHT_CANCODER_OFFSET = Rotations.of(-0.344971);
     public static final Angle BACK_RIGHT_CANCODER_OFFSET = Rotations.of(0.160400390625);
-
-
     // public static final Angle BACK_LEFT_CANCODER_OFFSET = Rotations.of(0.138428);
     public static final Angle BACK_LEFT_CANCODER_OFFSET = Rotations.of(0.14990234375);
     //28"x32" frame, one of the shorter sides are the front
@@ -155,13 +153,13 @@ public class Drivetrain extends SubsystemBase {
                         HardwareIds.Can.FRONT_RIGHT_DRIVE_MOTOR,
                         HardwareIds.Can.FRONT_RIGHT_ENCODER, FRONT_RIGHT_ENCODER_OFFSET,
                         WHEELBASE.div(2), TRACK_WIDTH.div(2).unaryMinus(),
-                        DRIVE_MOTOR_INVERTED, STEER_MOTOR_INVERTED, ENCODER_INVERTED);
+                        !DRIVE_MOTOR_INVERTED, STEER_MOTOR_INVERTED, ENCODER_INVERTED);
         backRight = commonModuleConstants.createModuleConstants(
                         HardwareIds.Can.BACK_RIGHT_STEER_MOTOR,
                         HardwareIds.Can.BACK_RIGHT_DRIVE_MOTOR,
                         HardwareIds.Can.BACK_RIGHT_ENCODER, BACK_RIGHT_CANCODER_OFFSET,
                         WHEELBASE.div(2).unaryMinus(), TRACK_WIDTH.div(2).unaryMinus(),
-                        DRIVE_MOTOR_INVERTED, STEER_MOTOR_INVERTED, ENCODER_INVERTED);
+                        !DRIVE_MOTOR_INVERTED, STEER_MOTOR_INVERTED, ENCODER_INVERTED);
         backLeft = commonModuleConstants.createModuleConstants(
                         HardwareIds.Can.BACK_LEFT_STEER_MOTOR,
                         HardwareIds.Can.BACK_LEFT_DRIVE_MOTOR,
