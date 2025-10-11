@@ -170,15 +170,40 @@ public class RobotContainer {
 
         break;
       case REVAMP:
-      //TODO change PrepToScore command to accept a single argument (which level to prep)
-      driverGamepad.x().onTrue(new PrepareToScore(CORAL_L1));
+      /*
+       * ABXY = Prepare to Score (Tekken Conventions)
+       * Dpad Up/Down = Trigger climber
+       * Dpad L/R = Move Elevator Manually (L = Down, R = Up)
+       * LB = "Grab Coral Sequence" (Hold until Coral confirmed)
+       * RB = Zero Yaw
+       * 
+       * RT = Coral Mech Out (manual)
+       * LT = Coral Mech In (manual)
+       * 
+       * R3 = Super Stow (Coral Mech(?))
+       * Start = 
+       * Select = 
+       */
+      driverGamepad.x().onTrue(new PrepareToScore(CORAL_L1)); 
       driverGamepad.y().onTrue(new PrepareToScore(CORAL_L2));
       driverGamepad.a().onTrue(new PrepareToScore(CORAL_L3));
       driverGamepad.b().onTrue(new PrepareToScore(CORAL_L4));
-      driverGamepad.povDown().onTrue(new InstantCommand(()-> climber.triggerSolenoid(1))); //TODO why not use "lift"
 
-      new Trigger(()-> driverGamepad.getRightTriggerAxis() > 0.5).onTrue(new RunCoralMotor(OUT));
-      new Trigger(()-> driverGamepad.getLeftTriggerAxis() > 0.5).onTrue(new RunCoralMotor(IN));
+      //Down Dpad = climb
+      driverGamepad.povDown().onTrue(new InstantCommand(()-> climber.triggerSolenoid(1)));
+      driverGamepad.povUp().onTrue(new InstantCommand(()-> climber.triggerSolenoid(0)));
+      driverGamepad.povLeft().whileTrue(new MoveElevatorManually(3));
+      driverGamepad.povRight().whileTrue(new MoveElevatorManually(-3));
+
+      driverGamepad.leftBumper().whileTrue(new GrabCoralSequence(CoralMechanism.instance, Elevator.instance));
+      new Trigger(()-> driverGamepad.getRightTriggerAxis() > 0.5).whileTrue(new RunCoralMotor(OUT));
+      new Trigger(()-> driverGamepad.getLeftTriggerAxis() > 0.5).whileTrue(new RunCoralMotor(IN));
+
+      driverGamepad.rightBumper().onTrue(new ZeroYaw(drivetrain));
+      driverGamepad.rightStick().onTrue(new SetCoralAngle(SUPER_STOWED, CANCEL_IMMEDIATELY));
+
+      driverGamepad.start().whileTrue(new MoveCoralManually(3));
+      driverGamepad.back().whileTrue(new MoveCoralManually(-3));
         break;
       default:
         break;
